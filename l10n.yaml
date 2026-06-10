@@ -1,0 +1,9 @@
+arb-dir: lib/core/localization/l10n
+template-arb-file: intl_en.arb
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+output-dir: lib/core/localization/generated/l10n
+
+
+# By default, getters in the generated localizations class are nullable. To eliminate the need for repeated null checks, you can turn off the `nullable-getter` option
+nullable-getter: false

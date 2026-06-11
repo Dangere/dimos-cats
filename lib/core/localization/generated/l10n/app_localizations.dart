@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// No description provided for @home.
   ///
   /// In en, this message translates to:
-  /// **'Home Page'**
+  /// **'Dimo\'s Cats'**
   String get home;
 
   /// No description provided for @language.

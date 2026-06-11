@@ -1,5 +1,8 @@
 import 'package:dimos_cats/core/localization/generated/l10n/app_localizations.dart';
+import 'package:dimos_cats/models/preferences.dart';
 import 'package:dimos_cats/pages/home_page.dart';
+import 'package:dimos_cats/providers/preferences_provider.dart';
+import 'package:dimos_cats/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -7,16 +10,20 @@ void main() {
   runApp(ProviderScope(child: const MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    Preferences preferences = ref.watch(preferencesProvider);
+
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: const Locale('en'),
+      locale: preferences.locale,
       title: "Dimo's Cats",
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Color(0xFFfaeab4))),
+      theme: AppTheme.getTheme(preferences.darkMode),
       home: const HomePage(),
     );
   }

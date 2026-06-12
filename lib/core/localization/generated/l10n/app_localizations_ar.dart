@@ -12,6 +12,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get home => 'قطط ديمو';
 
   @override
+  String get home_hero => 'Hi im Dimo';
+
+  @override
+  String get home_description_1 =>
+      'These are cats that me and my family rescued over the last 7 years';
+
+  @override
+  String get home_description_2 => '';
+
+  @override
   String get language => 'اللغة';
 
   @override

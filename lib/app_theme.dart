@@ -8,6 +8,9 @@ class AppTheme {
   static ThemeData _lightTheme() {
     return ThemeData(
       fontFamily: GoogleFonts.almarai().fontFamily,
+      iconButtonTheme: IconButtonThemeData(
+        style: IconButton.styleFrom(padding: const EdgeInsets.all(12)),
+      ),
 
       colorScheme: .fromSeed(
         seedColor: Color(0xFFfaeab4),
@@ -19,7 +22,9 @@ class AppTheme {
   static ThemeData _darkTheme() {
     return ThemeData(
       fontFamily: GoogleFonts.almarai().fontFamily,
-
+      iconButtonTheme: IconButtonThemeData(
+        style: IconButton.styleFrom(padding: const EdgeInsets.all(12)),
+      ),
       colorScheme: .fromSeed(
         seedColor: Color(0xFFfaeab4),
         brightness: Brightness.dark,

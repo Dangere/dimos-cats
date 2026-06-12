@@ -1,4 +1,7 @@
 import 'package:dimos_cats/core/localization/generated/l10n/app_localizations.dart';
+import 'package:dimos_cats/models/cat.dart';
+import 'package:dimos_cats/providers/images_provider.dart';
+import 'package:dimos_cats/widgets/cats_list.dart';
 import 'package:dimos_cats/widgets/reuseable/app_logo.dart';
 import 'package:dimos_cats/widgets/reuseable/language_toggle.dart';
 import 'package:dimos_cats/widgets/reuseable/theme_toggle.dart';
@@ -15,19 +18,51 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
+    List<String>? imagePaths = ref.watch(imagePathsProvider).value;
+    print(imagePaths);
+
     return Scaffold(
+      drawer: Drawer(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+        width: 200,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(width: 12),
+
+                Text(AppLocalizations.of(context).language),
+                Spacer(),
+
+                LanguageToggle(),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+
+              children: [
+                SizedBox(width: 12),
+                Text(AppLocalizations.of(context).theme),
+                Spacer(),
+                ThemeToggle(),
+              ],
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
         forceMaterialTransparency: true,
+        centerTitle: true,
         title: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             AppLogo(),
             SizedBox(width: 10),
             Text(AppLocalizations.of(context).home),
           ],
         ),
-        actionsPadding: const EdgeInsets.all(10),
-        actions: [LanguageToggle(), ThemeToggle()],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -36,23 +71,22 @@ class _HomePageState extends ConsumerState<HomePage> {
               height: MediaQuery.of(context).size.height / 4,
               child: Container(color: Theme.of(context).secondaryHeaderColor),
             ),
-            Wrap(
-              children: List.generate(20, (index) {
-                return SizedBox.square(
-                  dimension: 140 + MediaQuery.of(context).size.width / 8,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.onSurface,
-
-                      // borderRadius: BorderRadius.only(
-                      //   bottomLeft: Radius.circular(10),
-                      // ),
-                    ),
-                    margin: const EdgeInsets.all(10),
-                  ),
-                );
-              }),
-            ),
+            if (imagePaths != null)
+              CatsList(
+                cats: imagePaths
+                    .map(
+                      (e) => Cat(
+                        name: 'Cat',
+                        gender: false,
+                        birthDate: DateTime.now(),
+                        image: e,
+                        description: 'This a cat',
+                        extendedImages: [],
+                        extendedDescriptions: [],
+                      ),
+                    )
+                    .toList(),
+              ),
             // Expanded(child: Column(children: [])),
           ],
         ),

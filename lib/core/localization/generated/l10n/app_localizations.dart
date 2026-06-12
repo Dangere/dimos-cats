@@ -104,6 +104,24 @@ abstract class AppLocalizations {
   /// **'Dimo\'s Cats'**
   String get home;
 
+  /// No description provided for @home_hero.
+  ///
+  /// In en, this message translates to:
+  /// **'Hi im Dimo'**
+  String get home_hero;
+
+  /// No description provided for @home_description_1.
+  ///
+  /// In en, this message translates to:
+  /// **'These are cats that me and my family rescued over the last 7 years'**
+  String get home_description_1;
+
+  /// No description provided for @home_description_2.
+  ///
+  /// In en, this message translates to:
+  /// **''**
+  String get home_description_2;
+
   /// No description provided for @language.
   ///
   /// In en, this message translates to:

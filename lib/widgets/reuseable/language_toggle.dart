@@ -11,7 +11,7 @@ class LanguageToggle extends ConsumerWidget {
       onPressed: () {
         ref.read(preferencesProvider.notifier).toggleLocale();
       },
-      icon: Row(children: [Text("EN|عربي")]),
+      icon: const Icon(Icons.language),
     );
   }
 }

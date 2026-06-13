@@ -1,0 +1,14 @@
+{
+    "name": "mocca",
+    "gender": true,
+    "age": 5,
+    "birthday": "2022-01-01",
+    "image": "20240428_134155.jpg",
+    "description": "mocca test",
+    "extendedImages": [
+        "mocca_1.jpg"
+    ],
+    "extendedDescriptions": [
+        "mocca test"
+    ]
+}

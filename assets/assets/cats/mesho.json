@@ -1,0 +1,14 @@
+{
+    "name": "mesho",
+    "gender": true,
+    "age": 5,
+    "birthday": "2022-01-01",
+    "image": "20240527_073735.jpg",
+    "description": "Mesho test",
+    "extendedImages": [
+        "mesho_1.jpg"
+    ],
+    "extendedDescriptions": [
+        "Mesho test"
+    ]
+}

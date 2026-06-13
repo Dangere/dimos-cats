@@ -1,10 +1,12 @@
 import 'package:dimos_cats/core/localization/generated/l10n/app_localizations.dart';
 import 'package:dimos_cats/models/cat.dart';
+import 'package:dimos_cats/providers/cats_provider.dart';
 import 'package:dimos_cats/providers/images_provider.dart';
-import 'package:dimos_cats/widgets/cats_list.dart';
-import 'package:dimos_cats/widgets/reuseable/app_logo.dart';
-import 'package:dimos_cats/widgets/reuseable/language_toggle.dart';
-import 'package:dimos_cats/widgets/reuseable/theme_toggle.dart';
+import 'package:dimos_cats/view/widgets/cats_list.dart';
+import 'package:dimos_cats/view/widgets/shared/app_logo.dart';
+import 'package:dimos_cats/view/widgets/shared/error_panel.dart';
+import 'package:dimos_cats/view/widgets/shared/language_toggle.dart';
+import 'package:dimos_cats/view/widgets/shared/theme_toggle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,8 +20,8 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
-    List<String>? imagePaths = ref.watch(imagePathsProvider).value;
-    print(imagePaths);
+    // List<String>? imagePaths = ref.watch(imagePathsProvider).value;
+    AsyncValue cats = ref.watch(catsProvider);
 
     return Scaffold(
       drawer: Drawer(
@@ -71,22 +73,19 @@ class _HomePageState extends ConsumerState<HomePage> {
               height: MediaQuery.of(context).size.height / 4,
               child: Container(color: Theme.of(context).secondaryHeaderColor),
             ),
-            if (imagePaths != null)
-              CatsList(
-                cats: imagePaths
-                    .map(
-                      (e) => Cat(
-                        name: 'Cat',
-                        gender: false,
-                        birthDate: DateTime.now(),
-                        image: e,
-                        description: 'This a cat',
-                        extendedImages: [],
-                        extendedDescriptions: [],
-                      ),
-                    )
-                    .toList(),
+
+            // if (imagePaths != null) CatsList(cats: cats),
+            cats.when(
+              data: (cats) => CatsList(cats: cats),
+              error: (error, stackTrace) => SizedBox(
+                height: MediaQuery.of(context).size.height / 1.5,
+                child: Center(child: ErrorPanel(message: error.toString())),
               ),
+              loading: () => SizedBox(
+                height: MediaQuery.of(context).size.height / 1.5,
+                child: Center(child: CircularProgressIndicator()),
+              ),
+            ),
             // Expanded(child: Column(children: [])),
           ],
         ),

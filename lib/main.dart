@@ -1,12 +1,13 @@
 import 'package:dimos_cats/core/localization/generated/l10n/app_localizations.dart';
 import 'package:dimos_cats/models/preferences.dart';
-import 'package:dimos_cats/pages/home_page.dart';
+import 'package:dimos_cats/view/pages/home_page.dart';
 import 'package:dimos_cats/providers/preferences_provider.dart';
 import 'package:dimos_cats/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/scheduler.dart' show timeDilation;
 
-void main() {
+void main() async {
   runApp(ProviderScope(child: const MyApp()));
 }
 

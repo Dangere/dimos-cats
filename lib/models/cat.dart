@@ -1,7 +1,7 @@
 class Cat {
   final String name;
   final bool gender;
-  final DateTime birthDate;
+  final DateTime birthday;
   final String description;
   final String image;
   final List<String> extendedImages;
@@ -10,22 +10,29 @@ class Cat {
   Cat({
     required this.name,
     required this.gender,
-    required this.birthDate,
+    required this.birthday,
     required this.image,
     required this.description,
     required this.extendedImages,
     required this.extendedDescriptions,
   });
 
-  factory Cat.fromJson(Map<String, dynamic> json) {
+  factory Cat.fromJson(
+    Map<String, dynamic> json, {
+    required String imageRootPath,
+  }) {
     return Cat(
       name: json['name'],
       gender: json['gender'],
-      birthDate: DateTime.parse(json['birthDate']),
-      image: json['image'],
+      birthday: DateTime.parse(json['birthday']),
+      image: "$imageRootPath${json['image']}",
       description: json['description'],
-      extendedImages: json['extendedImages'] as List<String>,
-      extendedDescriptions: json['extendedDescriptions'] as List<String>,
+      extendedImages: List<String>.from(
+        (json['extendedImages'] as List),
+      ).map((e) => "$imageRootPath$e").toList(),
+      extendedDescriptions: List<String>.from(
+        json['extendedDescriptions'] as List,
+      ),
     );
   }
 }

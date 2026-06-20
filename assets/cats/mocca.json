@@ -10,5 +10,9 @@
     ],
     "extendedDescriptions": [
         "mocca test"
+    ],
+    "tags": [
+        "moody",
+        "lazy"
     ]
 }

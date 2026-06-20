@@ -1,0 +1,38 @@
+import 'package:dimos_cats/view/painters/bezier_curve_painter.dart';
+import 'package:flutter/material.dart';
+
+class BezierCurve extends StatefulWidget {
+  const BezierCurve({
+    super.key,
+    required this.t,
+    required this.normalizedPoints,
+    required this.size,
+  });
+
+  final double t;
+  final List<Offset> normalizedPoints;
+  final Size size;
+
+  @override
+  State<BezierCurve> createState() => _BezierCurveState();
+}
+
+class _BezierCurveState extends State<BezierCurve> {
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        CustomPaint(
+          size: widget.size,
+          willChange: true,
+          painter: BezierCurvePainter(
+            strokeWidth: 10,
+            normalizedPoints: widget.normalizedPoints,
+            t: widget.t,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
+      ],
+    );
+  }
+}

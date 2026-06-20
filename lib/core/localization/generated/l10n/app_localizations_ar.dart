@@ -32,4 +32,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get light => 'الفاتح';
+
+  @override
+  String get adopt => 'تبني';
 }

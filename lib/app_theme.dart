@@ -13,7 +13,8 @@ class AppTheme {
       ),
 
       colorScheme: .fromSeed(
-        seedColor: Color(0xFFfaeab4),
+        seedColor: Color(0xFF92A2FF),
+        primary: Color(0xFF92A2FF),
         brightness: Brightness.light,
       ),
     );
@@ -26,7 +27,9 @@ class AppTheme {
         style: IconButton.styleFrom(padding: const EdgeInsets.all(12)),
       ),
       colorScheme: .fromSeed(
-        seedColor: Color(0xFFfaeab4),
+        seedColor: Color(0xFF92A2FF),
+        primary: Color(0xFF92A2FF),
+
         brightness: Brightness.dark,
       ),
     );

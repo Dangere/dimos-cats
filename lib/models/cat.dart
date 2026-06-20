@@ -1,3 +1,5 @@
+import 'package:dimos_cats/models/enums/cat_tag.dart';
+
 class Cat {
   final String name;
   final bool gender;
@@ -6,6 +8,7 @@ class Cat {
   final String image;
   final List<String> extendedImages;
   final List<String> extendedDescriptions;
+  final List<CatTag> tags;
 
   Cat({
     required this.name,
@@ -15,6 +18,7 @@ class Cat {
     required this.description,
     required this.extendedImages,
     required this.extendedDescriptions,
+    required this.tags,
   });
 
   factory Cat.fromJson(
@@ -33,6 +37,9 @@ class Cat {
       extendedDescriptions: List<String>.from(
         json['extendedDescriptions'] as List,
       ),
+      tags: CatTag.values.where((element) {
+        return List<String>.from(json['tags'] as List).contains(element.name);
+      }).toList(),
     );
   }
 }

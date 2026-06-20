@@ -6,5 +6,6 @@
     "language": "Language",
     "theme": "Theme",
     "dark": "Dark",
-    "light": "Light"
+    "light": "Light",
+    "adopt": "Adopt"
 }

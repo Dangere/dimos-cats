@@ -145,6 +145,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Light'**
   String get light;
+
+  /// No description provided for @adopt.
+  ///
+  /// In en, this message translates to:
+  /// **'Adopt'**
+  String get adopt;
 }
 
 class _AppLocalizationsDelegate

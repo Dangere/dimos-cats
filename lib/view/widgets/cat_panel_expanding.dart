@@ -1,0 +1,321 @@
+import 'package:dimos_cats/core/localization/generated/l10n/app_localizations.dart';
+import 'package:dimos_cats/models/cat.dart';
+import 'package:dimos_cats/providers/common_providers.dart';
+import 'package:dimos_cats/providers/images_provider.dart';
+import 'package:dimos_cats/view/widgets/shared/app_logo.dart';
+import 'package:dimos_cats/view/widgets/shared/bezier_curve.dart';
+import 'package:dimos_cats/view/widgets/shared/blob_decoration.dart';
+import 'package:dimos_cats/view/widgets/shared/cat_tags_list.dart';
+import 'package:dimos_cats/view/widgets/shared/error_panel.dart';
+import 'package:dimos_cats/view/widgets/shared/paw_decoration.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+/// Expanding panel for medium and large screens
+class CatPanelExpanding extends ConsumerStatefulWidget {
+  const CatPanelExpanding(this.cat, {super.key, required this.onAdopt});
+  final Cat cat;
+  final VoidCallback onAdopt;
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _CatPanelExpandingState();
+}
+
+class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
+  final Duration timeToExpandDuration = Duration(milliseconds: 50);
+  final Duration timeToExpandDuration1 = Duration(milliseconds: 500);
+
+  final Duration expandingDuration = Durations.long4;
+  final Duration expandingDuration1 = Durations.extralong4;
+
+  bool expand = false;
+  bool expand1 = false;
+
+  @override
+  void initState() {
+    if (mounted == false) return;
+    Future.delayed(timeToExpandDuration, () {
+      if (mounted == false) return;
+
+      setState(() {
+        ref.read(loggerProvider).d("Expanding CatPanel");
+        expand = true;
+      });
+    });
+
+    Future.delayed(timeToExpandDuration1, () {
+      if (mounted == false) return;
+
+      setState(() {
+        ref.read(loggerProvider).d("Second Expanding CatPanel");
+        expand1 = true;
+      });
+    });
+
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final Size normalSize = const Size(340, 340);
+    final Size expandedSize = const Size(500, 500);
+
+    AsyncValue catImage = ref.watch(imageDataProvider(widget.cat.image));
+
+    final isLTR = Directionality.of(context) == TextDirection.ltr;
+
+    ref.read(loggerProvider).d("Building CatPanel");
+
+    return AnimatedContainer(
+      clipBehavior: Clip.antiAlias,
+      duration: expandingDuration,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        color: Theme.of(context).colorScheme.surface,
+        border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
+      ),
+      curve: Curves.easeInBack,
+
+      width: expand ? expandedSize.width : normalSize.width,
+      height: expand ? expandedSize.height : normalSize.height,
+      // This OverflowBox is needed to make the child expand beyond the normal size horizontally when its initially not expanded
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(30),
+        child: OverflowBox(
+          alignment: isLTR ? Alignment.topLeft : Alignment.topRight,
+
+          maxWidth: expandedSize.width,
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                child: SizedBox(
+                  // needed to remove two pixels from the bottom
+                  height: expandedSize.height - 2,
+                  child: Stack(
+                    clipBehavior: Clip.antiAlias,
+
+                    children: [
+                      // PAW
+                      Positioned(
+                        bottom: -40,
+                        right: isLTR ? -30 : null,
+                        left: isLTR ? null : -30,
+                        child: SizedBox(
+                          height: 160,
+                          child: PawDecoration(flip: !isLTR),
+                        ),
+                      ),
+                      // BLOB
+                      Positioned(
+                        top: -40,
+                        left: isLTR ? -50 : null,
+                        right: isLTR ? null : -50,
+                        child: SizedBox(
+                          height: 160,
+                          child: BlobDecoration(flip: isLTR),
+                        ),
+                      ),
+
+                      // BezierCurve BACKGROUND
+                      Positioned(
+                        child: TweenAnimationBuilder(
+                          duration: expandingDuration1,
+                          curve: Curves.easeOutCubic,
+                          tween: Tween<double>(begin: 0, end: expand1 ? 1 : 0),
+
+                          builder:
+                              (
+                                BuildContext context,
+                                double value,
+                                Widget? child,
+                              ) {
+                                return BezierCurve(
+                                  flip: isLTR,
+                                  normalizedPoints: [
+                                    Offset(-.2, 1),
+                                    Offset(0.3, 0.1),
+                                    Offset(0.5, 0.7),
+
+                                    Offset(0.6, 1.2),
+
+                                    Offset(1, 0.9),
+
+                                    Offset(1.3, 0.4),
+                                  ],
+                                  t: value,
+                                  size: Size(
+                                    MediaQuery.of(context).size.width,
+                                    700,
+                                  ),
+                                );
+                              },
+                        ),
+                      ),
+
+                      // BODY
+                      ClipRRect(
+                        child: Padding(
+                          padding: const EdgeInsets.all(24.0),
+
+                          child: Center(
+                            child: Column(
+                              // mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Hero(
+                                        tag: widget.cat.image,
+                                        child: AspectRatio(
+                                          aspectRatio: 1,
+                                          child: ClipRRect(
+                                            child: catImage.when(
+                                              data: (data) => data != null
+                                                  ? Image.memory(
+                                                      data,
+                                                      fit: BoxFit.cover,
+                                                    )
+                                                  : const Center(
+                                                      child: AppLogo(),
+                                                    ),
+                                              error: (error, stackTrace) =>
+                                                  ErrorPanel(
+                                                    message: error.toString(),
+                                                  ),
+                                              loading: () => const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      // SizedBox(width: 20, height: 20),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 24.0 / 2,
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          // mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            // NAME
+                                            SizedBox(
+                                              height: 25,
+                                              child: Text(
+                                                widget.cat.name,
+                                                textAlign: TextAlign.left,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleLarge!
+                                                    .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                              ),
+                                            ),
+
+                                            // DESCRIPTION
+                                            Text(
+                                              widget.cat.description,
+                                              textAlign: TextAlign.left,
+                                              style: Theme.of(
+                                                context,
+                                              ).textTheme.bodyMedium,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      // TAGS
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 24.0 / 2,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: CatsTagList(
+                                                cat: widget.cat,
+                                                // height: 25,
+                                              ),
+                                            ),
+
+                                            Expanded(child: Container()),
+                                          ],
+                                        ),
+                                      ),
+                                      // ADOPT BUTTON
+                                      SizedBox(
+                                        width: 250,
+                                        height: 60,
+                                        child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Theme.of(
+                                              context,
+                                            ).colorScheme.primary,
+                                          ),
+                                          onPressed: () {},
+                                          child: Text(
+                                            AppLocalizations.of(context).adopt,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium!
+                                                .copyWith(
+                                                  fontSize: 26,
+                                                  color: Theme.of(
+                                                    context,
+                                                  ).colorScheme.onPrimary,
+                                                ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // CLOSE BUTTON
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 0,
+                right: isLTR ? 0 : null,
+                left: isLTR ? null : 0,
+                child: IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () {
+                    if (mounted == false) return;
+                    setState(() {
+                      if (context.mounted) Navigator.pop(context);
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

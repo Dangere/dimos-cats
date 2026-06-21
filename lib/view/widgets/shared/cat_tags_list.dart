@@ -1,23 +1,33 @@
 import 'package:dimos_cats/models/cat.dart';
+import 'package:dimos_cats/models/enums/cat_tag.dart';
 import 'package:flutter/material.dart';
 
 class CatsTagList extends StatelessWidget {
-  const CatsTagList({super.key, required this.cat});
+  const CatsTagList({super.key, required this.cat, this.height});
+
+  final double? height;
 
   final Cat cat;
   @override
   Widget build(BuildContext context) {
+    List<CatTag> tags = List.from(cat.tags);
+
+    tags.addAll(cat.tags);
+    tags.addAll(cat.tags);
+    final isLTR = Directionality.of(context) == TextDirection.ltr;
+
     return Container(
-      height: 20,
-      alignment: Alignment.topLeft,
+      height: height,
+      alignment: isLTR ? Alignment.topLeft : Alignment.topRight,
+
       child: Wrap(
         spacing: 8.0,
         runSpacing: 8.0,
         clipBehavior: Clip.hardEdge,
-        children: cat.tags
+        children: tags
             .map(
               (tag) => Container(
-                height: 20,
+                // height: height,
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
 
                 decoration: BoxDecoration(

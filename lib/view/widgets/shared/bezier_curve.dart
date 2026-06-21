@@ -7,11 +7,13 @@ class BezierCurve extends StatefulWidget {
     required this.t,
     required this.normalizedPoints,
     required this.size,
+    this.flip = false,
   });
 
   final double t;
   final List<Offset> normalizedPoints;
   final Size size;
+  final bool flip;
 
   @override
   State<BezierCurve> createState() => _BezierCurveState();
@@ -27,7 +29,11 @@ class _BezierCurveState extends State<BezierCurve> {
           willChange: true,
           painter: BezierCurvePainter(
             strokeWidth: 10,
-            normalizedPoints: widget.normalizedPoints,
+            normalizedPoints: widget.flip
+                ? widget.normalizedPoints.map((e) {
+                    return Offset(1 - e.dx, e.dy);
+                  }).toList()
+                : widget.normalizedPoints,
             t: widget.t,
             color: Theme.of(context).colorScheme.primary,
           ),

@@ -46,6 +46,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   transparent_image: ^2.0.1
+  sliver_tools: ^0.2.12
+  liquid_glass_easy: ^3.0.0
 
 dev_dependencies:
   flutter_test:

@@ -42,4 +42,30 @@ class Cat {
       }).toList(),
     );
   }
+
+  factory Cat.empty(String name) {
+    return Cat(
+      name: name,
+      gender: false,
+      birthday: DateTime.now(),
+      image: "image-placeholder-$name",
+      description: "",
+      extendedImages: [],
+      extendedDescriptions: [],
+      tags: [],
+    );
+  }
+
+  Cat copyWith({String? name, bool? gender, DateTime? birthday}) {
+    return Cat(
+      name: name ?? this.name,
+      gender: gender ?? this.gender,
+      birthday: birthday ?? this.birthday,
+      image: image,
+      description: description,
+      extendedImages: extendedImages,
+      extendedDescriptions: extendedDescriptions,
+      tags: tags,
+    );
+  }
 }

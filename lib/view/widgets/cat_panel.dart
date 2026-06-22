@@ -2,7 +2,6 @@ import 'package:dimos_cats/models/cat.dart';
 import 'package:dimos_cats/providers/common_providers.dart';
 import 'package:dimos_cats/providers/images_provider.dart';
 import 'package:dimos_cats/providers/screen_size_provider.dart';
-import 'package:dimos_cats/view/widgets/shared/app_logo.dart';
 import 'package:dimos_cats/view/widgets/shared/cat_tags_list.dart';
 import 'package:dimos_cats/view/widgets/shared/error_panel.dart';
 import 'package:dimos_cats/view/widgets/shared/paw_decoration.dart';
@@ -23,7 +22,7 @@ class CatPanel extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue catImage = ref.watch(imageDataProvider(cat.image));
-    ref.read(loggerProvider).d("Building CatPanel");
+    // ref.read(loggerProvider).d("Building CatPanel");
     final isLTR = Directionality.of(context) == TextDirection.ltr;
 
     double sizeFactor = switch (screenSize) {
@@ -75,15 +74,19 @@ class CatPanel extends ConsumerWidget {
                         child: Hero(
                           tag: cat.image,
                           child: ClipRRect(
-                            // borderRadius: BorderRadius.circular(10),
-                            child: catImage.when(
-                              data: (data) => data != null
-                                  ? Image.memory(data, fit: BoxFit.cover)
-                                  : const Center(child: AppLogo()),
-                              error: (error, stackTrace) =>
-                                  ErrorPanel(message: error.toString()),
-                              loading: () => const Center(
-                                child: CircularProgressIndicator(),
+                            child: Container(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.outlineVariant,
+                              child: catImage.when(
+                                data: (data) => data != null
+                                    ? Image.memory(data, fit: BoxFit.cover)
+                                    : const Center(child: Icon(Icons.image)),
+                                error: (error, stackTrace) =>
+                                    ErrorPanel(message: error.toString()),
+                                loading: () => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
                               ),
                             ),
                           ),

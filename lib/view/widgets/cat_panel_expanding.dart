@@ -2,7 +2,6 @@ import 'package:dimos_cats/core/localization/generated/l10n/app_localizations.da
 import 'package:dimos_cats/models/cat.dart';
 import 'package:dimos_cats/providers/common_providers.dart';
 import 'package:dimos_cats/providers/images_provider.dart';
-import 'package:dimos_cats/view/widgets/shared/app_logo.dart';
 import 'package:dimos_cats/view/widgets/shared/bezier_curve.dart';
 import 'package:dimos_cats/view/widgets/shared/blob_decoration.dart';
 import 'package:dimos_cats/view/widgets/shared/cat_tags_list.dart';
@@ -24,7 +23,7 @@ class CatPanelExpanding extends ConsumerStatefulWidget {
 
 class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
   final Duration timeToExpandDuration = Duration(milliseconds: 50);
-  final Duration timeToExpandDuration1 = Duration(milliseconds: 500);
+  final Duration timeToExpandDuration1 = Duration(milliseconds: 200);
 
   final Duration expandingDuration = Durations.long4;
   final Duration expandingDuration1 = Durations.extralong4;
@@ -123,7 +122,7 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
                       Positioned(
                         child: TweenAnimationBuilder(
                           duration: expandingDuration1,
-                          curve: Curves.easeOutCubic,
+                          curve: Curves.easeInOutExpo,
                           tween: Tween<double>(begin: 0, end: expand1 ? 1 : 0),
 
                           builder:
@@ -135,15 +134,13 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
                                 return BezierCurve(
                                   flip: isLTR,
                                   normalizedPoints: [
-                                    Offset(-.2, 1),
-                                    Offset(0.3, 0.1),
-                                    Offset(0.5, 0.7),
+                                    Offset(-0.2, 0.8),
+                                    Offset(0.1, 0.1),
 
-                                    Offset(0.6, 1.2),
-
-                                    Offset(1, 0.9),
-
-                                    Offset(1.3, 0.4),
+                                    // Offset(0.6, 0.2),
+                                    Offset(0.8, 1.3),
+                                    // Offset(1, 1),
+                                    Offset(1.2, 0.4),
                                   ],
                                   t: value,
                                   size: Size(
@@ -156,6 +153,7 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
                       ),
 
                       // BODY
+                      // if (false)
                       ClipRRect(
                         child: Padding(
                           padding: const EdgeInsets.all(24.0),
@@ -172,22 +170,29 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
                                         child: AspectRatio(
                                           aspectRatio: 1,
                                           child: ClipRRect(
-                                            child: catImage.when(
-                                              data: (data) => data != null
-                                                  ? Image.memory(
-                                                      data,
-                                                      fit: BoxFit.cover,
-                                                    )
-                                                  : const Center(
-                                                      child: AppLogo(),
+                                            child: Container(
+                                              color: Theme.of(
+                                                context,
+                                              ).colorScheme.outlineVariant,
+                                              child: catImage.when(
+                                                data: (data) => data != null
+                                                    ? Image.memory(
+                                                        data,
+                                                        fit: BoxFit.cover,
+                                                      )
+                                                    : const Center(
+                                                        child: Icon(
+                                                          Icons.image,
+                                                        ),
+                                                      ),
+                                                error: (error, stackTrace) =>
+                                                    ErrorPanel(
+                                                      message: error.toString(),
                                                     ),
-                                              error: (error, stackTrace) =>
-                                                  ErrorPanel(
-                                                    message: error.toString(),
-                                                  ),
-                                              loading: () => const Center(
-                                                child:
-                                                    CircularProgressIndicator(),
+                                                loading: () => const Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -265,9 +270,10 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
                                         height: 60,
                                         child: ElevatedButton(
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor: Theme.of(
-                                              context,
-                                            ).colorScheme.primary,
+                                            backgroundColor: Theme.of(context)
+                                                .colorScheme
+                                                .primary
+                                                .withValues(alpha: 0.5),
                                           ),
                                           onPressed: () {},
                                           child: Text(
@@ -299,9 +305,9 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
                 ),
               ),
               Positioned(
-                top: 0,
-                right: isLTR ? 0 : null,
-                left: isLTR ? null : 0,
+                top: 5,
+                right: isLTR ? 5 : null,
+                left: isLTR ? null : 5,
                 child: IconButton(
                   icon: const Icon(Icons.close),
                   onPressed: () {

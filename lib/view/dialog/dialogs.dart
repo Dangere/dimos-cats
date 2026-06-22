@@ -1,26 +1,34 @@
 import 'package:dimos_cats/models/cat.dart';
+import 'package:dimos_cats/providers/screen_size_provider.dart';
 import 'package:dimos_cats/view/widgets/cat_panel_expanding.dart';
 import 'package:flutter/material.dart';
 
 class Dialogs {
-  static Future<bool?> petDetailsDialog(Cat cat, BuildContext context) async {
+  static Future<bool?> petDetails(
+    Cat cat,
+    BuildContext context,
+    ScreenSize screenSize,
+  ) async {
     if (context.mounted == false) return null;
-    Navigator.push(
-      context,
-      // TransparentPageRoute(builder: (context) => PetDetails(cat: cat)),
-      TransparentPageRoute(
-        builder: (context) => Dialog(
-          backgroundColor: Colors.transparent,
-          child: CatPanelExpanding(cat, onAdopt: () {}),
+
+    if (true) {
+      await Navigator.push(
+        context,
+        // TransparentPageRoute(builder: (context) => PetDetails(cat: cat)),
+        TransparentPageRoute(
+          builder: (context) => Dialog(
+            backgroundColor: Colors.transparent,
+            child: CatPanelExpanding(cat, onAdopt: () {}),
+          ),
         ),
-      ),
-    );
+      );
+    }
     return null;
   }
 
   static Future<bool?> petDetailsScreen(Cat cat, BuildContext context) async {
     if (context.mounted == false) return null;
-    Navigator.push(
+    await Navigator.push(
       context,
       // TransparentPageRoute(builder: (context) => PetDetails(cat: cat)),
       TransparentPageRoute(

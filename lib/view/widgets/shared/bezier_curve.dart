@@ -28,7 +28,7 @@ class _BezierCurveState extends State<BezierCurve> {
           size: widget.size,
           willChange: true,
           painter: BezierCurvePainter(
-            strokeWidth: 10,
+            strokeWidth: 14,
             normalizedPoints: widget.flip
                 ? widget.normalizedPoints.map((e) {
                     return Offset(1 - e.dx, e.dy);

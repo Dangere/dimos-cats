@@ -1,14 +1,19 @@
 import 'package:dimos_cats/core/localization/generated/l10n/app_localizations.dart';
+import 'package:dimos_cats/models/cat.dart';
 import 'package:dimos_cats/providers/cats_provider.dart';
+import 'package:dimos_cats/providers/common_providers.dart';
 import 'package:dimos_cats/providers/screen_size_provider.dart';
 import 'package:dimos_cats/view/dialog/dialogs.dart';
 import 'package:dimos_cats/view/widgets/cats_list_sliver.dart';
 import 'package:dimos_cats/view/widgets/shared/app_logo.dart';
+import 'package:dimos_cats/view/widgets/shared/bezier_curve.dart';
 import 'package:dimos_cats/view/widgets/shared/error_panel.dart';
+import 'package:dimos_cats/view/widgets/home_background.dart';
 import 'package:dimos_cats/view/widgets/shared/language_toggle.dart';
 import 'package:dimos_cats/view/widgets/shared/theme_toggle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sliver_tools/sliver_tools.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -20,10 +25,43 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> {
   double animationTarge = 1;
 
+  List<Cat> catsTemp = List.generate(
+    10,
+    (index) => Cat.empty(index.toString() + "cat"),
+  );
+  ScreenSize size = ScreenSize.expanded;
+
+  Cat? viewedCat;
+
+  /// Used to open the details dialog
+  void viewCatDetails(Cat cat) async {
+    if (context.mounted == false || viewedCat != null) return;
+
+    viewedCat = cat;
+    await Dialogs.petDetails(cat, context, size);
+    viewedCat = null;
+  }
+
+  /// Used to reopen the details dialog when screen size changes
+  void reOpenDetailsOnSize(ScreenSize currentSize, ScreenSize newSize) {
+    if (viewedCat == null) return;
+    // If we are changing from compact to expanded/medium, or the opposite, we reopen the details dialog
+    if (newSize == ScreenSize.compact && currentSize != ScreenSize.compact ||
+        newSize != ScreenSize.compact && currentSize == ScreenSize.compact) {
+      Cat currentViewedCat = viewedCat!.copyWith();
+      Navigator.of(context).pop();
+
+      Future.delayed(Durations.short4, () {
+        viewCatDetails(currentViewedCat);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // List<String>? imagePaths = ref.watch(imagePathsProvider).value;
-    AsyncValue cats = ref.watch(catsProvider);
+    AsyncValue<List<Cat>> cats = ref.watch(catsProvider);
+    ref.read(loggerProvider).d("Building HomePage");
 
     return Scaffold(
       drawer: Drawer(
@@ -79,10 +117,14 @@ class _HomePageState extends ConsumerState<HomePage> {
       body: LayoutBuilder(
         builder: (context, constraints) {
           // ref.read(screenSizeProvider.notifier).update(constraints.maxWidth);
-
-          ScreenSize size = ref
+          ref.read(loggerProvider).d("Building HomePage from layout");
+          ScreenSize newSize = ref
               .read(screenSizeProvider.notifier)
               .getScreenSize(constraints.maxWidth);
+
+          reOpenDetailsOnSize(size, newSize);
+
+          size = newSize;
           double padding = switch (size) {
             ScreenSize.compact => MediaQuery.of(context).size.width * 0.05,
             ScreenSize.medium => MediaQuery.of(context).size.width * 0.05,
@@ -90,6 +132,8 @@ class _HomePageState extends ConsumerState<HomePage> {
           };
 
           return CustomScrollView(
+            cacheExtent: 3500,
+            shrinkWrap: false,
             slivers: [
               SliverToBoxAdapter(
                 child: Container(
@@ -104,210 +148,42 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ),
               ),
 
-              SliverPadding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: padding,
-                  vertical: padding / 2,
-                ),
-                sliver: cats.when(
-                  data: (cats) => CatsListSliver(
-                    screenSize: size,
-                    cats: cats,
-                    onClick: (cat) {
-                      // If we are on expanded or medium screen, open a dialog
-                      if (size == ScreenSize.expanded ||
-                          size == ScreenSize.medium) {
-                        Dialogs.petDetailsDialog(cat, context);
-                      }
-                    },
-                  ),
-                  error: (error, stackTrace) => SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height / 1.5,
-                      child: Center(
-                        child: ErrorPanel(message: error.toString()),
+              SliverStack(
+                children: [
+                  SliverPositioned.fill(child: HomeBackgroundScrollAnimation()),
+                  SliverPadding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: padding,
+                      vertical: padding / 2,
+                    ),
+                    sliver: cats.when(
+                      data: (cats) => CatsListSliver(
+                        screenSize: size,
+                        cats: catsTemp,
+                        onClick: (cat) => viewCatDetails(cat),
+                      ),
+                      error: (error, stackTrace) => SliverToBoxAdapter(
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height / 1.5,
+                          child: Center(
+                            child: ErrorPanel(message: error.toString()),
+                          ),
+                        ),
+                      ),
+                      loading: () => SliverToBoxAdapter(
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height / 1.5,
+                          child: Center(child: CircularProgressIndicator()),
+                        ),
                       ),
                     ),
                   ),
-                  loading: () => SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height / 1.5,
-                      child: Center(child: CircularProgressIndicator()),
-                    ),
-                  ),
-                ),
+                ],
               ),
             ],
           );
         },
       ),
-      // body: Column(
-      //   children: [
-      //     Stack(
-      //       clipBehavior: Clip.none,
-      //       children: [
-      //         Container(
-      //           height: 200,
-      //           width: MediaQuery.of(context).size.width,
-      //           color: Theme.of(context).colorScheme.primary,
-      //         ),
-
-      //         // TweenAnimationBuilder(
-      //         //   onEnd: () {
-      //         //     setState(() {
-      //         //       animationTarge = animationTarge == 1.0 ? 0.0 : 1.0;
-      //         //     });
-      //         //   },
-      //         //   tween: Tween<double>(begin: 0, end: animationTarge),
-      //         //   duration: const Duration(seconds: 1),
-      //         //   builder: (context, value, child) {
-      //         //     return Column(
-      //         //       children: [
-      //         //         BezierCurve(
-      //         //           normalizedPoints: [
-      //         //             Offset(-.2, 0.5),
-      //         //             Offset(0.4, 0.7),
-      //         //             Offset(0.7, 0.2),
-      //         //             Offset(0.6, 1),
-
-      //         //             Offset(1.2, 0.5),
-      //         //           ],
-      //         //           t: value,
-      //         //           size: Size(MediaQuery.of(context).size.width, 300),
-      //         //         ),
-      //         //         BezierCurve(
-      //         //           normalizedPoints: [
-      //         //             Offset(-.2, 0.5),
-      //         //             Offset(0.6, 0.3),
-      //         //             Offset(0.2, 0.8),
-      //         //             Offset(0.8, 1),
-
-      //         //             Offset(1.2, 0.5),
-      //         //           ],
-      //         //           t: value,
-      //         //           size: Size(MediaQuery.of(context).size.width, 300),
-      //         //         ),
-      //         //         BezierCurve(
-      //         //           normalizedPoints: [
-      //         //             Offset(1.2, 0.5),
-
-      //         //             Offset(0.6, 0.3),
-      //         //             Offset(0.2, 0.8),
-      //         //             Offset(0.8, 1),
-      //         //             Offset(-.2, 0.5),
-      //         //           ],
-      //         //           t: value,
-      //         //           size: Size(MediaQuery.of(context).size.width, 300),
-      //         //         ),
-      //         //       ],
-      //         //     );
-      //         //   },
-      //         // ),
-      //         Padding(
-      //           padding: EdgeInsets.symmetric(
-      //             horizontal: MediaQuery.of(context).size.width * 0.1,
-      //           ),
-      //           child: cats.when(
-      //             data: (cats) => CatsList(
-      //               cats: cats,
-      //               onClick: (cat) {
-      //                 Dialogs.petDetailsDialog(cat, context);
-      //               },
-      //             ),
-      //             error: (error, stackTrace) => SizedBox(
-      //               height: MediaQuery.of(context).size.height / 1.5,
-      //               child: Center(child: ErrorPanel(message: error.toString())),
-      //             ),
-      //             loading: () => SizedBox(
-      //               height: MediaQuery.of(context).size.height / 1.5,
-      //               child: Center(child: CircularProgressIndicator()),
-      //             ),
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ],
-      // ),
     );
   }
-
-  // CustomScrollView _expanded(BuildContext context, AsyncValue<dynamic> cats) {
-  //   return CustomScrollView(
-  //     slivers: [
-  //       SliverToBoxAdapter(
-  //         child: Container(
-  //           height: 200,
-  //           width: MediaQuery.of(context).size.width,
-  //           color: Theme.of(context).colorScheme.primary,
-  //         ),
-  //       ),
-
-  //       SliverPadding(
-  //         padding: EdgeInsets.symmetric(
-  //           horizontal: MediaQuery.of(context).size.width * 0.1,
-  //         ),
-  //         sliver: cats.when(
-  //           data: (cats) => CatsListSliver(
-  //             cats: cats,
-  //             onClick: (cat) {
-  //               Dialogs.petDetailsDialog(cat, context);
-  //             },
-  //           ),
-  //           error: (error, stackTrace) => SliverToBoxAdapter(
-  //             child: SizedBox(
-  //               height: MediaQuery.of(context).size.height / 1.5,
-  //               child: Center(child: ErrorPanel(message: error.toString())),
-  //             ),
-  //           ),
-  //           loading: () => SliverToBoxAdapter(
-  //             child: SizedBox(
-  //               height: MediaQuery.of(context).size.height / 1.5,
-  //               child: Center(child: CircularProgressIndicator()),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
-
-  // CustomScrollView _compact(BuildContext context, AsyncValue<dynamic> cats) {
-  //   return CustomScrollView(
-  //     slivers: [
-  //       SliverToBoxAdapter(
-  //         child: Container(
-  //           height: 200,
-  //           width: MediaQuery.of(context).size.width,
-  //           color: Theme.of(context).colorScheme.primary,
-  //         ),
-  //       ),
-
-  //       SliverPadding(
-  //         padding: EdgeInsets.symmetric(
-  //           horizontal: MediaQuery.of(context).size.width * 0.1,
-  //         ),
-  //         sliver: cats.when(
-  //           data: (cats) => CatsListSliver(
-  //             cats: cats,
-  //             onClick: (cat) {
-  //               Dialogs.petDetailsDialog(cat, context);
-  //             },
-  //           ),
-  //           error: (error, stackTrace) => SliverToBoxAdapter(
-  //             child: SizedBox(
-  //               height: MediaQuery.of(context).size.height / 1.5,
-  //               child: Center(child: ErrorPanel(message: error.toString())),
-  //             ),
-  //           ),
-  //           loading: () => SliverToBoxAdapter(
-  //             child: SizedBox(
-  //               height: MediaQuery.of(context).size.height / 1.5,
-  //               child: Center(child: CircularProgressIndicator()),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ],
-  // );
-  // }
 }

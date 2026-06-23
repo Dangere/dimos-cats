@@ -6,6 +6,7 @@ import 'package:dimos_cats/view/widgets/shared/bezier_curve.dart';
 import 'package:dimos_cats/view/widgets/shared/blob_decoration.dart';
 import 'package:dimos_cats/view/widgets/shared/cat_tags_list.dart';
 import 'package:dimos_cats/view/widgets/shared/error_panel.dart';
+import 'package:dimos_cats/view/widgets/shared/images_displayer.dart';
 import 'package:dimos_cats/view/widgets/shared/paw_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,10 +23,10 @@ class CatPanelScreen extends ConsumerStatefulWidget {
 
 class _CatPanelScreenState extends ConsumerState<CatPanelScreen> {
   final Duration timeToExpandDuration = Duration(milliseconds: 50);
-  final Duration timeToExpandDuration1 = Duration(milliseconds: 200);
+  final Duration bezierCurveTimeToExpandDuration = Duration(milliseconds: 400);
 
   final Duration expandingDuration = Durations.long4;
-  final Duration expandingDuration1 = Durations.extralong4;
+  final Duration bezierCurveDuration = Durations.extralong4;
 
   bool expand = false;
   bool expand1 = false;
@@ -42,7 +43,7 @@ class _CatPanelScreenState extends ConsumerState<CatPanelScreen> {
       });
     });
 
-    Future.delayed(timeToExpandDuration1, () {
+    Future.delayed(bezierCurveTimeToExpandDuration, () {
       if (mounted == false) return;
 
       setState(() {
@@ -131,8 +132,9 @@ class _CatPanelScreenState extends ConsumerState<CatPanelScreen> {
 
                     // BezierCurve BACKGROUND
                     Positioned(
+                      bottom: 0,
                       child: TweenAnimationBuilder(
-                        duration: expandingDuration1,
+                        duration: bezierCurveDuration,
                         curve: Curves.easeInOutExpo,
                         tween: Tween<double>(begin: 0, end: expand1 ? 1 : 0),
 
@@ -156,7 +158,7 @@ class _CatPanelScreenState extends ConsumerState<CatPanelScreen> {
                                 t: value,
                                 size: Size(
                                   MediaQuery.of(context).size.width,
-                                  700,
+                                  500,
                                 ),
                               );
                             },
@@ -172,39 +174,18 @@ class _CatPanelScreenState extends ConsumerState<CatPanelScreen> {
                         child: Column(
                           // mainAxisSize: MainAxisSize.min,
                           children: [
+                            // PICTURE AND NAME AND DESCRIPTION
                             Expanded(
+                              flex: 2,
                               child: Center(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Expanded(
-                                      child: Hero(
-                                        tag: widget.cat.image,
-                                        child: Container(
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.outlineVariant,
-                                          child: catImage.when(
-                                            data: (data) => data != null
-                                                ? Image.memory(
-                                                    width: double.infinity,
-                                                    height: double.infinity,
-                                                    data,
-                                                    fit: BoxFit.cover,
-                                                  )
-                                                : const Center(
-                                                    child: Icon(Icons.image),
-                                                  ),
-                                            error: (error, stackTrace) =>
-                                                ErrorPanel(
-                                                  message: error.toString(),
-                                                ),
-                                            loading: () => const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            ),
-                                          ),
-                                        ),
+                                      child: ImagesDisplayer(
+                                        imagePaths: List.from(
+                                          widget.cat.extendedImages,
+                                        )..insert(0, widget.cat.image),
                                       ),
                                     ),
                                     // SizedBox(width: 20, height: 20),
@@ -254,7 +235,7 @@ class _CatPanelScreenState extends ConsumerState<CatPanelScreen> {
                                 ),
                               ),
                             ),
-
+                            // TAGS AND ADOPT
                             Expanded(
                               child: Column(
                                 mainAxisAlignment:

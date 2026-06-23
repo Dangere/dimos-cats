@@ -6,6 +6,7 @@ import 'package:dimos_cats/view/widgets/shared/bezier_curve.dart';
 import 'package:dimos_cats/view/widgets/shared/blob_decoration.dart';
 import 'package:dimos_cats/view/widgets/shared/cat_tags_list.dart';
 import 'package:dimos_cats/view/widgets/shared/error_panel.dart';
+import 'package:dimos_cats/view/widgets/shared/images_displayer.dart';
 import 'package:dimos_cats/view/widgets/shared/paw_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,10 +24,10 @@ class CatPanelExpanding extends ConsumerStatefulWidget {
 
 class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
   final Duration timeToExpandDuration = Duration(milliseconds: 50);
-  final Duration timeToExpandDuration1 = Duration(milliseconds: 200);
-
   final Duration expandingDuration = Durations.long4;
-  final Duration expandingDuration1 = Durations.extralong4;
+
+  final Duration bezierCurveTimeToExpandDuration = Duration(milliseconds: 400);
+  final Duration bezierCurveDuration = Durations.extralong4;
 
   bool expand = false;
   bool expand1 = false;
@@ -43,7 +44,7 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
       });
     });
 
-    Future.delayed(timeToExpandDuration1, () {
+    Future.delayed(bezierCurveTimeToExpandDuration, () {
       if (mounted == false) return;
 
       setState(() {
@@ -121,7 +122,7 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
                       // BezierCurve BACKGROUND
                       Positioned(
                         child: TweenAnimationBuilder(
-                          duration: expandingDuration1,
+                          duration: bezierCurveDuration,
                           curve: Curves.easeInOutExpo,
                           tween: Tween<double>(begin: 0, end: expand1 ? 1 : 0),
 
@@ -165,37 +166,12 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
                                 Expanded(
                                   child: Row(
                                     children: [
-                                      Hero(
-                                        tag: widget.cat.image,
-                                        child: AspectRatio(
-                                          aspectRatio: 1,
-                                          child: ClipRRect(
-                                            child: Container(
-                                              color: Theme.of(
-                                                context,
-                                              ).colorScheme.outlineVariant,
-                                              child: catImage.when(
-                                                data: (data) => data != null
-                                                    ? Image.memory(
-                                                        data,
-                                                        fit: BoxFit.cover,
-                                                      )
-                                                    : const Center(
-                                                        child: Icon(
-                                                          Icons.image,
-                                                        ),
-                                                      ),
-                                                error: (error, stackTrace) =>
-                                                    ErrorPanel(
-                                                      message: error.toString(),
-                                                    ),
-                                                loading: () => const Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                                      AspectRatio(
+                                        aspectRatio: 1,
+                                        child: ImagesDisplayer(
+                                          imagePaths: List.from(
+                                            widget.cat.extendedImages,
+                                          )..insert(0, widget.cat.image),
                                         ),
                                       ),
                                       // SizedBox(width: 20, height: 20),

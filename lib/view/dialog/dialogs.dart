@@ -1,7 +1,12 @@
 import 'package:dimos_cats/models/cat.dart';
+import 'package:dimos_cats/providers/images_provider.dart'
+    show imageDataProvider;
 import 'package:dimos_cats/providers/screen_size_provider.dart';
 import 'package:dimos_cats/view/widgets/cat_panel_expanding.dart';
+import 'package:dimos_cats/view/widgets/cat_panel_screen.dart';
+import 'package:dimos_cats/view/widgets/shared/error_panel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Dialogs {
   static Future<bool?> petDetails(
@@ -11,18 +16,22 @@ class Dialogs {
   ) async {
     if (context.mounted == false) return null;
 
-    if (true) {
-      await Navigator.push(
-        context,
-        // TransparentPageRoute(builder: (context) => PetDetails(cat: cat)),
-        TransparentPageRoute(
-          builder: (context) => Dialog(
-            backgroundColor: Colors.transparent,
-            child: CatPanelExpanding(cat, onAdopt: () {}),
-          ),
+    bool compactScreen = screenSize == ScreenSize.compact;
+
+    await Navigator.push(
+      context,
+      TransparentPageRoute(
+        builder: (context) => Dialog(
+          insetPadding: const EdgeInsets.all(0),
+
+          backgroundColor: Colors.transparent,
+          child: !compactScreen
+              ? CatPanelExpanding(cat, onAdopt: () {})
+              : CatPanelScreen(cat, onAdopt: () {}),
         ),
-      );
-    }
+      ),
+    );
+
     return null;
   }
 

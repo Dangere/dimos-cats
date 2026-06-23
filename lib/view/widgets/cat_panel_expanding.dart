@@ -58,7 +58,7 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
 
   @override
   Widget build(BuildContext context) {
-    final Size normalSize = const Size(340, 340);
+    final Size startingSize = const Size(340, 340);
     final Size expandedSize = const Size(500, 500);
 
     AsyncValue catImage = ref.watch(imageDataProvider(widget.cat.image));
@@ -78,8 +78,8 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
       ),
       curve: Curves.easeInBack,
 
-      width: expand ? expandedSize.width : normalSize.width,
-      height: expand ? expandedSize.height : normalSize.height,
+      width: expand ? expandedSize.width : startingSize.width,
+      height: expand ? expandedSize.height : startingSize.height,
       // This OverflowBox is needed to make the child expand beyond the normal size horizontally when its initially not expanded
       child: ClipRRect(
         borderRadius: BorderRadius.circular(30),
@@ -232,7 +232,7 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
                                               textAlign: TextAlign.left,
                                               style: Theme.of(
                                                 context,
-                                              ).textTheme.bodyMedium,
+                                              ).textTheme.bodyLarge,
                                             ),
                                           ],
                                         ),

@@ -25,10 +25,10 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> {
   double animationTarge = 1;
 
-  List<Cat> catsTemp = List.generate(
-    10,
-    (index) => Cat.empty(index.toString() + "cat"),
-  );
+  // List<Cat> catsTemp = List.generate(
+  //   10,
+  //   (index) => Cat.empty(index.toString() + "cat"),
+  // );
   ScreenSize size = ScreenSize.expanded;
 
   Cat? viewedCat;
@@ -51,7 +51,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       Cat currentViewedCat = viewedCat!.copyWith();
       Navigator.of(context).pop();
 
-      Future.delayed(Durations.short4, () {
+      Future.delayed(Durations.medium2, () {
         viewCatDetails(currentViewedCat);
       });
     }
@@ -131,26 +131,22 @@ class _HomePageState extends ConsumerState<HomePage> {
             ScreenSize.expanded => MediaQuery.of(context).size.width * 0.08,
           };
 
-          return CustomScrollView(
-            cacheExtent: 3500,
-            shrinkWrap: false,
-            slivers: [
-              SliverToBoxAdapter(
-                child: Container(
-                  height: 400,
-                  width: MediaQuery.of(context).size.width,
-                  color: Theme.of(context).colorScheme.primary.withValues(
-                    alpha: 0.5,
-                    blue: 0.7,
-                    green: 0.2,
-                    red: 0.1,
-                  ),
-                ),
-              ),
+          return Stack(
+            children: [
+              Positioned.fill(child: HomeBackgroundScrollAnimation()),
+              CustomScrollView(
+                cacheExtent: 3500,
+                shrinkWrap: false,
 
-              SliverStack(
-                children: [
-                  SliverPositioned.fill(child: HomeBackgroundScrollAnimation()),
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Container(
+                      height: 400,
+                      width: MediaQuery.of(context).size.width,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+
                   SliverPadding(
                     padding: EdgeInsets.symmetric(
                       horizontal: padding,
@@ -159,7 +155,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                     sliver: cats.when(
                       data: (cats) => CatsListSliver(
                         screenSize: size,
-                        cats: catsTemp,
+                        cats: cats,
                         onClick: (cat) => viewCatDetails(cat),
                       ),
                       error: (error, stackTrace) => SliverToBoxAdapter(
@@ -176,6 +172,31 @@ class _HomePageState extends ConsumerState<HomePage> {
                           child: Center(child: CircularProgressIndicator()),
                         ),
                       ),
+                    ),
+                  ),
+
+                  // SliverToBoxAdapter(
+                  //   child: Container(
+                  //     height: 70,
+                  //     width: MediaQuery.of(context).size.width,
+                  //     color: Theme.of(context).colorScheme.primary.withValues(
+                  //       alpha: 0.5,
+                  //       blue: 0.7,
+                  //       green: 0.2,
+                  //       red: 0.1,
+                  //     ),
+                  //   ),
+                  // ),
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          height: 70,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ],
                     ),
                   ),
                 ],

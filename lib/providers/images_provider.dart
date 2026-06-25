@@ -31,7 +31,7 @@ class ImageBulkNotifier extends Notifier<List<Uint8List?>> {
     });
 
     List<Uint8List?> initialList = List<Uint8List?>.filled(paths.length, null);
-
+    // Making the initial list have a preloaded image at the beginning instead of waiting for the next tick
     initialList[0] = ref.read(imageDataProvider(paths[0])).value;
 
     return initialList;

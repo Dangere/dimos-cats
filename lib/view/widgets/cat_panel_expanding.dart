@@ -26,11 +26,11 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
   final Duration timeToExpandDuration = Duration(milliseconds: 50);
   final Duration expandingDuration = Durations.long4;
 
-  final Duration bezierCurveTimeToExpandDuration = Duration(milliseconds: 400);
-  final Duration bezierCurveDuration = Durations.extralong4;
+  final Duration bezierCurveTimeToExpandDuration = Duration(milliseconds: 300);
+  final Duration bezierCurveDuration = Durations.long4;
 
   bool expand = false;
-  bool expand1 = false;
+  bool expandCurve = false;
 
   @override
   void initState() {
@@ -49,7 +49,7 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
 
       setState(() {
         ref.read(loggerProvider).d("Second Expanding CatPanel");
-        expand1 = true;
+        expandCurve = true;
       });
     });
 
@@ -123,8 +123,12 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
                       Positioned(
                         child: TweenAnimationBuilder(
                           duration: bezierCurveDuration,
-                          curve: Curves.easeInOutExpo,
-                          tween: Tween<double>(begin: 0, end: expand1 ? 1 : 0),
+                          curve: Curves.easeInCubic,
+
+                          tween: Tween<double>(
+                            begin: 0,
+                            end: expandCurve ? 1 : 0,
+                          ),
 
                           builder:
                               (
@@ -135,13 +139,16 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
                                 return BezierCurve(
                                   flip: isLTR,
                                   normalizedPoints: [
-                                    Offset(-0.2, 0.8),
-                                    Offset(0.1, 0.1),
+                                    Offset(-0.6, 0.3),
+                                    Offset(-0.2, 0.6),
+
+                                    // Offset(-0.2, 0.8),
+                                    Offset(0.1, 0.3),
 
                                     // Offset(0.6, 0.2),
-                                    Offset(0.8, 1.3),
+                                    Offset(0.8, 1.05),
                                     // Offset(1, 1),
-                                    Offset(1.2, 0.4),
+                                    Offset(1.2, 0.8),
                                   ],
                                   t: value,
                                   size: Size(

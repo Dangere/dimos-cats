@@ -69,13 +69,13 @@ class _ImagesDisplayerState extends ConsumerState<ImagesDisplayer> {
           ),
         ),
         // Dots to show which image the displayer is at
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 50.0),
-          child: SizedBox(
-            height: 25,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: List.generate(widget.imagePaths.length, (index) {
+        SizedBox(
+          height: 25,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Spacer(),
+              ...List.generate(widget.imagePaths.length, (index) {
                 bool isSelected = index == imageIndex;
                 return GestureDetector(
                   onTap: () {
@@ -83,15 +83,22 @@ class _ImagesDisplayerState extends ConsumerState<ImagesDisplayer> {
                       imageIndex = index;
                     });
                   },
-                  child: CircleAvatar(
-                    radius: isSelected ? 6 : 4,
-                    backgroundColor: isSelected
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.outlineVariant,
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CircleAvatar(
+                        radius: isSelected ? 6 : 3,
+                        backgroundColor: isSelected
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.outlineVariant,
+                      ),
+                    ),
                   ),
                 );
               }),
-            ),
+              Spacer(),
+            ],
           ),
         ),
       ],

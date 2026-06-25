@@ -22,9 +22,9 @@ class CatsListSliver extends ConsumerWidget {
     ref.read(loggerProvider).d("Building CatsList");
 
     double spacing = switch (screenSize) {
-      ScreenSize.compact => 15,
-      ScreenSize.medium => 15,
-      ScreenSize.expanded => 25,
+      ScreenSize.compact => 25,
+      ScreenSize.medium => 30,
+      ScreenSize.expanded => 35,
     };
     return SliverGrid.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -40,6 +40,7 @@ class CatsListSliver extends ConsumerWidget {
       itemCount: cats.length,
 
       itemBuilder: (context, index) {
+        // return Container();
         return CatPanel(
           screenSize: screenSize,
           cats[index],

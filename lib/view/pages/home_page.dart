@@ -23,12 +23,13 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  double animationTarge = 1;
+  final ScrollController controller = ScrollController();
 
-  // List<Cat> catsTemp = List.generate(
-  //   10,
-  //   (index) => Cat.empty(index.toString() + "cat"),
-  // );
+  double animationTarge = 1;
+  List<Cat> catsTemp = List.generate(
+    10,
+    (index) => Cat.empty(index.toString() + "cat"),
+  );
   ScreenSize size = ScreenSize.expanded;
 
   Cat? viewedCat;
@@ -94,8 +95,9 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
       ),
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         surfaceTintColor: Colors.transparent,
-        forceMaterialTransparency: true,
+        // forceMaterialTransparency: true,
         centerTitle: true,
         toolbarHeight: 60,
         shape: Border(
@@ -133,70 +135,68 @@ class _HomePageState extends ConsumerState<HomePage> {
 
           return Stack(
             children: [
-              Positioned.fill(child: HomeBackgroundScrollAnimation()),
+              // Positioned.fill(
+              //   child: HomeBackgroundScrollAnimation(controller: controller),
+              // ),
               CustomScrollView(
+                controller: controller,
                 cacheExtent: 3500,
                 shrinkWrap: false,
 
                 slivers: [
+                  // HERO
                   SliverToBoxAdapter(
                     child: Container(
                       height: 400,
                       width: MediaQuery.of(context).size.width,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Theme.of(context).colorScheme.secondary,
                     ),
                   ),
-
-                  SliverPadding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: padding,
-                      vertical: padding / 2,
-                    ),
-                    sliver: cats.when(
-                      data: (cats) => CatsListSliver(
-                        screenSize: size,
-                        cats: cats,
-                        onClick: (cat) => viewCatDetails(cat),
+                  // LIST AND GRAPHIC
+                  SliverStack(
+                    children: [
+                      // BACKGROUND GRAPHIC
+                      SliverPositioned.fill(
+                        child: HomeBackground(controller: controller),
                       ),
-                      error: (error, stackTrace) => SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: MediaQuery.of(context).size.height / 1.5,
-                          child: Center(
-                            child: ErrorPanel(message: error.toString()),
+                      // LIST
+                      SliverPadding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: padding,
+                          vertical: padding / 2,
+                        ),
+                        sliver: cats.when(
+                          data: (cats) => CatsListSliver(
+                            screenSize: size,
+                            cats: catsTemp,
+                            onClick: (cat) => viewCatDetails(cat),
+                          ),
+                          error: (error, stackTrace) => SliverToBoxAdapter(
+                            child: SizedBox(
+                              height: MediaQuery.of(context).size.height / 1.5,
+                              child: Center(
+                                child: ErrorPanel(message: error.toString()),
+                              ),
+                            ),
+                          ),
+                          loading: () => SliverToBoxAdapter(
+                            child: SizedBox(
+                              height: MediaQuery.of(context).size.height / 1.5,
+                              child: Center(child: CircularProgressIndicator()),
+                            ),
                           ),
                         ),
                       ),
-                      loading: () => SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: MediaQuery.of(context).size.height / 1.5,
-                          child: Center(child: CircularProgressIndicator()),
-                        ),
-                      ),
-                    ),
+                      // Is there to fill the remaining space so the list expands properly when its not full
+                      SliverFillRemaining(hasScrollBody: false),
+                    ],
                   ),
-
-                  // SliverToBoxAdapter(
-                  //   child: Container(
-                  //     height: 70,
-                  //     width: MediaQuery.of(context).size.width,
-                  //     color: Theme.of(context).colorScheme.primary.withValues(
-                  //       alpha: 0.5,
-                  //       blue: 0.7,
-                  //       green: 0.2,
-                  //       red: 0.1,
-                  //     ),
-                  //   ),
-                  // ),
-                  SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          height: 70,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ],
+                  // FOOTER
+                  SliverToBoxAdapter(
+                    child: Container(
+                      height: 70,
+                      width: MediaQuery.of(context).size.width,
+                      color: Theme.of(context).colorScheme.secondary,
                     ),
                   ),
                 ],

@@ -49,10 +49,10 @@ class Cat {
       gender: false,
       birthday: DateTime.now(),
       image: "image-placeholder-$name",
-      description: "",
+      description: "Test description for $name",
       extendedImages: [],
       extendedDescriptions: [],
-      tags: [],
+      tags: [CatTag.active, CatTag.active, CatTag.active],
     );
   }
 

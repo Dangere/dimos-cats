@@ -8,6 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Returns a list of cats from the assets
 class CatsNotifier extends AsyncNotifier<List<Cat>> {
+  /// Method used to send the user to the adopt form
+  void adoptCat() {}
+
   @override
   FutureOr<List<Cat>> build() async {
     // We should.. initialize this somewhere else.., but since we only got one repository its fine

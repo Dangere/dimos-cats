@@ -5,6 +5,7 @@ import 'package:dimos_cats/providers/common_providers.dart';
 import 'package:dimos_cats/providers/screen_size_provider.dart';
 import 'package:dimos_cats/view/dialog/dialogs.dart';
 import 'package:dimos_cats/view/widgets/cats_list_sliver.dart';
+import 'package:dimos_cats/view/widgets/home_hero.dart';
 import 'package:dimos_cats/view/widgets/shared/app_logo.dart';
 import 'package:dimos_cats/view/widgets/shared/bezier_curve.dart';
 import 'package:dimos_cats/view/widgets/shared/error_panel.dart';
@@ -39,7 +40,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     if (context.mounted == false || viewedCat != null) return;
 
     viewedCat = cat;
-    await Dialogs.petDetails(cat, context, size);
+    await Dialogs.petDetails(cat, context, ref, size);
     viewedCat = null;
   }
 
@@ -145,12 +146,10 @@ class _HomePageState extends ConsumerState<HomePage> {
 
                 slivers: [
                   // HERO
-                  SliverToBoxAdapter(
-                    child: Container(
-                      height: 400,
-                      width: MediaQuery.of(context).size.width,
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
+                  SliverResizingHeader(
+                    minExtentPrototype: const SizedBox(height: 0),
+                    maxExtentPrototype: null,
+                    child: HomeHero(screenSize: size),
                   ),
                   // LIST AND GRAPHIC
                   SliverStack(

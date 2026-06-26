@@ -2,6 +2,7 @@ import 'package:dimos_cats/core/localization/generated/l10n/app_localizations.da
 import 'package:dimos_cats/models/cat.dart';
 import 'package:dimos_cats/providers/common_providers.dart';
 import 'package:dimos_cats/providers/images_provider.dart';
+import 'package:dimos_cats/view/widgets/shared/adopt_button.dart';
 import 'package:dimos_cats/view/widgets/shared/bezier_curve.dart';
 import 'package:dimos_cats/view/widgets/shared/blob_decoration.dart';
 import 'package:dimos_cats/view/widgets/shared/cat_tags_list.dart';
@@ -120,45 +121,6 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
                       ),
 
                       // BezierCurve BACKGROUND
-                      Positioned(
-                        child: TweenAnimationBuilder(
-                          duration: bezierCurveDuration,
-                          curve: Curves.easeInCubic,
-
-                          tween: Tween<double>(
-                            begin: 0,
-                            end: expandCurve ? 1 : 0,
-                          ),
-
-                          builder:
-                              (
-                                BuildContext context,
-                                double value,
-                                Widget? child,
-                              ) {
-                                return BezierCurve(
-                                  flip: isLTR,
-                                  normalizedPoints: [
-                                    Offset(-0.6, 0.3),
-                                    Offset(-0.2, 0.6),
-
-                                    // Offset(-0.2, 0.8),
-                                    Offset(0.1, 0.3),
-
-                                    // Offset(0.6, 0.2),
-                                    Offset(0.8, 1.05),
-                                    // Offset(1, 1),
-                                    Offset(1.2, 0.8),
-                                  ],
-                                  t: value,
-                                  size: Size(
-                                    MediaQuery.of(context).size.width,
-                                    700,
-                                  ),
-                                );
-                              },
-                        ),
-                      ),
 
                       // BODY
                       // if (false)
@@ -248,30 +210,48 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
                                         ),
                                       ),
                                       // ADOPT BUTTON
-                                      SizedBox(
-                                        width: 250,
-                                        height: 60,
-                                        child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Theme.of(context)
-                                                .colorScheme
-                                                .primary
-                                                .withValues(alpha: 0.5),
-                                          ),
-                                          onPressed: () {},
-                                          child: Text(
-                                            AppLocalizations.of(context).adopt,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleMedium!
-                                                .copyWith(
-                                                  fontSize: 26,
-                                                  color: Theme.of(
-                                                    context,
-                                                  ).colorScheme.onPrimary,
-                                                ),
-                                          ),
-                                        ),
+                                      AdoptButton(
+                                        backgroundToReflect:
+                                            TweenAnimationBuilder(
+                                              duration: bezierCurveDuration,
+                                              curve: Curves.easeInCubic,
+
+                                              tween: Tween<double>(
+                                                begin: 0,
+                                                end: expandCurve ? 1 : 0,
+                                              ),
+
+                                              builder:
+                                                  (
+                                                    BuildContext context,
+                                                    double value,
+                                                    Widget? child,
+                                                  ) {
+                                                    return BezierCurve(
+                                                      flip: isLTR,
+                                                      normalizedPoints: [
+                                                        Offset(-0.6, 0.3),
+                                                        Offset(-0.2, 0.6),
+
+                                                        // Offset(-0.2, 0.8),
+                                                        Offset(0.1, 0.3),
+
+                                                        // Offset(0.6, 0.2),
+                                                        Offset(0.8, 1.05),
+                                                        // Offset(1, 1),
+                                                        Offset(1.2, 0.8),
+                                                      ],
+                                                      t: value,
+                                                      size: Size(
+                                                        MediaQuery.of(
+                                                          context,
+                                                        ).size.width,
+                                                        700,
+                                                      ),
+                                                    );
+                                                  },
+                                            ),
+                                        onTap: () {},
                                       ),
                                     ],
                                   ),

@@ -1,4 +1,5 @@
 import 'package:dimos_cats/models/cat.dart';
+import 'package:dimos_cats/providers/firebase_analytics_provider.dart';
 import 'package:dimos_cats/providers/images_provider.dart'
     show imageDataProvider;
 import 'package:dimos_cats/providers/screen_size_provider.dart';
@@ -12,11 +13,14 @@ class Dialogs {
   static Future<bool?> petDetails(
     Cat cat,
     BuildContext context,
+    WidgetRef ref,
     ScreenSize screenSize,
   ) async {
     if (context.mounted == false) return null;
 
     bool compactScreen = screenSize == ScreenSize.compact;
+
+    ref.read(firebaseAnalyticsProvider.notifier).logCatProfileOpened(cat);
 
     await Navigator.push(
       context,

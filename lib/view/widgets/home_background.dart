@@ -109,7 +109,7 @@ class _HomeBackgroundState extends ConsumerState<HomeBackground> {
   Widget build(BuildContext context) {
     final curvesFillDuration = const Duration(milliseconds: 1200);
     final curvesFillCurve = Curves.easeInOutQuad;
-    final int heightOfCurve = 300;
+    final int heightOfCurve = 400;
     final double visibilityPercentage = 0.1;
 
     final int heightOfBlob = 160;

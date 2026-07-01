@@ -1,36 +1,121 @@
 import 'package:dimos_cats/providers/screen_size_provider.dart';
+import 'package:dimos_cats/view/widgets/home_hero_cat.dart';
 import 'package:dimos_cats/view/widgets/shared/blob_decoration.dart';
+import 'package:dimos_cats/view/widgets/shared/blob_text.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class HomeHero extends StatelessWidget {
-  const HomeHero({super.key, required this.screenSize});
+  const HomeHero({super.key, required this.screenSize, required this.height});
 
   final ScreenSize screenSize;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
     final lightMode = Theme.of(context).brightness == Brightness.light;
+
+    final bool verticalLayout = MediaQuery.of(context).size.width < height;
     // return Placeholder();
+    var blobText = BlobText(
+      blobVariant: 1,
+      blobBody:
+          "TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST",
+      blobTitle: "Why?",
+    );
+    var blobText2 = BlobText(
+      blobVariant: 0,
+      blobBody:
+          "Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test ",
+      blobTitle: "Where?",
+    );
 
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: FadeInImage(
-            width: double.infinity,
-            alignment: Alignment.topCenter,
-            fit: BoxFit.cover,
-            placeholder: MemoryImage(kTransparentImage),
-            image: AssetImage("assets/images/hero_background.jpg"),
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Stack(
+        children: [
+          // BACKGROUND IMAGE
+          Positioned.fill(
+            // constraints: BoxConstraints(maxHeight: height),
+            child: Column(
+              children: [
+                Expanded(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: 500),
+                    child: FadeInImage(
+                      width: double.infinity,
+                      height: double.infinity,
+                      alignment: Alignment.center,
+                      fit: BoxFit.cover,
+                      placeholder: MemoryImage(kTransparentImage),
+                      image: AssetImage("assets/images/hero_background.jpg"),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
 
-        // SizedBox(height: 200, child: const Placeholder()),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [SizedBox(height: 370, width: 370)],
-        ),
-      ],
+          // LayoutBuilder(
+          //   builder: (context, constraints) {
+          //     return Container();
+          //   },
+          // ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.05,
+            ),
+            child: Flex(
+              direction: verticalLayout ? Axis.vertical : Axis.horizontal,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Flexible(
+                  flex: 3,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        height: 500,
+
+                        child: blobText,
+                      ),
+                    ),
+                  ),
+                ),
+                // Cat
+                Expanded(
+                  flex: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: HomeHeroCat(verticalLayout: verticalLayout),
+                  ),
+                ),
+
+                Flexible(
+                  flex: 3,
+
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: SizedBox(
+                        // height: constraints.maxHeight * 0.7,
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        height: 500,
+
+                        child: blobText2,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

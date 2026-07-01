@@ -57,6 +57,9 @@ class BezierCurvePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    if (oldDelegate is BezierCurvePainter) {
+      return oldDelegate.t != t;
+    }
     return true;
   }
 }

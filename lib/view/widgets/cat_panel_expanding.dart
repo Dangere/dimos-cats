@@ -121,9 +121,46 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
                       ),
 
                       // BezierCurve BACKGROUND
+                      Positioned(
+                        child: TweenAnimationBuilder(
+                          duration: bezierCurveDuration,
+                          curve: Curves.easeInCubic,
 
+                          tween: Tween<double>(
+                            begin: 0,
+                            end: expandCurve ? 1 : 0,
+                          ),
+
+                          builder:
+                              (
+                                BuildContext context,
+                                double value,
+                                Widget? child,
+                              ) {
+                                return BezierCurve(
+                                  flip: isLTR,
+                                  normalizedPoints: [
+                                    Offset(-0.6, 0.3),
+                                    Offset(-0.2, 0.6),
+
+                                    // Offset(-0.2, 0.8),
+                                    Offset(0.1, 0.3),
+
+                                    // Offset(0.6, 0.2),
+                                    Offset(0.8, 1.05),
+                                    // Offset(1, 1),
+                                    Offset(1.2, 0.8),
+                                  ],
+                                  t: value,
+                                  size: Size(
+                                    MediaQuery.of(context).size.width,
+                                    700,
+                                  ),
+                                );
+                              },
+                        ),
+                      ),
                       // BODY
-                      // if (false)
                       ClipRRect(
                         child: Padding(
                           padding: const EdgeInsets.all(24.0),
@@ -210,49 +247,7 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
                                         ),
                                       ),
                                       // ADOPT BUTTON
-                                      AdoptButton(
-                                        backgroundToReflect:
-                                            TweenAnimationBuilder(
-                                              duration: bezierCurveDuration,
-                                              curve: Curves.easeInCubic,
-
-                                              tween: Tween<double>(
-                                                begin: 0,
-                                                end: expandCurve ? 1 : 0,
-                                              ),
-
-                                              builder:
-                                                  (
-                                                    BuildContext context,
-                                                    double value,
-                                                    Widget? child,
-                                                  ) {
-                                                    return BezierCurve(
-                                                      flip: isLTR,
-                                                      normalizedPoints: [
-                                                        Offset(-0.6, 0.3),
-                                                        Offset(-0.2, 0.6),
-
-                                                        // Offset(-0.2, 0.8),
-                                                        Offset(0.1, 0.3),
-
-                                                        // Offset(0.6, 0.2),
-                                                        Offset(0.8, 1.05),
-                                                        // Offset(1, 1),
-                                                        Offset(1.2, 0.8),
-                                                      ],
-                                                      t: value,
-                                                      size: Size(
-                                                        MediaQuery.of(
-                                                          context,
-                                                        ).size.width,
-                                                        700,
-                                                      ),
-                                                    );
-                                                  },
-                                            ),
-                                        onTap: () {},
-                                      ),
+                                      AdoptButton(onTap: () {}),
                                     ],
                                   ),
                                 ),

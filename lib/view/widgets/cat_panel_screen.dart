@@ -1,11 +1,10 @@
-import 'package:dimos_cats/core/localization/generated/l10n/app_localizations.dart';
 import 'package:dimos_cats/models/cat.dart';
 import 'package:dimos_cats/providers/common_providers.dart';
 import 'package:dimos_cats/providers/images_provider.dart';
+import 'package:dimos_cats/view/widgets/shared/adopt_button.dart';
 import 'package:dimos_cats/view/widgets/shared/bezier_curve.dart';
 import 'package:dimos_cats/view/widgets/shared/blob_decoration.dart';
 import 'package:dimos_cats/view/widgets/shared/cat_tags_list.dart';
-import 'package:dimos_cats/view/widgets/shared/error_panel.dart';
 import 'package:dimos_cats/view/widgets/shared/images_displayer.dart';
 import 'package:dimos_cats/view/widgets/shared/paw_decoration.dart';
 import 'package:flutter/material.dart';
@@ -263,31 +262,7 @@ class _CatPanelScreenState extends ConsumerState<CatPanelScreen> {
                                     ),
                                   ),
                                   // ADOPT BUTTON
-                                  SizedBox(
-                                    width: 250,
-                                    height: 60,
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Theme.of(context)
-                                            .colorScheme
-                                            .primary
-                                            .withValues(alpha: 0.5),
-                                      ),
-                                      onPressed: () {},
-                                      child: Text(
-                                        AppLocalizations.of(context).adopt,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleMedium!
-                                            .copyWith(
-                                              fontSize: 26,
-                                              color: Theme.of(
-                                                context,
-                                              ).colorScheme.onPrimary,
-                                            ),
-                                      ),
-                                    ),
-                                  ),
+                                  AdoptButton(onTap: () {}),
                                 ],
                               ),
                             ),

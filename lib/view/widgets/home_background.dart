@@ -150,6 +150,7 @@ class _HomeBackgroundState extends ConsumerState<HomeBackground> {
               left: -50,
               child: SizedBox(height: 160, child: BlobDecoration(flip: true)),
             ),
+            // Makes a list between the first and last blob and fills it with spaced blobs
             Positioned.fill(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -197,40 +198,45 @@ class _HomeBackgroundState extends ConsumerState<HomeBackground> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 for (int i = 0; i < amountOfCurvesToDisplay; i++)
-                  VisibilityDetector(
-                    key: Key(i.toString()),
-                    onVisibilityChanged: (info) {
-                      bool isVisible =
-                          info.visibleFraction >= visibilityPercentage;
+                  StatefulBuilder(
+                    builder: (context, setState) {
+                      return VisibilityDetector(
+                        key: Key(i.toString()),
+                        onVisibilityChanged: (info) {
+                          // If we are COMPLETELY invisible, we disabled it right away
+                          bool isVisible =
+                              info.visibleFraction >= visibilityPercentage;
 
-                      if (curvesState[i] != isVisible) {
-                        setState(() {
-                          curvesState[i] = isVisible;
-                        });
-                      }
+                          if (curvesState[i] != isVisible) {
+                            setState(() {
+                              curvesState[i] = isVisible;
+                            });
+                          }
+                        },
+                        // child: Text(i.toString()),
+                        child: TweenAnimationBuilder(
+                          duration: curvesFillDuration,
+                          curve: curvesFillCurve,
+                          tween: Tween<double>(
+                            begin: 0,
+                            end: curvesState[i] ? 1 : 0,
+                          ),
+                          builder: (context, value, child) {
+                            return value == 0
+                                ? Container(height: heightOfCurve.toDouble())
+                                : BezierCurve(
+                                    flip: i % 2 == 0,
+                                    normalizedPoints: curvesPresets(i),
+                                    t: value,
+                                    size: Size(
+                                      MediaQuery.of(context).size.width,
+                                      heightOfCurve.toDouble(),
+                                    ),
+                                  );
+                          },
+                        ),
+                      );
                     },
-                    // child: Text(i.toString()),
-                    child: TweenAnimationBuilder(
-                      duration: curvesFillDuration,
-                      curve: curvesFillCurve,
-                      tween: Tween<double>(
-                        begin: 0,
-                        end: curvesState[i] ? 1 : 0,
-                      ),
-                      builder: (context, value, child) {
-                        return value == 0
-                            ? Container(height: heightOfCurve.toDouble())
-                            : BezierCurve(
-                                flip: i % 2 == 0,
-                                normalizedPoints: curvesPresets(i),
-                                t: value,
-                                size: Size(
-                                  MediaQuery.of(context).size.width,
-                                  heightOfCurve.toDouble(),
-                                ),
-                              );
-                      },
-                    ),
                   ),
               ],
             ),

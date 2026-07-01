@@ -51,6 +51,7 @@ dependencies:
   visibility_detector: ^0.4.0+2
   firebase_core: ^4.11.0
   firebase_analytics: ^12.4.3
+  vector_math: ^2.2.0
 
 dev_dependencies:
   flutter_test:

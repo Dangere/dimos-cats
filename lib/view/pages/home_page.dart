@@ -4,6 +4,7 @@ import 'package:dimos_cats/providers/cats_provider.dart';
 import 'package:dimos_cats/providers/common_providers.dart';
 import 'package:dimos_cats/providers/screen_size_provider.dart';
 import 'package:dimos_cats/view/dialog/dialogs.dart';
+import 'package:dimos_cats/view/painters/visualize_path_painter.dart';
 import 'package:dimos_cats/view/widgets/cats_list_sliver.dart';
 import 'package:dimos_cats/view/widgets/home_hero.dart';
 import 'package:dimos_cats/view/widgets/shared/app_logo.dart';
@@ -134,22 +135,22 @@ class _HomePageState extends ConsumerState<HomePage> {
             ScreenSize.expanded => MediaQuery.of(context).size.width * 0.08,
           };
 
+          final double heroHeight = size != ScreenSize.expanded
+              ? constraints.maxHeight
+              : 400;
+
           return Stack(
             children: [
-              // Positioned.fill(
-              //   child: HomeBackgroundScrollAnimation(controller: controller),
-              // ),
               CustomScrollView(
                 controller: controller,
                 cacheExtent: 3500,
                 shrinkWrap: false,
 
                 slivers: [
-                  // HERO
                   SliverResizingHeader(
                     minExtentPrototype: const SizedBox(height: 0),
-                    maxExtentPrototype: null,
-                    child: HomeHero(screenSize: size),
+                    maxExtentPrototype: SizedBox(height: heroHeight),
+                    child: HomeHero(height: heroHeight, screenSize: size),
                   ),
                   // LIST AND GRAPHIC
                   SliverStack(
@@ -158,6 +159,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       SliverPositioned.fill(
                         child: HomeBackground(controller: controller),
                       ),
+
                       // LIST
                       SliverPadding(
                         padding: EdgeInsets.symmetric(

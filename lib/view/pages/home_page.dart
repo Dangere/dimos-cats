@@ -4,11 +4,9 @@ import 'package:dimos_cats/providers/cats_provider.dart';
 import 'package:dimos_cats/providers/common_providers.dart';
 import 'package:dimos_cats/providers/screen_size_provider.dart';
 import 'package:dimos_cats/view/dialog/dialogs.dart';
-import 'package:dimos_cats/view/painters/visualize_path_painter.dart';
 import 'package:dimos_cats/view/widgets/cats_list_sliver.dart';
 import 'package:dimos_cats/view/widgets/home_hero.dart';
 import 'package:dimos_cats/view/widgets/shared/app_logo.dart';
-import 'package:dimos_cats/view/widgets/shared/bezier_curve.dart';
 import 'package:dimos_cats/view/widgets/shared/error_panel.dart';
 import 'package:dimos_cats/view/widgets/home_background.dart';
 import 'package:dimos_cats/view/widgets/shared/language_toggle.dart';
@@ -28,10 +26,10 @@ class _HomePageState extends ConsumerState<HomePage> {
   final ScrollController controller = ScrollController();
 
   double animationTarge = 1;
-  List<Cat> catsTemp = List.generate(
-    10,
-    (index) => Cat.empty(index.toString() + "cat"),
-  );
+  // List<Cat> catsTemp = List.generate(
+  //   10,
+  //   (index) => Cat.empty(index.toString() + "cat"),
+  // );
   ScreenSize size = ScreenSize.expanded;
 
   Cat? viewedCat;
@@ -169,7 +167,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                         sliver: cats.when(
                           data: (cats) => CatsListSliver(
                             screenSize: size,
-                            cats: catsTemp,
+                            cats: cats,
                             onClick: (cat) => viewCatDetails(cat),
                           ),
                           error: (error, stackTrace) => SliverToBoxAdapter(

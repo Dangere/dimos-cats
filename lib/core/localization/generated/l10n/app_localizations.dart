@@ -151,6 +151,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Adopt'**
   String get adopt;
+
+  /// No description provided for @why.
+  ///
+  /// In en, this message translates to:
+  /// **'Why?'**
+  String get why;
+
+  /// No description provided for @where.
+  ///
+  /// In en, this message translates to:
+  /// **'Where?'**
+  String get where;
+
+  /// No description provided for @hero_text_blob_why.
+  ///
+  /// In en, this message translates to:
+  /// **'For the last 6 years me and my family been rescuing cats in egypt'**
+  String get hero_text_blob_why;
+
+  /// No description provided for @hero_text_blob_where.
+  ///
+  /// In en, this message translates to:
+  /// **'We live in cairo and if you\'re near giza we have cats waiting for you to adopt and find a new home'**
+  String get hero_text_blob_where;
 }
 
 class _AppLocalizationsDelegate

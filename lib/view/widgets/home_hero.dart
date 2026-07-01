@@ -1,3 +1,4 @@
+import 'package:dimos_cats/core/localization/generated/l10n/app_localizations.dart';
 import 'package:dimos_cats/providers/screen_size_provider.dart';
 import 'package:dimos_cats/view/widgets/home_hero_cat.dart';
 import 'package:dimos_cats/view/widgets/shared/blob_decoration.dart';
@@ -19,15 +20,13 @@ class HomeHero extends StatelessWidget {
     // return Placeholder();
     var blobText = BlobText(
       blobVariant: 1,
-      blobBody:
-          "TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST",
-      blobTitle: "Why?",
+      blobBody: AppLocalizations.of(context).hero_text_blob_why,
+      blobTitle: AppLocalizations.of(context).why,
     );
     var blobText2 = BlobText(
       blobVariant: 0,
-      blobBody:
-          "Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test ",
-      blobTitle: "Where?",
+      blobBody: AppLocalizations.of(context).hero_text_blob_where,
+      blobTitle: AppLocalizations.of(context).where,
     );
 
     return Directionality(

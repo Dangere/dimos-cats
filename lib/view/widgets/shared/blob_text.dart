@@ -47,6 +47,7 @@ class BlobText extends StatelessWidget {
                     child: MarqueeWidget(
                       direction: Axis.vertical,
                       child: Text(
+                        textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).colorScheme.onPrimary,

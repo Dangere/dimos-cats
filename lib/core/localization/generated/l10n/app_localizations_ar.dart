@@ -35,4 +35,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get adopt => 'تبني';
+
+  @override
+  String get why => 'ليه؟';
+
+  @override
+  String get where => 'فين؟';
+
+  @override
+  String get hero_text_blob_why => 'من أين يأتينا القطط؟';
+
+  @override
+  String get hero_text_blob_where => 'من أين يأتينا القطط؟';
 }

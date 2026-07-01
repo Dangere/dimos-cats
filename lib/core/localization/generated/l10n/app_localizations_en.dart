@@ -35,4 +35,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adopt => 'Adopt';
+
+  @override
+  String get why => 'Why?';
+
+  @override
+  String get where => 'Where?';
+
+  @override
+  String get hero_text_blob_why =>
+      'For the last 6 years me and my family been rescuing cats in egypt';
+
+  @override
+  String get hero_text_blob_where =>
+      'We live in cairo and if you\'re near giza we have cats waiting for you to adopt and find a new home';
 }

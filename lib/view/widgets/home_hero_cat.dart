@@ -40,6 +40,7 @@ class _HomeHeroCatState extends ConsumerState<HomeHeroCat> {
                 // Container(height: 200),
                 Positioned.fill(
                   child: FadeInImage(
+                    color: Theme.of(context).colorScheme.surface,
                     placeholder: MemoryImage(kTransparentImage),
                     image: AssetImage("assets/images/hero_cat_blob.png"),
 

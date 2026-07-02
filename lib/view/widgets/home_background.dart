@@ -109,7 +109,7 @@ class _HomeBackgroundState extends ConsumerState<HomeBackground> {
   Widget build(BuildContext context) {
     final curvesFillDuration = const Duration(milliseconds: 1200);
     final curvesFillCurve = Curves.easeInOutQuad;
-    final int heightOfCurve = 400;
+    final int heightOfCurve = 360;
     final double visibilityPercentage = 0.1;
 
     final int heightOfBlob = 160;
@@ -156,7 +156,7 @@ class _HomeBackgroundState extends ConsumerState<HomeBackground> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(),
-                  for (int i = 0; i < amountOfBlobsToDisplay - 3; i++)
+                  for (int i = 0; i < (amountOfBlobsToDisplay - 3); i++)
                     Transform(
                       alignment: Alignment.center,
                       // makes a transform that moves the blob and gives it a random rotation using the i index

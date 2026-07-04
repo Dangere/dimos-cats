@@ -26,6 +26,7 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   double initialScrollOffset = 600;
+  bool initiationComplete = false;
   late final ScrollController controller;
 
   @override
@@ -76,7 +77,8 @@ class _HomePageState extends ConsumerState<HomePage> {
     bool isInitializing = ref.watch(initProvider(context)).isLoading;
 
     // When initializing, we scroll to the top because we start at an offset
-    if (!isInitializing && controller.offset == initialScrollOffset) {
+    if (!isInitializing && !initiationComplete) {
+      initiationComplete = true;
       controller.animateTo(
         -initialScrollOffset,
         duration: Duration(milliseconds: 3000),

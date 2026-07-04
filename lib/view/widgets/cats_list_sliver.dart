@@ -13,7 +13,7 @@ class CatsListSliver extends ConsumerWidget {
     required this.screenSize,
   });
 
-  final void Function(Cat cat) onClick;
+  final Future<void> Function(Cat cat) onClick;
   final List<Cat> cats;
   final ScreenSize screenSize;
 
@@ -44,9 +44,7 @@ class CatsListSliver extends ConsumerWidget {
         return CatPanel(
           screenSize: screenSize,
           cats[index],
-          onClick: () {
-            onClick(cats[index]);
-          },
+          onClick: () => onClick(cats[index]),
         );
       },
     );

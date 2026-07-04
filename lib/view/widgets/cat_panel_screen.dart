@@ -1,6 +1,6 @@
 import 'package:dimos_cats/models/cat.dart';
+import 'package:dimos_cats/providers/cats_provider.dart';
 import 'package:dimos_cats/providers/common_providers.dart';
-import 'package:dimos_cats/providers/images_provider.dart';
 import 'package:dimos_cats/view/widgets/shared/adopt_button.dart';
 import 'package:dimos_cats/view/widgets/shared/bezier_curve.dart';
 import 'package:dimos_cats/view/widgets/shared/blob_decoration.dart';
@@ -51,7 +51,6 @@ class _CatPanelScreenState extends ConsumerState<CatPanelScreen> {
       });
     });
 
-    // TODO: implement initState
     super.initState();
   }
 
@@ -60,11 +59,22 @@ class _CatPanelScreenState extends ConsumerState<CatPanelScreen> {
     final double startingHeight = MediaQuery.of(context).size.height * 0.4;
     final double expandedHeight = MediaQuery.of(context).size.height * 0.7;
 
-    AsyncValue catImage = ref.watch(imageDataProvider(widget.cat.image));
-
     final isLTR = Directionality.of(context) == TextDirection.ltr;
 
     ref.read(loggerProvider).d("Building CatPanel");
+
+    void onAdopt() {
+      ref.read(catsProvider.notifier).adoptCat(widget.cat.name).onError((
+        error,
+        stackTrace,
+      ) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(error.toString())));
+        }
+      });
+    }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -262,7 +272,7 @@ class _CatPanelScreenState extends ConsumerState<CatPanelScreen> {
                                     ),
                                   ),
                                   // ADOPT BUTTON
-                                  AdoptButton(onTap: () {}),
+                                  AdoptButton(onTap: onAdopt),
                                 ],
                               ),
                             ),

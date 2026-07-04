@@ -44,7 +44,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   Cat? viewedCat;
 
   /// Used to open the details dialog
-  void viewCatDetails(Cat cat) async {
+  Future<void> viewCatDetails(Cat cat) async {
     if (context.mounted == false || viewedCat != null) return;
 
     viewedCat = cat;
@@ -76,7 +76,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     bool isInitializing = ref.watch(initProvider(context)).isLoading;
 
     // When initializing, we scroll to the top because we start at an offset
-    if (!isInitializing) {
+    if (!isInitializing && controller.offset == initialScrollOffset) {
       controller.animateTo(
         -initialScrollOffset,
         duration: Duration(milliseconds: 3000),

@@ -5,11 +5,18 @@ import 'package:dimos_cats/models/cat.dart';
 import 'package:dimos_cats/providers/common_providers.dart';
 import 'package:dimos_cats/repositories/cats_asset_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// Returns a list of cats from the assets
 class CatsNotifier extends AsyncNotifier<List<Cat>> {
+  final String adoptUrl = "https://tally.so/r/MeyK6X?cat_name=";
+
   /// Method used to send the user to the adopt form
-  void adoptCat() {}
+  Future<void> adoptCat(String catName) async {
+    if (!await launchUrl(Uri.parse(adoptUrl + catName))) {
+      return Future.error("Failed to launch url");
+    }
+  }
 
   @override
   FutureOr<List<Cat>> build() async {

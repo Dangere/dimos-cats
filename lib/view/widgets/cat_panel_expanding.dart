@@ -1,12 +1,10 @@
-import 'package:dimos_cats/core/localization/generated/l10n/app_localizations.dart';
 import 'package:dimos_cats/models/cat.dart';
+import 'package:dimos_cats/providers/cats_provider.dart';
 import 'package:dimos_cats/providers/common_providers.dart';
-import 'package:dimos_cats/providers/images_provider.dart';
 import 'package:dimos_cats/view/widgets/shared/adopt_button.dart';
 import 'package:dimos_cats/view/widgets/shared/bezier_curve.dart';
 import 'package:dimos_cats/view/widgets/shared/blob_decoration.dart';
 import 'package:dimos_cats/view/widgets/shared/cat_tags_list.dart';
-import 'package:dimos_cats/view/widgets/shared/error_panel.dart';
 import 'package:dimos_cats/view/widgets/shared/images_displayer.dart';
 import 'package:dimos_cats/view/widgets/shared/paw_decoration.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +52,6 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
       });
     });
 
-    // TODO: implement initState
     super.initState();
   }
 
@@ -63,11 +60,21 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
     final Size startingSize = const Size(340, 340);
     final Size expandedSize = const Size(500, 500);
 
-    AsyncValue catImage = ref.watch(imageDataProvider(widget.cat.image));
-
     final isLTR = Directionality.of(context) == TextDirection.ltr;
 
     ref.read(loggerProvider).d("Building CatPanel");
+    void onAdopt() {
+      ref.read(catsProvider.notifier).adoptCat(widget.cat.name).onError((
+        error,
+        stackTrace,
+      ) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(error.toString())));
+        }
+      });
+    }
 
     return AnimatedContainer(
       clipBehavior: Clip.antiAlias,
@@ -247,7 +254,7 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
                                         ),
                                       ),
                                       // ADOPT BUTTON
-                                      AdoptButton(onTap: () {}),
+                                      AdoptButton(onTap: onAdopt),
                                     ],
                                   ),
                                 ),

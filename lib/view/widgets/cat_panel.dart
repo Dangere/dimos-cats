@@ -1,5 +1,4 @@
 import 'package:dimos_cats/models/cat.dart';
-import 'package:dimos_cats/providers/common_providers.dart';
 import 'package:dimos_cats/providers/images_provider.dart';
 import 'package:dimos_cats/providers/screen_size_provider.dart';
 import 'package:dimos_cats/view/widgets/shared/cat_tags_list.dart';
@@ -7,44 +6,51 @@ import 'package:dimos_cats/view/widgets/shared/error_panel.dart';
 import 'package:dimos_cats/view/widgets/shared/paw_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:liquid_glass_easy/liquid_glass_easy.dart';
 
-class CatPanel extends ConsumerWidget {
+/// Panel to display a cat, and when used to display the details page, it automatically blurs itself
+class CatPanel extends ConsumerStatefulWidget {
   const CatPanel(
     this.cat, {
     super.key,
     required this.onClick,
     required this.screenSize,
   });
-  final VoidCallback onClick;
+  final Future<void> Function() onClick;
   final Cat cat;
   final ScreenSize screenSize;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue catImage = ref.watch(imageDataProvider(cat.image));
+  ConsumerState<ConsumerStatefulWidget> createState() => _CatPanelState();
+}
+
+class _CatPanelState extends ConsumerState<CatPanel> {
+  bool isMinimized = false;
+
+  @override
+  Widget build(BuildContext context) {
+    AsyncValue catImage = ref.watch(imageDataProvider(widget.cat.image));
     // ref.read(loggerProvider).d("Building CatPanel");
     final isLTR = Directionality.of(context) == TextDirection.ltr;
 
-    double sizeFactor = switch (screenSize) {
-      ScreenSize.compact => .5,
-      ScreenSize.medium => 0.75,
-      ScreenSize.expanded => 1,
-    };
-
     return ClipRRect(
       borderRadius: BorderRadius.circular(30),
-      child: Container(
-        // height: normalSize.height,
-        // width: normalSize.width,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          color: Theme.of(context).colorScheme.surface,
-          border: Border.all(
-            color: Theme.of(context).colorScheme.outlineVariant,
-          ),
-        ),
+
+      child: FrostedPanel(
+        frost: isMinimized,
         child: GestureDetector(
-          onTap: onClick,
+          onTap: () async {
+            if (isMinimized) return;
+
+            setState(() {
+              isMinimized = true;
+            });
+            await widget.onClick();
+
+            setState(() {
+              isMinimized = false;
+            });
+          },
           child: Stack(
             clipBehavior: Clip.antiAlias,
             children: [
@@ -72,7 +78,7 @@ class CatPanel extends ConsumerWidget {
                       AspectRatio(
                         aspectRatio: 3 / 2,
                         child: Hero(
-                          tag: cat.image,
+                          tag: widget.cat.image,
                           child: ClipRRect(
                             child: Container(
                               color: Theme.of(
@@ -93,23 +99,22 @@ class CatPanel extends ConsumerWidget {
                         ),
                       ),
                       Spacer(flex: 1),
-                      Hero(
-                        tag: cat.name,
-                        child: SizedBox(
-                          height: 25,
-                          child: Text(
-                            cat.name,
-                            textAlign: TextAlign.left,
-                            style: Theme.of(context).textTheme.titleLarge!
-                                .copyWith(fontWeight: FontWeight.bold),
-                          ),
+                      SizedBox(
+                        height: 25,
+                        child: Text(
+                          widget.cat.name,
+                          textAlign: TextAlign.left,
+                          style: Theme.of(context).textTheme.titleLarge!
+                              .copyWith(fontWeight: FontWeight.bold),
                         ),
                       ),
                       Spacer(flex: 1),
                       // TAGS
                       Row(
                         children: [
-                          Expanded(child: CatsTagList(cat: cat, height: 25)),
+                          Expanded(
+                            child: CatsTagList(cat: widget.cat, height: 25),
+                          ),
                         ],
                       ),
 
@@ -122,6 +127,55 @@ class CatPanel extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class FrostedPanel extends StatelessWidget {
+  const FrostedPanel({super.key, required this.child, required this.frost});
+
+  final Widget child;
+  final bool frost;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        if (!frost)
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                color: Theme.of(context).colorScheme.surface,
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                ),
+              ),
+              // child: child,
+            ),
+          ),
+        if (frost)
+          Positioned.fill(
+            child: LiquidGlassLens(
+              style: LiquidGlassStyle(
+                shape: LiquidGlassShape.squircle(
+                  cornerRadius: 30,
+                  lightIntensity: 1,
+                  borderWidth: 1,
+                  borderColor: Theme.of(context).colorScheme.outlineVariant,
+                  // lightColor: Theme.of(context).colorScheme.primary,
+                ),
+                refraction: LiquidGlassRefraction(
+                  distortion: 0.5,
+                  distortionWidth: 30,
+                  chromaticAberration: 0.03,
+                  magnification: 0.9,
+                ),
+              ),
+            ),
+          ),
+        child,
+      ],
     );
   }
 }

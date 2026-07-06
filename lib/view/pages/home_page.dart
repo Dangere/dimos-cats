@@ -36,10 +36,10 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   double animationTarge = 1;
-  // List<Cat> catsTemp = List.generate(
-  //   10,
-  //   (index) => Cat.empty(index.toString() + "cat"),
-  // );
+  List<Cat> catsTemp = List.generate(
+    10,
+    (index) => Cat.empty(index.toString() + "cat"),
+  );
   ScreenSize size = ScreenSize.expanded;
 
   Cat? viewedCat;
@@ -198,7 +198,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           sliver: cats.when(
                             data: (cats) => CatsListSliver(
                               screenSize: size,
-                              cats: cats,
+                              cats: catsTemp,
                               onClick: (cat) => viewCatDetails(cat),
                             ),
                             error: (error, stackTrace) => SliverToBoxAdapter(
@@ -230,7 +230,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                       child: Container(
                         height: 70,
                         width: MediaQuery.of(context).size.width,
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Theme.of(context).colorScheme.surfaceDim,
+                        child: Row(children: [Text("data")]),
                       ),
                     ),
                   ],

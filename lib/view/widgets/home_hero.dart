@@ -72,7 +72,7 @@ class HomeHero extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Flexible(
-                  flex: 3,
+                  flex: 6,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
@@ -85,17 +85,19 @@ class HomeHero extends StatelessWidget {
                     ),
                   ),
                 ),
+                if (!verticalLayout) Spacer(flex: 1),
                 // Cat
                 Expanded(
-                  flex: 4,
+                  flex: 8,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: HomeHeroCat(verticalLayout: verticalLayout),
                   ),
                 ),
+                if (!verticalLayout) Spacer(flex: 1),
 
                 Flexible(
-                  flex: 3,
+                  flex: 6,
 
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

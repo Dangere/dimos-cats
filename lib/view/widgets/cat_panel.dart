@@ -4,11 +4,14 @@ import 'package:dimos_cats/providers/screen_size_provider.dart';
 import 'package:dimos_cats/view/widgets/shared/cat_tags_list.dart';
 import 'package:dimos_cats/view/widgets/shared/error_panel.dart';
 import 'package:dimos_cats/view/widgets/shared/paw_decoration.dart';
+import 'package:dimos_cats/view/widgets/shared/paw_placer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:liquid_glass_easy/liquid_glass_easy.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 /// Panel to display a cat, and when used to display the details page, it automatically blurs itself
+/// And when its in view it reveals itself
 class CatPanel extends ConsumerStatefulWidget {
   const CatPanel(
     this.cat, {
@@ -26,14 +29,30 @@ class CatPanel extends ConsumerStatefulWidget {
 
 class _CatPanelState extends ConsumerState<CatPanel> {
   bool isMinimized = false;
+  bool wasViewed = false;
+
+  double viewThreshold = 0.3;
+  double offsetBeforeReveal = 50;
+
+  final PawController pawController = PawController();
+  @override
+  void dispose() {
+    pawController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     AsyncValue catImage = ref.watch(imageDataProvider(widget.cat.image));
-    // ref.read(loggerProvider).d("Building CatPanel");
     final isLTR = Directionality.of(context) == TextDirection.ltr;
 
-    return ClipRRect(
+    bool pawTransition = widget.screenSize != ScreenSize.expanded;
+    // return PawPlacer(
+    //   initialOffset: MediaQuery.of(context).size.width,
+    //   child: SizedBox(child: Container(color: Colors.blue)),
+    // );
+
+    Widget _body = ClipRRect(
       borderRadius: BorderRadius.circular(30),
 
       child: FrostedPanel(
@@ -127,6 +146,48 @@ class _CatPanelState extends ConsumerState<CatPanel> {
           ),
         ),
       ),
+    );
+
+    return VisibilityDetector(
+      key: Key(widget.cat.name),
+      onVisibilityChanged: (info) {
+        bool placePanel = info.visibleFraction > viewThreshold;
+
+        if (placePanel != wasViewed) {
+          if (placePanel)
+            pawController.placeChild();
+          else
+            pawController.removeChild();
+
+          if (!pawTransition)
+            setState(() {
+              wasViewed = placePanel;
+            });
+          else {
+            wasViewed = placePanel;
+          }
+        }
+      },
+      child: pawTransition
+          ? PawPlacer(
+              controller: pawController,
+              initialOffset: MediaQuery.of(context).size.width,
+
+              child: _body,
+            )
+          : TweenAnimationBuilder(
+              duration: Durations.short4,
+              tween: Tween<double>(begin: 0, end: wasViewed ? 1 : 0),
+              curve: Curves.bounceInOut,
+
+              builder: (context, value, child) {
+                print(value);
+                return Transform.translate(
+                  offset: Offset(0, (value - 1) * offsetBeforeReveal),
+                  child: Opacity(opacity: value, child: _body),
+                );
+              },
+            ),
     );
   }
 }

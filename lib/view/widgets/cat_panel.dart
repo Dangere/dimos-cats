@@ -1,4 +1,5 @@
 import 'package:dimos_cats/models/cat.dart';
+import 'package:dimos_cats/providers/common_providers.dart';
 import 'package:dimos_cats/providers/images_provider.dart';
 import 'package:dimos_cats/providers/screen_size_provider.dart';
 import 'package:dimos_cats/view/widgets/shared/cat_tags_list.dart';
@@ -43,10 +44,10 @@ class _CatPanelState extends ConsumerState<CatPanel> {
 
   @override
   Widget build(BuildContext context) {
+    ref.read(loggerProvider).d("Building CatPanel");
+
     AsyncValue catImage = ref.watch(imageDataProvider(widget.cat.image));
     final isLTR = Directionality.of(context) == TextDirection.ltr;
-
-    bool pawTransition = widget.screenSize != ScreenSize.expanded;
     // return PawPlacer(
     //   initialOffset: MediaQuery.of(context).size.width,
     //   child: SizedBox(child: Container(color: Colors.blue)),
@@ -159,35 +160,15 @@ class _CatPanelState extends ConsumerState<CatPanel> {
           else
             pawController.removeChild();
 
-          if (!pawTransition)
-            setState(() {
-              wasViewed = placePanel;
-            });
-          else {
-            wasViewed = placePanel;
-          }
+          wasViewed = placePanel;
         }
       },
-      child: pawTransition
-          ? PawPlacer(
-              controller: pawController,
-              initialOffset: MediaQuery.of(context).size.width,
+      child: PawPlacer(
+        controller: pawController,
+        initialOffset: MediaQuery.of(context).size.width,
 
-              child: _body,
-            )
-          : TweenAnimationBuilder(
-              duration: Durations.short4,
-              tween: Tween<double>(begin: 0, end: wasViewed ? 1 : 0),
-              curve: Curves.bounceInOut,
-
-              builder: (context, value, child) {
-                print(value);
-                return Transform.translate(
-                  offset: Offset(0, (value - 1) * offsetBeforeReveal),
-                  child: Opacity(opacity: value, child: _body),
-                );
-              },
-            ),
+        child: _body,
+      ),
     );
   }
 }

@@ -37,6 +37,7 @@ class PawPlacer extends StatefulWidget {
     this.initialOffset = 0,
     this.duration = Durations.long4,
     required this.placementDirection,
+    required this.placementDelay,
     required this.controller,
   });
 
@@ -45,8 +46,10 @@ class PawPlacer extends StatefulWidget {
   /// Only applies when placementDirection is null
   final bool randomizeDirection;
   final AxisDirection placementDirection;
+  final Duration placementDelay;
   final double initialOffset;
   final Duration duration;
+
   final PawController controller;
 
   @override
@@ -83,6 +86,8 @@ class _PawPlacerState extends State<PawPlacer> {
   void placeChild(bool place) async {
     if (place == childPlaced) return;
     if (!mounted) return;
+
+    if (place) await Future.delayed(widget.placementDelay);
     setState(() {
       childPlaced = place;
     });
@@ -144,17 +149,9 @@ class _PawPlacerState extends State<PawPlacer> {
             // Child
             Transform.translate(offset: childOffset, child: widget.child),
 
-            Positioned(
-              right: widget.placementDirection == AxisDirection.right
-                  ? 0
-                  : null,
-              left: widget.placementDirection == AxisDirection.left ? 0 : null,
-              top: widget.placementDirection == AxisDirection.up ? 0 : null,
-              bottom: widget.placementDirection == AxisDirection.down
-                  ? 0
-                  : null,
-              child: Icon(Icons.architecture_outlined),
-            ),
+            // if (childPlaced)
+            //   Positioned.fill(child: Container(color: Colors.red)),
+
             // Paw, pushed to the off bounds
             Positioned(
               height: pawHeight / 1.7,

@@ -33,7 +33,6 @@ class PawPlacer extends StatefulWidget {
   const PawPlacer({
     super.key,
     required this.child,
-    this.randomizeDirection = true,
     this.initialOffset = 0,
     this.duration = Durations.long4,
     required this.placementDirection,
@@ -44,7 +43,6 @@ class PawPlacer extends StatefulWidget {
   final Widget child;
 
   /// Only applies when placementDirection is null
-  final bool randomizeDirection;
   final AxisDirection placementDirection;
   final Duration placementDelay;
   final double initialOffset;
@@ -59,11 +57,10 @@ class PawPlacer extends StatefulWidget {
 class _PawPlacerState extends State<PawPlacer> {
   late bool childPlaced;
 
-  bool flipDirection = false;
+  bool flipHorizontalDirection = false;
 
   @override
   void initState() {
-    if (widget.randomizeDirection) flipDirection = Random().nextBool();
     childPlaced = widget.controller.childPlaced;
     widget.controller.placeChildStream.listen((event) {
       placeChild(true);

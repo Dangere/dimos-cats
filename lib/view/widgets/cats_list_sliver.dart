@@ -36,11 +36,15 @@ class CatsListSliver extends ConsumerWidget {
       ScreenSize.expanded => 3,
     };
 
-    // if we have one item in the crossAxisCount, we return null, which will randomize the placement direction from left to right
+    // if we have one item in the crossAxisCount, we will randomize the placement direction from left to right
     // if we have two items per row we return left for the first and right for the second
     // if we have three items per row we return left for the first, right for the second and right for the third
     AxisDirection? placementDirection(int index, int crossAxisCount) {
-      if (crossAxisCount == 1) return null;
+      Random random = Random(index);
+
+      if (crossAxisCount == 1) {
+        return random.nextBool() ? AxisDirection.left : AxisDirection.right;
+      }
 
       AxisDirection? dir;
 
@@ -70,7 +74,7 @@ class CatsListSliver extends ConsumerWidget {
     Duration placementDelay(int index, int crossAxisCount) {
       Random random = Random(index);
 
-      int smallRandomDelayMaxMs = 100;
+      int smallRandomDelayMaxMs = 200;
       int bigRandomDelayBaseMs = 200;
 
       int bigRandomDelayMaxMs = 100;

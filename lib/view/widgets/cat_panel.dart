@@ -37,7 +37,6 @@ class _CatPanelState extends ConsumerState<CatPanel> {
   double offsetBeforeReveal = 50;
 
   final PawController pawController = PawController();
-
   @override
   void dispose() {
     pawController.dispose();
@@ -157,11 +156,10 @@ class _CatPanelState extends ConsumerState<CatPanel> {
         bool placePanel = info.visibleFraction > viewThreshold;
 
         if (placePanel != wasViewed) {
-          if (placePanel) {
+          if (placePanel)
             pawController.placeChild();
-          } else {
+          else
             pawController.removeChild();
-          }
 
           wasViewed = placePanel;
         }

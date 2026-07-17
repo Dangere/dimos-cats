@@ -68,6 +68,14 @@ class _PawPlacerState extends State<PawPlacer> {
     widget.controller.removeChildStream.listen((event) {
       placeChild(false);
     });
+    // Future.microtask(() async {
+    //   while (true) {
+    //     await Future.delayed(
+    //       Duration(seconds: 3),
+    //       () => placeChild(!childPlaced),
+    //     );
+    //   }
+    // });
 
     super.initState();
   }
@@ -151,13 +159,21 @@ class _PawPlacerState extends State<PawPlacer> {
             Positioned(
               height: pawHeight / 1.7,
               width: pawWidth / 1.7,
-
+              // top: 0,
+              // right: -100,
+              // bottom: -200,
+              // bottom: 0,
+              // top: 0,
               child: Center(
                 child: Transform.translate(
                   offset: pawOffset,
 
+                  // right: -widget.initialOffset * valuePercentage,
+                  // top: 0,
+                  // bottom: 0,
                   child: Container(
                     clipBehavior: Clip.none,
+                    // color: Colors.red,
                     child: Transform.flip(
                       flipY: widget.placementDirection == AxisDirection.right,
                       flipX: widget.placementDirection == AxisDirection.up,

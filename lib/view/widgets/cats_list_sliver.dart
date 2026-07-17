@@ -5,26 +5,21 @@ import 'package:dimos_cats/view/widgets/cat_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CatsListSliver extends ConsumerStatefulWidget {
+class CatsListSliver extends ConsumerWidget {
   const CatsListSliver({
     super.key,
     required this.cats,
     required this.onClick,
     required this.screenSize,
   });
+
   final Future<void> Function(Cat cat) onClick;
   final List<Cat> cats;
   final ScreenSize screenSize;
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CatsListSilverState();
-}
 
-class _CatsListSilverState extends ConsumerState<CatsListSliver> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     ref.read(loggerProvider).d("Building CatsList");
-
-    ScreenSize screenSize = widget.screenSize;
 
     double spacing = switch (screenSize) {
       ScreenSize.compact => 25,
@@ -58,20 +53,24 @@ class _CatsListSilverState extends ConsumerState<CatsListSliver> {
 
     return SliverGrid.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount,
+        crossAxisCount: switch (screenSize) {
+          ScreenSize.compact => 1,
+          ScreenSize.medium => 2,
+          ScreenSize.expanded => 3,
+        },
         childAspectRatio: 352 / 315,
         crossAxisSpacing: spacing,
         mainAxisSpacing: spacing,
       ),
-      itemCount: widget.cats.length,
+      itemCount: cats.length,
 
       itemBuilder: (context, index) {
         // return Container();
         return CatPanel(
           placementDirection: placementDirection(index, crossAxisCount),
           screenSize: screenSize,
-          widget.cats[index],
-          onClick: () => widget.onClick(widget.cats[index]),
+          cats[index],
+          onClick: () => onClick(cats[index]),
         );
       },
     );

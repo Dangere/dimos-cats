@@ -168,7 +168,7 @@ class _CatPanelState extends ConsumerState<CatPanel> {
       },
       child: PawPlacer(
         controller: pawController,
-        placementDirection: widget.placementDirection,
+        placementDirection: widget.placementDirection ?? AxisDirection.right,
         initialOffset: MediaQuery.of(context).size.width,
 
         child: _body,

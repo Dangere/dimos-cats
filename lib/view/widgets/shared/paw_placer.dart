@@ -36,7 +36,7 @@ class PawPlacer extends StatefulWidget {
     this.randomizeDirection = true,
     this.initialOffset = 0,
     this.duration = Durations.long4,
-    this.placementDirection,
+    required this.placementDirection,
     required this.controller,
   });
 
@@ -44,7 +44,7 @@ class PawPlacer extends StatefulWidget {
 
   /// Only applies when placementDirection is null
   final bool randomizeDirection;
-  final AxisDirection? placementDirection;
+  final AxisDirection placementDirection;
   final double initialOffset;
   final Duration duration;
   final PawController controller;
@@ -84,6 +84,7 @@ class _PawPlacerState extends State<PawPlacer> {
   Widget build(BuildContext context) {
     final double pawWidth = 400;
     final double pawHeight = 666;
+    final double pawExtraOffset = 200;
 
     // double valuePercentage = 0.7;
     return TweenAnimationBuilder(
@@ -95,18 +96,45 @@ class _PawPlacerState extends State<PawPlacer> {
         double valueForChild = (value - 1).clamp(0, 1);
         double valueForPaw = (value <= 1 ? (value - 1) : (1 - value));
 
+        Offset childOffset = Offset(0, 0);
+        Offset pawOffset = Offset(0, 0);
+        switch (widget.placementDirection) {
+          case AxisDirection.up:
+            childOffset = Offset(0, -widget.initialOffset * valueForChild);
+            pawOffset = Offset(
+              0,
+              (widget.initialOffset * valueForPaw) + pawExtraOffset,
+            );
+            break;
+          case AxisDirection.down:
+            childOffset = Offset(0, widget.initialOffset * valueForChild);
+            pawOffset = Offset(
+              0,
+              (-widget.initialOffset * valueForPaw) + pawExtraOffset,
+            );
+            break;
+          case AxisDirection.left:
+            childOffset = Offset(-widget.initialOffset * valueForChild, 0);
+            pawOffset = Offset(
+              (widget.initialOffset * valueForPaw) - pawExtraOffset,
+              0,
+            );
+            break;
+          case AxisDirection.right:
+            childOffset = Offset(widget.initialOffset * valueForChild, 0);
+            pawOffset = Offset(
+              (-widget.initialOffset * valueForPaw) + pawExtraOffset,
+              0,
+            );
+            break;
+        }
+
         return Stack(
           clipBehavior: Clip.none,
           alignment: Alignment.center,
           children: [
             // Child
-            Transform.translate(
-              offset: Offset(
-                widget.initialOffset * valueForChild * (flipDirection ? -1 : 1),
-                0,
-              ),
-              child: widget.child,
-            ),
+            Transform.translate(offset: childOffset, child: widget.child),
 
             Positioned(
               right: widget.placementDirection == AxisDirection.right
@@ -126,18 +154,18 @@ class _PawPlacerState extends State<PawPlacer> {
 
               child: Center(
                 child: Transform.translate(
-                  offset: Offset(
-                    ((widget.initialOffset * -valueForPaw) + 200) *
-                        (flipDirection ? -1 : 1),
-                    0,
-                  ),
+                  offset: pawOffset,
 
                   child: Container(
                     clipBehavior: Clip.none,
                     child: Transform.flip(
-                      flipY: !flipDirection,
+                      flipY: widget.placementDirection == AxisDirection.right,
+                      flipX: widget.placementDirection == AxisDirection.up,
+
                       child: Transform.rotate(
-                        angle: flipDirection ? pi / 2 : 3 / 2 * pi,
+                        angle: widget.placementDirection == AxisDirection.left
+                            ? pi / 2
+                            : 3 / 2 * pi,
                         child: Center(
                           child: SizedBox(
                             height: pawHeight,
@@ -164,3 +192,104 @@ class _PawPlacerState extends State<PawPlacer> {
     );
   }
 }
+
+// class _PawPlacerState extends State<PawPlacer> {
+//   @override
+//   Widget build(BuildContext context) {
+//     assert(widget.value >= 0 && widget.value <= 2);
+
+//     final double pawWidth = 400;
+//     final double pawHeight = 666;
+
+//     final double pawExtraOffset = 200;
+
+//     double valueForChild = (widget.value - 1).clamp(0, 1);
+//     double valueForPaw = (widget.value <= 1
+//         ? (widget.value - 1)
+//         : (1 - widget.value));
+
+//     Offset childOffset = Offset(0, 0);
+//     Offset pawOffset = Offset(0, 0);
+//     switch (widget.direction) {
+//       case AxisDirection.up:
+//         childOffset = Offset(0, -widget.initialOffset * valueForChild);
+//         pawOffset = Offset(
+//           0,
+//           (widget.initialOffset * valueForPaw) + pawExtraOffset,
+//         );
+//         break;
+//       case AxisDirection.down:
+//         childOffset = Offset(0, widget.initialOffset * valueForChild);
+//         pawOffset = Offset(
+//           0,
+//           (-widget.initialOffset * valueForPaw) + pawExtraOffset,
+//         );
+//         break;
+//       case AxisDirection.left:
+//         childOffset = Offset(-widget.initialOffset * valueForChild, 0);
+//         pawOffset = Offset(
+//           (widget.initialOffset * valueForPaw) - pawExtraOffset,
+//           0,
+//         );
+//         break;
+//       case AxisDirection.right:
+//         childOffset = Offset(widget.initialOffset * valueForChild, 0);
+//         pawOffset = Offset(
+//           (-widget.initialOffset * valueForPaw) + pawExtraOffset,
+//           0,
+//         );
+//         break;
+//     }
+
+//     // valueForPaw = 0;
+
+//     return Stack(
+//       clipBehavior: Clip.none,
+//       alignment: Alignment.center,
+//       children: [
+//         // Child
+//         Transform.translate(offset: childOffset, child: widget.child),
+
+//         // Paw, pushed to the off bounds
+//         Positioned(
+//           height: pawHeight / 1.7,
+//           width: pawWidth / 1.7,
+
+//           child: Center(
+//             child: Transform.translate(
+//               offset: pawOffset,
+
+//               child: Container(
+//                 clipBehavior: Clip.none,
+//                 child: Transform.flip(
+//                   flipY: widget.direction == AxisDirection.right,
+//                   flipX: widget.direction == AxisDirection.up,
+
+//                   child: Transform.rotate(
+//                     angle: widget.direction == AxisDirection.left
+//                         ? pi / 2
+//                         : 3 / 2 * pi,
+//                     child: Center(
+//                       child: SizedBox(
+//                         height: pawHeight,
+//                         width: pawWidth,
+//                         child: FadeInImage(
+//                           height: pawHeight,
+//                           width: pawWidth,
+//                           placeholder: MemoryImage(kTransparentImage),
+//                           image: AssetImage("assets/images/reach_paw.png"),
+
+//                           fit: BoxFit.cover,
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }

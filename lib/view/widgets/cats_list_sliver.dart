@@ -50,7 +50,7 @@ class _CatsListSilverState extends ConsumerState<CatsListSliver> {
         return index % 3 == 0
             ? AxisDirection.left
             : index % 3 == 1
-            ? AxisDirection.up
+            ? AxisDirection.right
             : AxisDirection.right;
       }
       return null;

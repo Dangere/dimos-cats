@@ -19,11 +19,12 @@ class CatPanel extends ConsumerStatefulWidget {
     super.key,
     required this.onClick,
     required this.screenSize,
+    required this.placementDirection,
   });
   final Future<void> Function() onClick;
   final Cat cat;
   final ScreenSize screenSize;
-
+  final AxisDirection? placementDirection;
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CatPanelState();
 }
@@ -36,6 +37,7 @@ class _CatPanelState extends ConsumerState<CatPanel> {
   double offsetBeforeReveal = 50;
 
   final PawController pawController = PawController();
+
   @override
   void dispose() {
     pawController.dispose();
@@ -155,16 +157,18 @@ class _CatPanelState extends ConsumerState<CatPanel> {
         bool placePanel = info.visibleFraction > viewThreshold;
 
         if (placePanel != wasViewed) {
-          if (placePanel)
+          if (placePanel) {
             pawController.placeChild();
-          else
+          } else {
             pawController.removeChild();
+          }
 
           wasViewed = placePanel;
         }
       },
       child: PawPlacer(
         controller: pawController,
+        placementDirection: widget.placementDirection,
         initialOffset: MediaQuery.of(context).size.width,
 
         child: _body,

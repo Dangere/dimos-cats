@@ -1,4 +1,5 @@
 import 'package:dimos_cats/models/cat.dart';
+import 'package:dimos_cats/models/enums/platform_share.dart';
 import 'package:dimos_cats/providers/common_providers.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
@@ -22,6 +23,17 @@ class FirebaseAnalyticsNotifier extends Notifier<void> {
     await FirebaseAnalytics.instance.logEvent(
       name: 'cat_adopt_pressed',
       parameters: {'cat_name': cat.name, 'debug_mode': debugMode ? 1 : 0},
+    );
+    ref.read(loggerProvider).d("Clicked cat adopt");
+  }
+
+  void logShareAttempt(PlatformShare platform) async {
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'share_attempt',
+      parameters: {
+        'platform': platform.toString(),
+        'debug_mode': debugMode ? 1 : 0,
+      },
     );
     ref.read(loggerProvider).d("Clicked cat adopt");
   }

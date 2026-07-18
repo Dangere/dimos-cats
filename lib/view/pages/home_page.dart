@@ -7,6 +7,7 @@ import 'package:dimos_cats/providers/screen_size_provider.dart';
 import 'package:dimos_cats/view/dialog/dialogs.dart';
 import 'package:dimos_cats/view/widgets/cats_list_sliver.dart';
 import 'package:dimos_cats/view/widgets/home_hero.dart';
+import 'package:dimos_cats/view/widgets/share_section.dart';
 import 'package:dimos_cats/view/widgets/shared/app_logo.dart';
 import 'package:dimos_cats/view/widgets/shared/error_panel.dart';
 import 'package:dimos_cats/view/widgets/home_background.dart';
@@ -166,75 +167,68 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ? constraints.maxHeight
                 : 400;
 
-            return Stack(
-              children: [
-                CustomScrollView(
-                  controller: controller,
-                  cacheExtent: 3500,
-                  shrinkWrap: false,
+            return CustomScrollView(
+              controller: controller,
+              cacheExtent: 3500,
+              shrinkWrap: false,
 
-                  slivers: [
-                    SliverResizingHeader(
-                      minExtentPrototype: const SizedBox(height: 0),
-                      maxExtentPrototype: SizedBox(height: heroHeight),
-                      child: HomeHero(height: heroHeight, screenSize: size),
+              slivers: [
+                SliverResizingHeader(
+                  minExtentPrototype: const SizedBox(height: 0),
+                  maxExtentPrototype: SizedBox(height: heroHeight),
+                  child: HomeHero(height: heroHeight, screenSize: size),
+                ),
+                // LIST AND GRAPHIC
+                SliverStack(
+                  children: [
+                    // BACKGROUND GRAPHIC
+                    SliverPositioned.fill(
+                      child: HomeBackground(controller: controller),
                     ),
-                    // LIST AND GRAPHIC
-                    SliverStack(
-                      children: [
-                        // BACKGROUND GRAPHIC
-                        SliverPositioned.fill(
-                          child: HomeBackground(controller: controller),
-                        ),
 
-                        // LIST
-                        SliverPadding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: padding,
-                            vertical: size != ScreenSize.expanded
-                                ? padding
-                                : padding / 2,
-                          ),
-                          sliver: cats.when(
-                            data: (cats) => CatsListSliver(
-                              screenSize: size,
-                              cats: catsTemp,
-                              onClick: (cat) => viewCatDetails(cat),
-                            ),
-                            error: (error, stackTrace) => SliverToBoxAdapter(
-                              child: SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height / 1.5,
-                                child: Center(
-                                  child: ErrorPanel(message: error.toString()),
-                                ),
-                              ),
-                            ),
-                            loading: () => SliverToBoxAdapter(
-                              child: SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height / 1.5,
-                                child: Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              ),
+                    // LIST
+                    SliverPadding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: padding,
+                        vertical: size != ScreenSize.expanded
+                            ? padding
+                            : padding / 2,
+                      ),
+                      sliver: cats.when(
+                        data: (cats) => CatsListSliver(
+                          screenSize: size,
+                          cats: catsTemp,
+                          onClick: (cat) => viewCatDetails(cat),
+                        ),
+                        error: (error, stackTrace) => SliverToBoxAdapter(
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height / 1.5,
+                            child: Center(
+                              child: ErrorPanel(message: error.toString()),
                             ),
                           ),
                         ),
-                        // Is there to fill the remaining space so the list expands properly when its not full
-                        SliverFillRemaining(hasScrollBody: false),
-                      ],
-                    ),
-                    // FOOTER
-                    SliverToBoxAdapter(
-                      child: Container(
-                        height: 70,
-                        width: MediaQuery.of(context).size.width,
-                        color: Theme.of(context).colorScheme.surfaceDim,
-                        child: Row(children: [Text("data")]),
+                        loading: () => SliverToBoxAdapter(
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height / 1.5,
+                            child: Center(child: CircularProgressIndicator()),
+                          ),
+                        ),
                       ),
                     ),
+                    // Is there to fill the remaining space so the list expands properly when its not full
+                    SliverFillRemaining(hasScrollBody: false),
                   ],
+                ),
+                SliverPinnedHeader(child: ShareSection()),
+                // FOOTER
+                SliverToBoxAdapter(
+                  child: Container(
+                    height: 70,
+                    width: MediaQuery.of(context).size.width,
+                    color: Theme.of(context).colorScheme.surfaceDim,
+                    child: Row(children: [Text("data")]),
+                  ),
                 ),
               ],
             );

@@ -49,4 +49,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get hero_text_blob_where =>
       'We live in cairo and if you\'re near giza we have cats waiting for you to adopt and find a new home';
+
+  @override
+  String get cant_adopt => 'Can\'t adopt and still want to help?';
+
+  @override
+  String get cant_adopt1 =>
+      'Telling your Egyptian friends about the site and encourage them to adopt is always welcomed! (*^▽^*)';
 }

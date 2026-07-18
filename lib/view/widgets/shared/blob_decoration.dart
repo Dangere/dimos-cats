@@ -7,11 +7,13 @@ class BlobDecoration extends StatelessWidget {
     this.flip = false,
     this.index = 0,
     this.fit = BoxFit.cover,
+    this.color,
   });
 
   final bool flip;
   final int index;
   final BoxFit fit;
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     return Transform.flip(
@@ -22,7 +24,7 @@ class BlobDecoration extends StatelessWidget {
 
         fit: fit,
         width: null,
-        color: Theme.of(context).colorScheme.primary,
+        color: color ?? Theme.of(context).colorScheme.primary,
       ),
     );
   }

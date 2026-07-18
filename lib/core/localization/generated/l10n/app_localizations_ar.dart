@@ -47,4 +47,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get hero_text_blob_where => 'من أين يأتينا القطط؟';
+
+  @override
+  String get cant_adopt => 'مش قادر تتبني ولسه عايز تساعد؟';
+
+  @override
+  String get cant_adopt1 =>
+      'نشر الموقع لصحابك وتشجعهم للتبني دايما مرحب به! (*^▽^*)';
 }

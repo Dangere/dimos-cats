@@ -175,6 +175,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'We live in cairo and if you\'re near giza we have cats waiting for you to adopt and find a new home'**
   String get hero_text_blob_where;
+
+  /// No description provided for @cant_adopt.
+  ///
+  /// In en, this message translates to:
+  /// **'Can\'t adopt and still want to help?'**
+  String get cant_adopt;
+
+  /// No description provided for @cant_adopt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Telling your Egyptian friends about the site and encourage them to adopt is always welcomed! (*^▽^*)'**
+  String get cant_adopt1;
 }
 
 class _AppLocalizationsDelegate

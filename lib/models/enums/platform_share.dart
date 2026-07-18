@@ -1,0 +1,1 @@
+enum PlatformShare { facebook, whatsapp }

@@ -101,8 +101,10 @@ flutter:
   assets:
     - assets/images/
     - assets/images/cats/
+    - assets/images/icons/
     - assets/cats/
     - assets/animation/
+
 
 
 

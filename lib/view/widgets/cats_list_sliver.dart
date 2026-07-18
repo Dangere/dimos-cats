@@ -75,7 +75,7 @@ class CatsListSliver extends ConsumerWidget {
       Random random = Random(index);
 
       int smallRandomDelayMaxMs = 200;
-      int bigRandomDelayBaseMs = 200;
+      int bigRandomDelayBaseMs = 400;
 
       int bigRandomDelayMaxMs = 100;
 

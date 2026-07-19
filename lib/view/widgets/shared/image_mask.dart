@@ -12,11 +12,13 @@ class ImageMask extends StatelessWidget {
     required this.maskAssetPath,
     required this.child,
     this.visualize = false,
+    this.scale = 1,
   });
 
   final String maskAssetPath;
   final Widget child;
   final bool visualize;
+  final double scale;
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +39,21 @@ class ImageMask extends StatelessWidget {
               final widthScale = bounds.width / myUiImage.width;
 
               final Matrix4 matrix = Matrix4.identity()
-                ..scaleByVector3(vm.Vector3(widthScale, heightScale, 1));
+                ..translateByVector3(
+                  vm.Vector3(
+                    bounds.width * (1 - scale) / 2,
+                    bounds.height * (1 - scale) / 2,
+                    0,
+                  ),
+                )
+                ..scaleByVector3(
+                  vm.Vector3(widthScale * scale, heightScale * scale, 1),
+                );
 
               return ImageShader(
                 myUiImage,
-                TileMode.clamp,
-                TileMode.clamp,
+                TileMode.decal,
+                TileMode.decal,
                 matrix.storage,
               );
             },

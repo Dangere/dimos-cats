@@ -52,6 +52,5 @@ class AppLocalizationsAr extends AppLocalizations {
   String get cant_adopt => 'مش قادر تتبني ولسه عايز تساعد؟';
 
   @override
-  String get cant_adopt1 =>
-      'نشر الموقع لصحابك وتشجعهم للتبني دايما مرحب به! (*^▽^*)';
+  String get cant_adopt1 => 'ابعت الموقع لصحابك وشجعهم عالتبني! (*^▽^*)';
 }

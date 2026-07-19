@@ -51,9 +51,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'We live in cairo and if you\'re near giza we have cats waiting for you to adopt and find a new home';
 
   @override
-  String get cant_adopt => 'Can\'t adopt and still want to help?';
+  String get cant_adopt => 'Can\'t adopt and still wanna help?';
 
   @override
   String get cant_adopt1 =>
-      'Telling your Egyptian friends about the site and encourage them to adopt is always welcomed! (*^▽^*)';
+      'Telling your Egyptian friends about the site and encouraging them to adopt is always welcomed! (*^▽^*)';
 }

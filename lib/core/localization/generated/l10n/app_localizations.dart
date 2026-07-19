@@ -179,13 +179,13 @@ abstract class AppLocalizations {
   /// No description provided for @cant_adopt.
   ///
   /// In en, this message translates to:
-  /// **'Can\'t adopt and still want to help?'**
+  /// **'Can\'t adopt and still wanna help?'**
   String get cant_adopt;
 
   /// No description provided for @cant_adopt1.
   ///
   /// In en, this message translates to:
-  /// **'Telling your Egyptian friends about the site and encourage them to adopt is always welcomed! (*^▽^*)'**
+  /// **'Telling your Egyptian friends about the site and encouraging them to adopt is always welcomed! (*^▽^*)'**
   String get cant_adopt1;
 }
 

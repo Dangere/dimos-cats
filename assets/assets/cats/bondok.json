@@ -1,0 +1,23 @@
+{
+    "name": "Bondok",
+    "male": true,
+    "birthday": "2022-01-01",
+    "image": "bondok.jpg",
+    "description": "Bondok is big fluffy cat, hes likes to chill and be lazy, he doesn't mind being alone or play with other cats",
+    "description_ar": "بندق قطة كبيرة وفلافي، بيحب يرتاح ويكسل، معدوش مانع يكون لوحده أو يلعب مع قطط تانية",
+    "historyDescription": "I found him while i was going back home at night, saw him skinny and weak on the sidewalk, clearly looking like a house cat that was left out",
+    "historyDescription_ar": "لقيته وأنا راجع البيت بالليل، شفته نحيف وتعبان على الرصيف، وواضح إنه كان قط بيت اتساب بره",
+    "medicalDescription": "After taking him in, weeks later we noticed puddles of blood near him, after visiting vets we were told he has kidney stones, and after going on a strict medication plan, Bondok is now healthy and looking great! however his diet needs to be mainly wet food or a risk of kidney stones occurring again",
+    "medicalDescription_ar": "بعد ما اخدناه، بعد كذا أسبوع لاحظنا كل شويه دم جنبه، وبعد ما رحنا بيه للدكتور قالولنا إن عنده حصوات في الكلى، وبعد خطة علاج صارمة، بندق دلوقتي بصحة كويسة وشكله تمام! بس أكله لازم يكون أساسًا أكل رطب (ويت فود)، وإلا فيه احتمال الحصوات ترجع تاني",
+    "extendedImages": [
+        "bondok1.jpg",
+        "bondok2.jpg"
+    ],
+    "tags": [
+        "lazy",
+        "big",
+        "fluffy",
+        "cuddly",
+        "medical attention"
+    ]
+}

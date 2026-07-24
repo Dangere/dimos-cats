@@ -1,0 +1,25 @@
+{
+    "name": "Sokara",
+    "male": false,
+    "birthday": "2024-01-01",
+    "image": "sokara1.jpg",
+    "description": "Sokara is a cute fluffy energetic cat that loves to meow and to move around a lot and run all over the place",
+    "description_ar": "سكره قطة فلافي شيرازي ونشيطة، بتحب تنونو وتتحرك وتجري في كل حتة",
+    "historyDescription": "I found it when i was going back home at night, dirty and weak. Similar to many cats, it looked like it was a previous house cat that was let out or ran away",
+    "historyDescription_ar": "لقيتها وأنا راجع البيت بالليل، كانت وسخة وتعبانة وزي قطط كتير تانية، شكلها كانت قطة بيت اتسابت بره او هربت",
+    "medicalDescription": "",
+    "medicalDescription_ar": "",
+    "extendedImages": [
+        "sokara.jpg",
+        "sokara2.jpg",
+        "sokara3.jpg"
+    ],
+    "tags": [
+        "fluffy",
+        "talkative",
+        "playful",
+        "cuddly",
+        "active",
+        "moody"
+    ]
+}

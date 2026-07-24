@@ -1,0 +1,20 @@
+{
+    "name": "Soksok",
+    "male": true,
+    "birthday": "2026-05-01",
+    "image": "soksok.jpg",
+    "description": "Soksok is a young small kitty that loves to sleep in random places and run around, hes anxious but if you show him you love him he will slowly open up to you",
+    "description_ar": "سوكسوك قط صغير، بيحب ينام في أماكن غريبة ويجري في كل حتة، هو قلقان شوية بس لو وريته انك بتحبه هيفتح قلبه ليك بالتدريج",
+    "historyDescription": "Soksok was found on our buildings stairs, we had a neighbor that used to poison cats previously and did do it to a couple of outside cats we were occasionally feeding, we didn't take our chances with this little guy and took it home after he made me chase him 10 floors up and down to catch him",
+    "historyDescription_ar": "اتلقى في سلم العمارة بتاعتنا، كان عندنا جار قبل كدا بيسمم القطط، وعمل كدا في كذا قطة بره كنا بناكلهم، فمخدناش الفرصة مع الصغير ده وجبناه البيت بعد ما خلاني أجري وراه لفوق وتحت 10 أدوار عشان أمسكه",
+    "medicalDescription": "",
+    "medicalDescription_ar": "",
+    "extendedImages": [
+        "soksok1.jpg"
+    ],
+    "tags": [
+        "small",
+        "playful",
+        "anxious"
+    ]
+}

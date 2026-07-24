@@ -1,0 +1,23 @@
+{
+    "name": "Sola",
+    "male": false,
+    "birthday": "2021-01-01",
+    "image": "sola.jpg",
+    "description": "Sola is a cute talkative cat that loves to meow and love bite gently but not too hard, she likes other cats too",
+    "description_ar": "سولا قطة حلوة وبتحب تتكلم كتير، بتحب تنونو وتعض بحب براحه، ومعندهاش مشكله مع القطط التانية ",
+    "historyDescription": "",
+    "historyDescription_ar": "",
+    "medicalDescription": "",
+    "medicalDescription_ar": "",
+    "extendedImages": [
+        "sola1.jpg"
+    ],
+    "tags": [
+        "fluffy",
+        "talkative",
+        "social",
+        "sweet",
+        "playful",
+        "cuddly"
+    ]
+}

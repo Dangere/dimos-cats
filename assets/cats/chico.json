@@ -1,0 +1,24 @@
+{
+    "name": "Chico",
+    "male": true,
+    "birthday": "2021-01-01",
+    "image": "chico.jpg",
+    "description": "Chico is a big fluffy cat, he loves to bite hard sometimes but not too hard, hes a big cuddle cat at heart and if you give him a chance he will show you a lot of love. He loves having all the attention to himself, so he does better with little to no cats around",
+    "description_ar": "شيكو قط  حجمه كبير وفلافي, هو بيحب يعض جامد شويه بس مش اوي. هيوريك حب كبير لو اديته الفرصه. هو بيحب ياخد الانتباه كله لنفسه فعشان كدا يفضل يكون لوحده او مع عدد قطط قليل",
+    "historyDescription": "",
+    "historyDescription_ar": "",
+    "medicalDescription": "",
+    "medicalDescription_ar": "",
+    "extendedImages": [
+        "chico1.jpg",
+        "chico2.jpg"
+    ],
+    "tags": [
+        "neutered",
+        "big",
+        "fluffy",
+        "moody",
+        "cuddly",
+        "bites"
+    ]
+}

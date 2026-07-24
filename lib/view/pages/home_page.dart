@@ -6,6 +6,7 @@ import 'package:dimos_cats/providers/init_provider.dart';
 import 'package:dimos_cats/providers/screen_size_provider.dart';
 import 'package:dimos_cats/view/dialog/dialogs.dart';
 import 'package:dimos_cats/view/widgets/cats_list_sliver.dart';
+import 'package:dimos_cats/view/widgets/footer.dart';
 import 'package:dimos_cats/view/widgets/home_hero.dart';
 import 'package:dimos_cats/view/widgets/share_section.dart';
 import 'package:dimos_cats/view/widgets/shared/app_logo.dart';
@@ -37,10 +38,10 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   double animationTarge = 1;
-  List<Cat> catsTemp = List.generate(
-    10,
-    (index) => Cat.empty(index.toString() + "cat"),
-  );
+  // List<Cat> catsTemp = List.generate(
+  //   10,
+  //   (index) => Cat.empty(index.toString() + "cat"),
+  // );
   ScreenSize size = ScreenSize.expanded;
 
   Cat? viewedCat;
@@ -197,7 +198,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       sliver: cats.when(
                         data: (cats) => CatsListSliver(
                           screenSize: size,
-                          cats: catsTemp,
+                          cats: cats,
                           onClick: (cat) => viewCatDetails(cat),
                         ),
                         error: (error, stackTrace) => SliverToBoxAdapter(
@@ -220,16 +221,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                     SliverFillRemaining(hasScrollBody: false),
                   ],
                 ),
-                SliverPinnedHeader(child: ShareSection()),
+                SliverToBoxAdapter(child: ShareSection()),
                 // FOOTER
-                SliverToBoxAdapter(
-                  child: Container(
-                    height: 70,
-                    width: MediaQuery.of(context).size.width,
-                    color: Theme.of(context).colorScheme.surfaceDim,
-                    child: Row(children: [Text("data")]),
-                  ),
-                ),
+                SliverToBoxAdapter(child: Footer(screenSize: size)),
               ],
             );
           },

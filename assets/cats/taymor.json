@@ -1,0 +1,26 @@
+{
+    "name": "Taymor",
+    "male": true,
+    "birthday": "2021-01-01",
+    "image": "taymor4.jpg",
+    "description": "Taymor is a fluffy but deaf cat, being deaf doesn't stop him from being a lovely big boy, however being deaf makes him much more anxious when near cats or with any sudden movement",
+    "description_ar": "تيمور قطة فلافي بس أطرش، بس حتي لو أطرش هو لسه قط كبير وحبوب، بس عشان هو أطرش فهو بيقلق أكتر لما يكون جنب قطط تانية أو في أي حركة مفاجئة",
+    "historyDescription": "",
+    "historyDescription_ar": "",
+    "medicalDescription": "Taymor is a homophobic cat with multi eye colors, however he is deaf and requires very close attention and time to get adjusted to his environment",
+    "medicalDescription_ar": "تيمور قطة عندها تباين في لون العين (هيتيروكروميا)، وهو كمان أطرش وبيحتاج انتباه قريب جدًا ووقت عشان يتأقلم مع محيطه",
+    "extendedImages": [
+        "taymor.jpg",
+        "taymor1.jpg",
+        "taymor2.jpg",
+        "taymor3.jpg",
+        "taymor5.jpg"
+    ],
+    "tags": [
+        "deaf",
+        "big",
+        "fluffy",
+        "moody",
+        "anxious"
+    ]
+}

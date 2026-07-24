@@ -110,18 +110,6 @@ abstract class AppLocalizations {
   /// **'Hi im Dimo'**
   String get home_hero;
 
-  /// No description provided for @home_description_1.
-  ///
-  /// In en, this message translates to:
-  /// **'These are cats that me and my family rescued over the last 7 years'**
-  String get home_description_1;
-
-  /// No description provided for @home_description_2.
-  ///
-  /// In en, this message translates to:
-  /// **''**
-  String get home_description_2;
-
   /// No description provided for @language.
   ///
   /// In en, this message translates to:
@@ -187,6 +175,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Telling your Egyptian friends about the site and encouraging them to adopt is always welcomed! (*^▽^*)'**
   String get cant_adopt1;
+
+  /// No description provided for @contact_me.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact me!'**
+  String get contact_me;
+
+  /// No description provided for @contact_description.
+  ///
+  /// In en, this message translates to:
+  /// **'This site was made by a developer in Cairo, the same person taking care of these cats and the person you will (hopefully) adopt from, if you\'re interested in more details or work opportunities:'**
+  String get contact_description;
+
+  /// No description provided for @footer.
+  ///
+  /// In en, this message translates to:
+  /// **'Dimo\'s Cats hosts a list of cats personally rescued and taken care of by Dimo and his family over multiple years, and that are up for adoption in Egypt, Giza'**
+  String get footer;
+
+  /// No description provided for @history.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get history;
+
+  /// No description provided for @medical_history.
+  ///
+  /// In en, this message translates to:
+  /// **'Medical History'**
+  String get medical_history;
+
+  /// No description provided for @tag_years.
+  ///
+  /// In en, this message translates to:
+  /// **'Years'**
+  String get tag_years;
+
+  /// No description provided for @tag_months.
+  ///
+  /// In en, this message translates to:
+  /// **'Months'**
+  String get tag_months;
+
+  /// No description provided for @tag_male.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get tag_male;
+
+  /// No description provided for @tag_female.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get tag_female;
+
+  /// No description provided for @tag_big.
+  ///
+  /// In en, this message translates to:
+  /// **'Big'**
+  String get tag_big;
+
+  /// No description provided for @tag_fluffy.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluffy'**
+  String get tag_fluffy;
+
+  /// No description provided for @tag_cuddly.
+  ///
+  /// In en, this message translates to:
+  /// **'Cuddly'**
+  String get tag_cuddly;
+
+  /// No description provided for @tag_bites.
+  ///
+  /// In en, this message translates to:
+  /// **'Bites'**
+  String get tag_bites;
+
+  /// No description provided for @tag_friendly.
+  ///
+  /// In en, this message translates to:
+  /// **'Friendly'**
+  String get tag_friendly;
+
+  /// No description provided for @tag_moody.
+  ///
+  /// In en, this message translates to:
+  /// **'Moody'**
+  String get tag_moody;
+
+  /// No description provided for @tag_playful.
+  ///
+  /// In en, this message translates to:
+  /// **'Playful'**
+  String get tag_playful;
+
+  /// No description provided for @tag_shy.
+  ///
+  /// In en, this message translates to:
+  /// **'Shy'**
+  String get tag_shy;
+
+  /// No description provided for @tag_lazy.
+  ///
+  /// In en, this message translates to:
+  /// **'Lazy'**
+  String get tag_lazy;
+
+  /// No description provided for @tag_active.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get tag_active;
+
+  /// No description provided for @tag_goofy.
+  ///
+  /// In en, this message translates to:
+  /// **'Goofy'**
+  String get tag_goofy;
+
+  /// No description provided for @tag_sweet.
+  ///
+  /// In en, this message translates to:
+  /// **'Sweet'**
+  String get tag_sweet;
+
+  /// No description provided for @tag_caring.
+  ///
+  /// In en, this message translates to:
+  /// **'Caring'**
+  String get tag_caring;
+
+  /// No description provided for @tag_loving.
+  ///
+  /// In en, this message translates to:
+  /// **'Loving'**
+  String get tag_loving;
+
+  /// No description provided for @tag_talkative.
+  ///
+  /// In en, this message translates to:
+  /// **'Talkative'**
+  String get tag_talkative;
+
+  /// No description provided for @tag_social.
+  ///
+  /// In en, this message translates to:
+  /// **'Social'**
+  String get tag_social;
+
+  /// No description provided for @tag_lean.
+  ///
+  /// In en, this message translates to:
+  /// **'Lean'**
+  String get tag_lean;
+
+  /// No description provided for @tag_medicalAttention.
+  ///
+  /// In en, this message translates to:
+  /// **'Medical Attention'**
+  String get tag_medicalAttention;
+
+  /// No description provided for @tag_deaf.
+  ///
+  /// In en, this message translates to:
+  /// **'Deaf'**
+  String get tag_deaf;
+
+  /// No description provided for @tag_anxious.
+  ///
+  /// In en, this message translates to:
+  /// **'Anxious'**
+  String get tag_anxious;
+
+  /// No description provided for @tag_small.
+  ///
+  /// In en, this message translates to:
+  /// **'Small'**
+  String get tag_small;
+
+  /// No description provided for @tag_neutered.
+  ///
+  /// In en, this message translates to:
+  /// **'Neutered'**
+  String get tag_neutered;
 }
 
 class _AppLocalizationsDelegate

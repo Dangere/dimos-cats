@@ -62,7 +62,7 @@ class _CatPanelState extends ConsumerState<CatPanel> {
     Widget _body = ClipRRect(
       borderRadius: BorderRadius.circular(30),
 
-      child: FrostedPanel(
+      child: _FrostedPanel(
         frost: isMinimized,
         child: GestureDetector(
           onTap: () async {
@@ -82,11 +82,11 @@ class _CatPanelState extends ConsumerState<CatPanel> {
             children: [
               // PAW
               Positioned(
-                bottom: -40,
+                bottom: -45,
                 right: isLTR ? -30 : null,
                 left: isLTR ? null : -30,
                 child: SizedBox(
-                  height: 160,
+                  height: 200,
                   child: PawDecoration(flip: !isLTR),
                 ),
               ),
@@ -182,8 +182,8 @@ class _CatPanelState extends ConsumerState<CatPanel> {
   }
 }
 
-class FrostedPanel extends StatelessWidget {
-  const FrostedPanel({super.key, required this.child, required this.frost});
+class _FrostedPanel extends StatelessWidget {
+  const _FrostedPanel({required this.child, required this.frost});
 
   final Widget child;
   final bool frost;

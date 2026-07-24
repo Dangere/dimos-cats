@@ -1,0 +1,23 @@
+{
+    "name": "Samara",
+    "male": false,
+    "birthday": "2024-01-01",
+    "image": "samara.jpg",
+    "description": "Samara is a goofy shy but caring cat, she loves to take care of other cats and clean them up, she also loves hanging in weird places and sprawl on the floor exposing her big belly",
+    "description_ar": "سمارة قطة خجولة وهبلة شوية بس حنينة، بتحب تعتني بالقطط التانية وتنضفهم، وكمان بتحب تقعد في اماكن غريبة وتتمدد على الأرض وتوريك بطنها التخين",
+    "historyDescription": "She was found as a kitten being bullied by random kids near an exposed manhole, she was then spotted my one of my family members going to school and got her home",
+    "historyDescription_ar": "اتلقيت وهي قطه صغيرة وكان في عيال بيضايقوها جنب بلاعة مكشوفة، بس واحد من عيلتي شافها وهو رايح المدرسة وجابها البيت",
+    "medicalDescription": "",
+    "medicalDescription_ar": "",
+    "extendedImages": [
+        "samara1.jpg"
+    ],
+    "tags": [
+        "goofy",
+        "shy",
+        "sweet",
+        "caring",
+        "loving",
+        "cuddly"
+    ]
+}

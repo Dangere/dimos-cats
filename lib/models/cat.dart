@@ -2,22 +2,33 @@ import 'package:dimos_cats/models/enums/cat_tag.dart';
 
 class Cat {
   final String name;
-  final bool gender;
+  final bool male;
   final DateTime birthday;
   final String description;
+  final String descriptionAr;
+
+  final String historyDescription;
+  final String historyDescriptionAr;
+  final String? medicalDescription;
+  final String? medicalDescriptionAr;
+
   final String image;
   final List<String> extendedImages;
-  final List<String> extendedDescriptions;
   final List<CatTag> tags;
 
   Cat({
     required this.name,
-    required this.gender,
+    required this.male,
     required this.birthday,
     required this.image,
     required this.description,
+    required this.descriptionAr,
     required this.extendedImages,
-    required this.extendedDescriptions,
+    required this.historyDescription,
+    required this.historyDescriptionAr,
+    this.medicalDescription,
+    this.medicalDescriptionAr,
+
     required this.tags,
   });
 
@@ -27,16 +38,27 @@ class Cat {
   }) {
     return Cat(
       name: json['name'],
-      gender: json['gender'],
+      male: json['male'],
       birthday: DateTime.parse(json['birthday']),
       image: "$imageRootPath${json['image']}",
       description: json['description'],
+      descriptionAr: json['description_ar'],
+      historyDescription: json['historyDescription'],
+      historyDescriptionAr: json['historyDescription_ar'],
+
+      medicalDescription: (json['medicalDescription'] as String).isNotEmpty
+          ? json['medicalDescription'] as String
+          : null,
+      medicalDescriptionAr: (json['medicalDescription_ar'] as String).isNotEmpty
+          ? json['medicalDescription_ar'] as String
+          : null,
+
       extendedImages: List<String>.from(
         (json['extendedImages'] as List),
       ).map((e) => "$imageRootPath$e").toList(),
-      extendedDescriptions: List<String>.from(
-        json['extendedDescriptions'] as List,
-      ),
+      // extendedDescriptions: List<String>.from(
+      //   json['extendedDescriptions'] as List,
+      // ),
       tags: CatTag.values.where((element) {
         return List<String>.from(json['tags'] as List).contains(element.name);
       }).toList(),
@@ -46,12 +68,16 @@ class Cat {
   factory Cat.empty(String name) {
     return Cat(
       name: name,
-      gender: false,
+      male: false,
       birthday: DateTime.now(),
       image: "image-placeholder-$name",
       description: "Test description for $name",
+      descriptionAr: "وصف تجريبي لـ $name",
       extendedImages: [],
-      extendedDescriptions: [],
+      historyDescription: "",
+      historyDescriptionAr: "",
+      medicalDescription: null,
+      medicalDescriptionAr: null,
       tags: [CatTag.active, CatTag.active, CatTag.active],
     );
   }
@@ -59,12 +85,16 @@ class Cat {
   Cat copyWith({String? name, bool? gender, DateTime? birthday}) {
     return Cat(
       name: name ?? this.name,
-      gender: gender ?? this.gender,
+      male: gender ?? this.male,
       birthday: birthday ?? this.birthday,
       image: image,
       description: description,
+      descriptionAr: descriptionAr,
       extendedImages: extendedImages,
-      extendedDescriptions: extendedDescriptions,
+      historyDescription: historyDescription,
+      historyDescriptionAr: historyDescriptionAr,
+      medicalDescription: medicalDescription,
+      medicalDescriptionAr: medicalDescriptionAr,
       tags: tags,
     );
   }

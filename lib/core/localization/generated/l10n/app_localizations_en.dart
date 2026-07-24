@@ -15,13 +15,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get home_hero => 'Hi im Dimo';
 
   @override
-  String get home_description_1 =>
-      'These are cats that me and my family rescued over the last 7 years';
-
-  @override
-  String get home_description_2 => '';
-
-  @override
   String get language => 'Language';
 
   @override
@@ -56,4 +49,99 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get cant_adopt1 =>
       'Telling your Egyptian friends about the site and encouraging them to adopt is always welcomed! (*^▽^*)';
+
+  @override
+  String get contact_me => 'Contact me!';
+
+  @override
+  String get contact_description =>
+      'This site was made by a developer in Cairo, the same person taking care of these cats and the person you will (hopefully) adopt from, if you\'re interested in more details or work opportunities:';
+
+  @override
+  String get footer =>
+      'Dimo\'s Cats hosts a list of cats personally rescued and taken care of by Dimo and his family over multiple years, and that are up for adoption in Egypt, Giza';
+
+  @override
+  String get history => 'History';
+
+  @override
+  String get medical_history => 'Medical History';
+
+  @override
+  String get tag_years => 'Years';
+
+  @override
+  String get tag_months => 'Months';
+
+  @override
+  String get tag_male => 'Male';
+
+  @override
+  String get tag_female => 'Female';
+
+  @override
+  String get tag_big => 'Big';
+
+  @override
+  String get tag_fluffy => 'Fluffy';
+
+  @override
+  String get tag_cuddly => 'Cuddly';
+
+  @override
+  String get tag_bites => 'Bites';
+
+  @override
+  String get tag_friendly => 'Friendly';
+
+  @override
+  String get tag_moody => 'Moody';
+
+  @override
+  String get tag_playful => 'Playful';
+
+  @override
+  String get tag_shy => 'Shy';
+
+  @override
+  String get tag_lazy => 'Lazy';
+
+  @override
+  String get tag_active => 'Active';
+
+  @override
+  String get tag_goofy => 'Goofy';
+
+  @override
+  String get tag_sweet => 'Sweet';
+
+  @override
+  String get tag_caring => 'Caring';
+
+  @override
+  String get tag_loving => 'Loving';
+
+  @override
+  String get tag_talkative => 'Talkative';
+
+  @override
+  String get tag_social => 'Social';
+
+  @override
+  String get tag_lean => 'Lean';
+
+  @override
+  String get tag_medicalAttention => 'Medical Attention';
+
+  @override
+  String get tag_deaf => 'Deaf';
+
+  @override
+  String get tag_anxious => 'Anxious';
+
+  @override
+  String get tag_small => 'Small';
+
+  @override
+  String get tag_neutered => 'Neutered';
 }

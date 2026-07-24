@@ -1,0 +1,22 @@
+{
+    "name": "Semsema",
+    "male": false,
+    "birthday": "2024-08-01",
+    "image": "semsema.jpg",
+    "description": "Semsema is a cute talkative cat that loves to cuddle and play around with other cats",
+    "description_ar": "سمسمة قطة حلوة وبتحب تنونو كتير، بتحب تتمسح فيك وتلعب مع القطط التانية",
+    "historyDescription": "She was found as a small kitten hiding in a car's hood in winter for heat, we heard it meowing at morning and we got it",
+    "historyDescription_ar": "اتلقيت وهي قطه صغيرة متخبيه جوه كبوت عربية في الشتا عشان الدفا، سمعناها بتنونو الصبح وجبناها",
+    "medicalDescription": "",
+    "medicalDescription_ar": "",
+    "extendedImages": [
+        "semsema1.jpg"
+    ],
+    "tags": [
+        "sweet",
+        "caring",
+        "loving",
+        "cuddly",
+        "talkative"
+    ]
+}

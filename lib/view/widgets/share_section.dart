@@ -85,13 +85,6 @@ class _ShareSectionState extends ConsumerState<ShareSection> {
             fit: StackFit.expand,
             alignment: Alignment.center,
             children: [
-              // Positioned.fill(
-              //   child: BlobDecoration(
-              //     index: 2,
-              //     color: Theme.of(context).colorScheme.primary,
-              //     fit: BoxFit.fill,
-              //   ),
-              // ),
               Positioned.fill(
                 child: TweenAnimationBuilder(
                   onEnd: () {
@@ -104,10 +97,17 @@ class _ShareSectionState extends ConsumerState<ShareSection> {
                   curve: Curves.bounceOut,
 
                   child: Container(
-                    color: Theme.of(context).colorScheme.onPrimary,
+                    // color: Theme.of(context).colorScheme.surface,
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
+                        Positioned.fill(
+                          child: BlobDecoration(
+                            index: 2,
+                            color: Theme.of(context).colorScheme.surface,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
                         Positioned(
                           bottom: -10,
                           right: MediaQuery.of(context).size.width * 0.1,
@@ -157,7 +157,7 @@ class _ShareSectionState extends ConsumerState<ShareSection> {
                                 const Spacer(flex: 2),
 
                                 // Share buttons
-                                ShareButtons(
+                                _ShareButtons(
                                   onCopyToClipboard: onCopyToClipboard,
                                   onShare: onShare,
                                 ),
@@ -192,21 +192,17 @@ class _ShareSectionState extends ConsumerState<ShareSection> {
   }
 }
 
-class ShareButtons extends StatefulWidget {
-  const ShareButtons({
-    super.key,
-    required this.onShare,
-    required this.onCopyToClipboard,
-  });
+class _ShareButtons extends StatefulWidget {
+  const _ShareButtons({required this.onShare, required this.onCopyToClipboard});
 
   final Function(PlatformShare) onShare;
   final VoidCallback onCopyToClipboard;
 
   @override
-  State<ShareButtons> createState() => _ShareButtonsState();
+  State<_ShareButtons> createState() => _ShareButtonsState();
 }
 
-class _ShareButtonsState extends State<ShareButtons> {
+class _ShareButtonsState extends State<_ShareButtons> {
   double targetAnimation = 4;
 
   bool playAnimation = false;
@@ -220,8 +216,6 @@ class _ShareButtonsState extends State<ShareButtons> {
       return math.sin(value * math.pi);
     }
 
-    print("Building share buttons");
-    // int highlightPeriodMs = 1000;
     return TweenAnimationBuilder(
       onEnd: () {
         setState(() {
@@ -229,7 +223,7 @@ class _ShareButtonsState extends State<ShareButtons> {
         });
       },
       duration: Duration(seconds: 3),
-      curve: Curves.linearToEaseOut,
+      curve: Curves.linear,
       tween: Tween<double>(begin: 0, end: targetAnimation),
       builder: (context, value, child) {
         double firstButtonValue = calculateValue(value, 0);

@@ -1,3 +1,4 @@
+import 'package:dimos_cats/core/localization/generated/l10n/app_localizations.dart';
 import 'package:dimos_cats/models/cat.dart';
 import 'package:dimos_cats/providers/cats_provider.dart';
 import 'package:dimos_cats/providers/common_providers.dart';
@@ -6,6 +7,7 @@ import 'package:dimos_cats/view/widgets/shared/bezier_curve.dart';
 import 'package:dimos_cats/view/widgets/shared/blob_decoration.dart';
 import 'package:dimos_cats/view/widgets/shared/cat_tags_list.dart';
 import 'package:dimos_cats/view/widgets/shared/images_displayer.dart';
+import 'package:dimos_cats/view/widgets/shared/marquee_widget.dart';
 import 'package:dimos_cats/view/widgets/shared/paw_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -61,6 +63,18 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
     final Size expandedSize = const Size(500, 500);
 
     final isLTR = Directionality.of(context) == TextDirection.ltr;
+
+    String description = isLTR
+        ? widget.cat.description
+        : widget.cat.descriptionAr;
+
+    String history = isLTR
+        ? widget.cat.historyDescription
+        : widget.cat.historyDescriptionAr;
+
+    String? medical = isLTR
+        ? widget.cat.medicalDescription
+        : widget.cat.medicalDescriptionAr;
 
     ref.read(loggerProvider).d("Building CatPanel");
     void onAdopt() {
@@ -179,96 +193,164 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
                                 Expanded(
                                   child: Row(
                                     children: [
-                                      AspectRatio(
-                                        aspectRatio: 1,
-                                        child: ImagesDisplayer(
-                                          imagePaths: List.from(
-                                            widget.cat.extendedImages,
-                                          )..insert(0, widget.cat.image),
-                                        ),
-                                      ),
-                                      // SizedBox(width: 20, height: 20),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 24.0 / 2,
-                                        ),
+                                      // CAT IMAGE AND TAGS
+                                      Expanded(
+                                        flex: 2,
                                         child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          // mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
                                           children: [
-                                            // NAME
-                                            SizedBox(
-                                              height: 25,
-                                              child: Text(
-                                                widget.cat.name,
-                                                textAlign: TextAlign.left,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleLarge!
-                                                    .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
+                                            // CAT IMAGE
+                                            AspectRatio(
+                                              aspectRatio: 1.2,
+                                              child: ImagesDisplayer(
+                                                imagePaths: List.from(
+                                                  widget.cat.extendedImages,
+                                                )..insert(0, widget.cat.image),
                                               ),
                                             ),
-
-                                            // DESCRIPTION
-                                            Text(
-                                              widget.cat.description,
-                                              textAlign: TextAlign.left,
-                                              style: Theme.of(
-                                                context,
-                                              ).textTheme.bodyLarge,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      // TAGS
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          top: 24.0 / 2,
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            Expanded(
+                                            // TAGS
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                top: 24.0 / 2,
+                                              ),
                                               child: CatsTagList(
                                                 cat: widget.cat,
-                                                // height: 25,
                                               ),
                                             ),
-
-                                            Expanded(child: Container()),
                                           ],
                                         ),
                                       ),
-                                      // ADOPT BUTTON
-                                      AdoptButton(onTap: onAdopt),
+                                      // NAME AND DESCRIPTION
+                                      Expanded(
+                                        flex: 2,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 24.0 / 2,
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            // mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              // NAME
+                                              SizedBox(
+                                                height: 25,
+                                                child: Text(
+                                                  widget.cat.name,
+                                                  textAlign: TextAlign.left,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleLarge!
+                                                      .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                ),
+                                              ),
+
+                                              // DESCRIPTION
+                                              Expanded(
+                                                child: MarqueeWidget(
+                                                  pauseDuration: const Duration(
+                                                    seconds: 10,
+                                                  ),
+                                                  direction: Axis.vertical,
+                                                  child: Column(
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 200,
+                                                        child: Text(
+                                                          description,
+                                                          softWrap: true,
+
+                                                          // textAlign: TextAlign.left,
+                                                          style: Theme.of(
+                                                            context,
+                                                          ).textTheme.bodyLarge,
+                                                        ),
+                                                      ),
+                                                      // HISTORY
+                                                      if (history
+                                                          .isNotEmpty) ...[
+                                                        SizedBox(
+                                                          height: 25,
+                                                          child: Text(
+                                                            AppLocalizations.of(
+                                                              context,
+                                                            ).history,
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                            style: Theme.of(context)
+                                                                .textTheme
+                                                                .titleMedium!
+                                                                .copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                          ),
+                                                        ),
+
+                                                        Text(
+                                                          history,
+                                                          style: Theme.of(
+                                                            context,
+                                                          ).textTheme.bodyLarge,
+                                                        ),
+                                                      ],
+                                                      // MEDICAL HISTORY
+                                                      if (medical != null) ...[
+                                                        SizedBox(
+                                                          height: 25,
+                                                          child: Text(
+                                                            AppLocalizations.of(
+                                                              context,
+                                                            ).medical_history,
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                            style: Theme.of(context)
+                                                                .textTheme
+                                                                .titleMedium!
+                                                                .copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          medical,
+                                                          style: Theme.of(
+                                                            context,
+                                                          ).textTheme.bodyLarge,
+                                                        ),
+                                                      ],
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
+
+                                // ADOPT
+                                AdoptButton(onTap: onAdopt),
                               ],
                             ),
                           ),
                         ),
                       ),
-
-                      // CLOSE BUTTON
                     ],
                   ),
                 ),
               ),
+
+              // CLOSE BUTTON
               Positioned(
                 top: 5,
                 right: isLTR ? 5 : null,

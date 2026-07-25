@@ -1,3 +1,4 @@
+import 'package:dimos_cats/core/localization/generated/l10n/app_localizations.dart';
 import 'package:dimos_cats/models/cat.dart';
 import 'package:dimos_cats/providers/cats_provider.dart';
 import 'package:dimos_cats/providers/common_providers.dart';
@@ -6,6 +7,7 @@ import 'package:dimos_cats/view/widgets/shared/bezier_curve.dart';
 import 'package:dimos_cats/view/widgets/shared/blob_decoration.dart';
 import 'package:dimos_cats/view/widgets/shared/cat_tags_list.dart';
 import 'package:dimos_cats/view/widgets/shared/images_displayer.dart';
+import 'package:dimos_cats/view/widgets/shared/marquee_widget.dart';
 import 'package:dimos_cats/view/widgets/shared/paw_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -57,9 +59,23 @@ class _CatPanelScreenState extends ConsumerState<CatPanelScreen> {
   @override
   Widget build(BuildContext context) {
     final double startingHeight = MediaQuery.of(context).size.height * 0.4;
-    final double expandedHeight = MediaQuery.of(context).size.height * 0.7;
+    final double expandedHeight = MediaQuery.of(context).size.height < 800
+        ? MediaQuery.of(context).size.height * 0.8
+        : 800;
 
     final isLTR = Directionality.of(context) == TextDirection.ltr;
+
+    String description = isLTR
+        ? widget.cat.description
+        : widget.cat.descriptionAr;
+
+    String history = isLTR
+        ? widget.cat.historyDescription
+        : widget.cat.historyDescriptionAr;
+
+    String? medical = isLTR
+        ? widget.cat.medicalDescription
+        : widget.cat.medicalDescriptionAr;
 
     ref.read(loggerProvider).d("Building CatPanel");
 
@@ -189,80 +205,121 @@ class _CatPanelScreenState extends ConsumerState<CatPanelScreen> {
                           // mainAxisSize: MainAxisSize.min,
                           children: [
                             // PICTURE AND NAME AND DESCRIPTION
-                            Expanded(
-                              flex: 2,
-                              child: Center(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: ImagesDisplayer(
-                                        imagePaths: List.from(
-                                          widget.cat.extendedImages,
-                                        )..insert(0, widget.cat.image),
-                                      ),
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: ImagesDisplayer(
+                                      imagePaths: List.from(
+                                        widget.cat.extendedImages,
+                                      )..insert(0, widget.cat.image),
                                     ),
-                                    // SizedBox(width: 20, height: 20),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 24.0 / 2,
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        // mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          // NAME
-                                          SizedBox(
-                                            height: 25,
-                                            child: Text(
-                                              widget.cat.name,
-                                              textAlign: TextAlign.left,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleLarge!
-                                                  .copyWith(
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                            ),
-                                          ),
-
-                                          // DESCRIPTION
-                                          Text(
-                                            widget.cat.description,
+                                  ),
+                                  // SizedBox(width: 20, height: 20),
+                                  Flexible(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      // mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        // NAME
+                                        SizedBox(
+                                          height: 25,
+                                          child: Text(
+                                            widget.cat.name,
                                             textAlign: TextAlign.left,
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .bodyLarge!
+                                                .titleLarge!
                                                 .copyWith(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onSurfaceVariant,
+                                                  fontWeight: FontWeight.bold,
                                                 ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            // TAGS AND ADOPT
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  // TAGS
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      top: 24.0 / 2,
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
+                                        ),
+
+                                        // DESCRIPTION
+                                        Flexible(
+                                          child: MarqueeWidget(
+                                            pauseDuration: const Duration(
+                                              seconds: 10,
+                                            ),
+                                            direction: Axis.vertical,
+                                            child: Column(
+                                              children: [
+                                                SizedBox(
+                                                  child: Text(
+                                                    description,
+                                                    softWrap: true,
+
+                                                    // textAlign: TextAlign.left,
+                                                    style: Theme.of(
+                                                      context,
+                                                    ).textTheme.bodyLarge,
+                                                  ),
+                                                ),
+                                                // HISTORY
+                                                if (history.isNotEmpty) ...[
+                                                  SizedBox(
+                                                    height: 25,
+                                                    child: Text(
+                                                      AppLocalizations.of(
+                                                        context,
+                                                      ).history,
+                                                      textAlign: TextAlign.left,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .titleMedium!
+                                                          .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                    ),
+                                                  ),
+
+                                                  Text(
+                                                    history,
+                                                    style: Theme.of(
+                                                      context,
+                                                    ).textTheme.bodyLarge,
+                                                  ),
+                                                ],
+                                                // MEDICAL HISTORY
+                                                if (medical != null) ...[
+                                                  SizedBox(
+                                                    height: 25,
+                                                    child: Text(
+                                                      AppLocalizations.of(
+                                                        context,
+                                                      ).medical_history,
+                                                      textAlign: TextAlign.left,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .titleMedium!
+                                                          .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    medical,
+                                                    style: Theme.of(
+                                                      context,
+                                                    ).textTheme.bodyLarge,
+                                                  ),
+                                                ],
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        // TAGS
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 24.0 / 2,
+                                          ),
                                           child: CatsTagList(
                                             cat: widget.cat,
                                             // height: 25,
@@ -271,11 +328,12 @@ class _CatPanelScreenState extends ConsumerState<CatPanelScreen> {
                                       ],
                                     ),
                                   ),
-                                  // ADOPT BUTTON
-                                  AdoptButton(onTap: onAdopt),
                                 ],
                               ),
                             ),
+
+                            // Spacer(),
+                            AdoptButton(onTap: onAdopt),
                           ],
                         ),
                       ),

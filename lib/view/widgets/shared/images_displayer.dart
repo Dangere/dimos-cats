@@ -60,7 +60,7 @@ class _ImagesDisplayerState extends ConsumerState<ImagesDisplayer> {
               child: images[imageIndex] != null
                   ? Image.memory(
                       images[imageIndex]!,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                       width: double.infinity,
                       height: double.infinity,
                     )

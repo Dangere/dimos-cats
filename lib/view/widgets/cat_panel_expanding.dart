@@ -60,7 +60,7 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
   @override
   Widget build(BuildContext context) {
     final Size startingSize = const Size(340, 340);
-    final Size expandedSize = const Size(500, 500);
+    final Size expandedSize = const Size(600, 500);
 
     final isLTR = Directionality.of(context) == TextDirection.ltr;
 
@@ -259,7 +259,7 @@ class _CatPanelExpandingState extends ConsumerState<CatPanelExpanding> {
                                                   child: Column(
                                                     children: [
                                                       SizedBox(
-                                                        width: 200,
+                                                        // width: 200,
                                                         child: Text(
                                                           description,
                                                           softWrap: true,

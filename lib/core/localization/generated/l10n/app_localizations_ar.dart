@@ -36,10 +36,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get where => 'فين؟';
 
   @override
-  String get hero_text_blob_why => 'من أين يأتينا القطط؟';
+  String get hero_text_blob_why =>
+      'من أكتر من 6 سنين وإحنا كعيلة بننقذ ونربّي قطط حوالينا في الجيزة. بس عشان احنا عيلة صغيرة وبنعتمد على دخلنا الشخصي بس، بقى صعب جدًا إننا نعتني بأكتر من 15 قطة كل شهر، فعشان كدا لو بتفكر في التبني تقدر من هنا وتساعد!';
 
   @override
-  String get hero_text_blob_where => 'من أين يأتينا القطط؟';
+  String get hero_text_blob_where =>
+      'بما إننا مجرد عيلة، إحنا بس بنقدر نساعد في توصيل القطط جوه الجيزة والمناطق القريبة منها، فلو انت أو حد تعرفه عايز يتبنى قطة، هنساعدكم تلاقوها وتستلموها من الجيزة';
 
   @override
   String get cant_adopt => 'مش قادر تتبني ولسه عايز تساعد؟';

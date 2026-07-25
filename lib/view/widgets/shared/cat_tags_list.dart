@@ -59,15 +59,14 @@ class _CatsTagListState extends State<CatsTagList> {
     }
 
     String getYearsAndMonths() {
-      var years = DateTime.now().year - widget.cat.birthday!.year;
-      var months = DateTime.now().month - widget.cat.birthday!.month;
+      var years = DateTime.now().year - widget.cat.birthday.year;
+      var months = DateTime.now().month - widget.cat.birthday.month;
 
-      if (years > 0)
-        return years.toString() + " " + AppLocalizations.of(context).tag_years;
-      else
-        return months.toString() +
-            " " +
-            AppLocalizations.of(context).tag_months;
+      if (years > 0) {
+        return "$years ${AppLocalizations.of(context).tag_years}";
+      } else {
+        return "$months ${AppLocalizations.of(context).tag_months}";
+      }
     }
 
     final isLTR = Directionality.of(context) == TextDirection.ltr;

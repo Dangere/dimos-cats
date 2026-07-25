@@ -155,13 +155,13 @@ abstract class AppLocalizations {
   /// No description provided for @hero_text_blob_why.
   ///
   /// In en, this message translates to:
-  /// **'For the last 6 years me and my family been rescuing cats in egypt'**
+  /// **'For the last 6+ years me and my family have been rescuing and taking care of cats around our area in Egypt, Giza. However, because we are just a small family relaying only on our personal income, taking care of over 15 cats monthly has became impossible, that\'s why we kindly ask you to consider adoption if you\'re in the need of a cat!'**
   String get hero_text_blob_why;
 
   /// No description provided for @hero_text_blob_where.
   ///
   /// In en, this message translates to:
-  /// **'We live in cairo and if you\'re near giza we have cats waiting for you to adopt and find a new home'**
+  /// **'Since we are just a family, we can only help delivering cats in Giza and the surrounding area, if you, or someone you know, wants a cat, we can help you find it and pick it up in Giza'**
   String get hero_text_blob_where;
 
   /// No description provided for @cant_adopt.

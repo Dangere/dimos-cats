@@ -73,15 +73,12 @@ class HomeHero extends StatelessWidget {
               children: [
                 Flexible(
                   flex: 6,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.7,
-                        height: 500,
+                  child: Center(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      height: 500,
 
-                        child: blobText,
-                      ),
+                      child: blobText,
                     ),
                   ),
                 ),
@@ -99,16 +96,13 @@ class HomeHero extends StatelessWidget {
                 Flexible(
                   flex: 6,
 
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                      child: SizedBox(
-                        // height: constraints.maxHeight * 0.7,
-                        width: MediaQuery.of(context).size.width * 0.7,
-                        height: 500,
+                  child: Center(
+                    child: SizedBox(
+                      // height: constraints.maxHeight * 0.7,
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      height: 500,
 
-                        child: blobText2,
-                      ),
+                      child: blobText2,
                     ),
                   ),
                 ),

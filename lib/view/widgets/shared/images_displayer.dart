@@ -26,13 +26,7 @@ class _ImagesDisplayerState extends ConsumerState<ImagesDisplayer> {
         await Future.delayed(delay);
 
         if (!mounted) break;
-        setState(() {
-          if (imageIndex >= widget.imagePaths.length - 1) {
-            imageIndex = 0;
-          } else {
-            imageIndex++;
-          }
-        });
+        onSwipeRight();
       }
     });
 
@@ -45,9 +39,30 @@ class _ImagesDisplayerState extends ConsumerState<ImagesDisplayer> {
     super.dispose();
   }
 
+  void onSwipeRight() {
+    setState(() {
+      if (imageIndex >= widget.imagePaths.length - 1) {
+        imageIndex = 0;
+      } else {
+        imageIndex++;
+      }
+    });
+  }
+
+  void onSwipeLeft() {
+    setState(() {
+      if (imageIndex <= 0) {
+        imageIndex = widget.imagePaths.length - 1;
+      } else {
+        imageIndex--;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Uint8List?> images = ref.watch(imageBulkProvider(widget.imagePaths));
+    final isLTR = Directionality.of(context) == TextDirection.ltr;
 
     return Column(
       children: [
@@ -55,16 +70,73 @@ class _ImagesDisplayerState extends ConsumerState<ImagesDisplayer> {
         Expanded(
           child: Hero(
             tag: widget.imagePaths[imageIndex],
-            child: Container(
-              color: Theme.of(context).colorScheme.outlineVariant,
-              child: images[imageIndex] != null
-                  ? Image.memory(
-                      images[imageIndex]!,
-                      fit: BoxFit.contain,
-                      width: double.infinity,
-                      height: double.infinity,
-                    )
-                  : const Center(child: CircularProgressIndicator()),
+            child: GestureDetector(
+              onHorizontalDragEnd: (details) {
+                // Primary velocity > 0 means swiping right, < 0 means swiping left
+                if (details.primaryVelocity! > 0) {
+                  isLooping = false;
+                  onSwipeLeft();
+                } else if (details.primaryVelocity! < 0) {
+                  isLooping = false;
+                  onSwipeRight();
+                }
+              },
+              child: Stack(
+                children: [
+                  Container(
+                    color: Theme.of(context).colorScheme.outlineVariant,
+                    child: images[imageIndex] != null
+                        ? Image.memory(
+                            images[imageIndex]!,
+                            fit: BoxFit.contain,
+                            width: double.infinity,
+                            height: double.infinity,
+                          )
+                        : const Center(child: CircularProgressIndicator()),
+                  ),
+                  // Right arrow
+                  Positioned(
+                    right: isLTR ? 0 : null,
+                    left: isLTR ? null : 0,
+                    top: 0,
+                    bottom: 0,
+                    child: Center(
+                      child: Container(
+                        // color: Colors.deepOrange,
+                        child: IconButton(
+                          onPressed: () {
+                            onSwipeRight();
+                          },
+                          icon: Icon(Icons.arrow_forward_ios),
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Left arrow
+                  Positioned(
+                    left: isLTR ? 0 : null,
+                    right: isLTR ? null : 0,
+                    top: 0,
+                    bottom: 0,
+                    child: Center(
+                      child: Container(
+                        // color: Colors.deepOrange,
+                        child: IconButton(
+                          onPressed: () {
+                            onSwipeLeft();
+                          },
+                          icon: Transform.flip(
+                            flipX: true,
+                            child: Icon(Icons.arrow_forward_ios),
+                          ),
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

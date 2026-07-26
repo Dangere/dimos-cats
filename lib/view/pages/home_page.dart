@@ -5,6 +5,7 @@ import 'package:dimos_cats/providers/common_providers.dart';
 import 'package:dimos_cats/providers/init_provider.dart';
 import 'package:dimos_cats/providers/screen_size_provider.dart';
 import 'package:dimos_cats/view/dialog/dialogs.dart';
+import 'package:dimos_cats/view/web_smooth_scroll/source.dart';
 import 'package:dimos_cats/view/widgets/cats_list_sliver.dart';
 import 'package:dimos_cats/view/widgets/footer.dart';
 import 'package:dimos_cats/view/widgets/home_hero.dart';
@@ -29,11 +30,10 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> {
   double initialScrollOffset = 600;
   bool initiationComplete = false;
-  late final ScrollController controller;
+  // late final ScrollController controller;
 
   @override
   void initState() {
-    controller = ScrollController(initialScrollOffset: initialScrollOffset);
     super.initState();
   }
 
@@ -78,15 +78,6 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     bool isInitializing = ref.watch(initProvider(context)).isLoading;
 
-    // When initializing, we scroll to the top because we start at an offset
-    if (!isInitializing && !initiationComplete) {
-      initiationComplete = true;
-      controller.animateTo(
-        -initialScrollOffset,
-        duration: Duration(milliseconds: 3000),
-        curve: Curves.easeOutCubic,
-      );
-    }
     return LoadingScreen(
       loading: isInitializing,
       child: Scaffold(
@@ -168,63 +159,92 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ? constraints.maxHeight
                 : 400;
 
-            return CustomScrollView(
-              controller: controller,
-              cacheExtent: 3500,
-              shrinkWrap: false,
+            return DynMouseScroll(
+              // mobilePhysics: ClampingScrollPhysics(),
+              initialOffset: initialScrollOffset,
+              builder: (context, controller, physics) {
+                // When initializing, we scroll to the top because we start at an offset
+                if (!isInitializing && !initiationComplete) {
+                  initiationComplete = true;
+                  controller.animateTo(
+                    -initialScrollOffset,
+                    duration: Duration(milliseconds: 3000),
+                    curve: Curves.easeOutCubic,
+                  );
+                }
+                // } else {
+                //   //  controller.  = ScrollController(initialScrollOffset: initialScrollOffset);
+                //   controller.animateTo(
+                //     initialScrollOffset,
+                //     duration: Duration.zero,
+                //     curve: Curves.easeOut,
+                //   );
+                // }
+                return CustomScrollView(
+                  controller: controller,
 
-              slivers: [
-                SliverResizingHeader(
-                  minExtentPrototype: const SizedBox(height: 0),
-                  maxExtentPrototype: SizedBox(height: heroHeight),
-                  child: HomeHero(height: heroHeight, screenSize: size),
-                ),
-                // LIST AND GRAPHIC
-                SliverStack(
-                  children: [
-                    // BACKGROUND GRAPHIC
-                    SliverPositioned.fill(
-                      child: HomeBackground(controller: controller),
+                  cacheExtent: 3500,
+                  shrinkWrap: false,
+                  physics: physics,
+
+                  slivers: [
+                    SliverResizingHeader(
+                      minExtentPrototype: const SizedBox(height: 0),
+                      maxExtentPrototype: SizedBox(height: heroHeight),
+                      child: HomeHero(height: heroHeight, screenSize: size),
                     ),
-
-                    // LIST
-                    SliverPadding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: padding,
-                        vertical: size != ScreenSize.expanded
-                            ? padding
-                            : padding / 2,
-                      ),
-                      sliver: cats.when(
-                        data: (cats) => CatsListSliver(
-                          screenSize: size,
-                          cats: cats,
-                          onClick: (cat) => viewCatDetails(cat),
+                    // LIST AND GRAPHIC
+                    SliverStack(
+                      children: [
+                        // BACKGROUND GRAPHIC
+                        SliverPositioned.fill(
+                          child: HomeBackground(controller: controller),
                         ),
-                        error: (error, stackTrace) => SliverToBoxAdapter(
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height / 1.5,
-                            child: Center(
-                              child: ErrorPanel(message: error.toString()),
+
+                        // LIST
+                        SliverPadding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: padding,
+                            vertical: size != ScreenSize.expanded
+                                ? padding
+                                : padding / 2,
+                          ),
+                          sliver: cats.when(
+                            data: (cats) => CatsListSliver(
+                              screenSize: size,
+                              cats: cats,
+                              onClick: (cat) => viewCatDetails(cat),
+                            ),
+                            error: (error, stackTrace) => SliverToBoxAdapter(
+                              child: SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height / 1.5,
+                                child: Center(
+                                  child: ErrorPanel(message: error.toString()),
+                                ),
+                              ),
+                            ),
+                            loading: () => SliverToBoxAdapter(
+                              child: SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height / 1.5,
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                        loading: () => SliverToBoxAdapter(
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height / 1.5,
-                            child: Center(child: CircularProgressIndicator()),
-                          ),
-                        ),
-                      ),
+                        // Is there to fill the remaining space so the list expands properly when its not full
+                        SliverFillRemaining(hasScrollBody: false),
+                      ],
                     ),
-                    // Is there to fill the remaining space so the list expands properly when its not full
-                    SliverFillRemaining(hasScrollBody: false),
+                    SliverToBoxAdapter(child: ShareSection()),
+                    // FOOTER
+                    SliverToBoxAdapter(child: Footer(screenSize: size)),
                   ],
-                ),
-                SliverToBoxAdapter(child: ShareSection()),
-                // FOOTER
-                SliverToBoxAdapter(child: Footer(screenSize: size)),
-              ],
+                );
+              },
             );
           },
         ),

@@ -199,21 +199,60 @@ class _CatPanelScreenState extends ConsumerState<CatPanelScreen> {
                     // if (false)
                     ClipRRect(
                       child: Padding(
-                        padding: const EdgeInsets.all(24.0),
+                        padding: const EdgeInsets.only(
+                          bottom: 24.0,
+                          left: 20,
+                          right: 20,
+                        ),
 
                         child: Column(
                           // mainAxisSize: MainAxisSize.min,
                           children: [
+                            GestureDetector(
+                              onVerticalDragEnd: (details) {
+                                if (details.primaryVelocity! > 0) {
+                                  Navigator.pop(context);
+                                }
+                              },
+                              child: SizedBox(
+                                height: 24,
+                                // width: 60,
+                                child: Container(
+                                  color: Colors.transparent,
+                                  width: double.infinity,
+                                  child: Center(
+                                    child: SizedBox(
+                                      width: 100,
+                                      child: Divider(
+                                        thickness: 3,
+                                        height: 2,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimaryContainer
+                                            .withValues(alpha: 0.7),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                             // PICTURE AND NAME AND DESCRIPTION
                             Flexible(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Expanded(
-                                    child: ImagesDisplayer(
-                                      imagePaths: List.from(
-                                        widget.cat.extendedImages,
-                                      )..insert(0, widget.cat.image),
+                                    child: GestureDetector(
+                                      onVerticalDragEnd: (details) {
+                                        if (details.primaryVelocity! > 0) {
+                                          Navigator.pop(context);
+                                        }
+                                      },
+                                      child: ImagesDisplayer(
+                                        imagePaths: List.from(
+                                          widget.cat.extendedImages,
+                                        )..insert(0, widget.cat.image),
+                                      ),
                                     ),
                                   ),
                                   // SizedBox(width: 20, height: 20),

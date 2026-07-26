@@ -3,7 +3,9 @@ import 'package:dimos_cats/core/localization/generated/l10n/app_localizations.da
 import 'package:dimos_cats/providers/screen_size_provider.dart';
 import 'package:dimos_cats/view/widgets/shared/app_logo.dart';
 import 'package:dimos_cats/view/widgets/shared/marquee_widget.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Footer extends StatelessWidget {
   const Footer({super.key, required this.screenSize});
@@ -13,8 +15,20 @@ class Footer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double padding = screenSize == ScreenSize.compact ? 10 : 20;
+
+    String email = "dimo.dev@hotmail.com";
+
+    void onCopyEmail() {
+      Clipboard.setData(ClipboardData(text: email));
+      ScaffoldMessenger.of(context).clearSnackBars();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Copied to clipboard (ﾉ*ФωФ)ﾉ !")),
+      );
+    }
+
     return Container(
-      height: screenSize == ScreenSize.compact ? 400 : 200,
+      height: screenSize == ScreenSize.compact ? 400 : 220,
       color: Theme.of(context).colorScheme.primaryContainer,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: padding),
@@ -90,12 +104,28 @@ class Footer extends StatelessWidget {
                             child: MarqueeWidget(
                               direction: Axis.vertical,
                               // Add email here
-                              child: Text(
-                                AppLocalizations.of(
-                                  context,
-                                ).contact_description,
+                              child: Text.rich(
+                                TextSpan(
+                                  text: AppLocalizations.of(
+                                    context,
+                                  ).contact_description,
 
-                                style: Theme.of(context).textTheme.titleMedium,
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleMedium,
+
+                                  children: [
+                                    TextSpan(
+                                      text: " $email",
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = onCopyEmail,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),

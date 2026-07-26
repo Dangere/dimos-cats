@@ -99,11 +99,11 @@ class CatsListSliver extends ConsumerWidget {
 
     Duration placementDuration() {
       return switch (screenSize) {
-        ScreenSize.compact => Duration(milliseconds: 400),
+        ScreenSize.compact => Duration(milliseconds: 600),
 
-        ScreenSize.medium => Duration(milliseconds: 600),
+        ScreenSize.medium => Duration(milliseconds: 800),
 
-        ScreenSize.expanded => Duration(milliseconds: 800),
+        ScreenSize.expanded => Duration(milliseconds: 1000),
       };
     }
 

@@ -139,7 +139,11 @@ class _CatPanelState extends ConsumerState<CatPanel> {
                       Row(
                         children: [
                           Expanded(
-                            child: CatsTagList(cat: widget.cat, height: 25),
+                            child: CatsTagList(
+                              cat: widget.cat,
+                              height: 25,
+                              horizontal: true,
+                            ),
                           ),
                         ],
                       ),

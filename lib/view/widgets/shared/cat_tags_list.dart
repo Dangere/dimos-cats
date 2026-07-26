@@ -2,11 +2,18 @@ import 'package:dimos_cats/core/localization/generated/l10n/app_localizations.da
 import 'package:dimos_cats/models/cat.dart';
 import 'package:dimos_cats/models/enums/cat_tag.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class CatsTagList extends StatefulWidget {
-  const CatsTagList({super.key, required this.cat, this.height});
+  const CatsTagList({
+    super.key,
+    required this.cat,
+    this.height,
+    this.horizontal = false,
+  });
 
   final double? height;
+  final bool horizontal;
 
   final Cat cat;
 
@@ -71,40 +78,80 @@ class _CatsTagListState extends State<CatsTagList> {
 
     final isLTR = Directionality.of(context) == TextDirection.ltr;
 
+    double spacing = 8.0;
+
+    // List<Widget> tagsWidgets(bool includeSpacing) {
+    //   List<Widget> tagsWidgets = [];
+
+    //   tagsWidgets.addAll([
+    //     _Tag(
+    //       text: widget.cat.male
+    //           ? AppLocalizations.of(context).tag_male
+    //           : AppLocalizations.of(context).tag_female,
+    //       color: widget.cat.male ? Colors.blue.shade300 : Colors.pink.shade300,
+    //     ),
+    //     SizedBox(width: spacing),
+    //   ]);
+    //   tagsWidgets.addAll([
+    //     _Tag(text: getYearsAndMonths(), color: Colors.yellow.shade900),
+    //     SizedBox(width: spacing),
+    //   ]);
+
+    //   for (var i = 0; i < tags.length; i++) {
+    //     tagsWidgets.add(_Tag(text: getTagTitle(tags[i]), color: null));
+    //     if (includeSpacing && i < tags.length - 1) {
+    //       tagsWidgets.add(SizedBox(width: spacing));
+    //     }
+    //   }
+
+    //   return tagsWidgets;
+    // }
+
     return Container(
       height: widget.height,
-      alignment: isLTR ? Alignment.topLeft : Alignment.topRight,
+      alignment: isLTR ? Alignment.centerLeft : Alignment.centerRight,
 
-      child: Wrap(
-        spacing: 8.0,
-        runSpacing: 8.0,
-        clipBehavior: Clip.hardEdge,
-        children:
-            tags.map((tag) {
-                if (tag == CatTag.medicalAttention) {
-                  return _Tag(
-                    text: getTagTitle(tag),
-                    color: Colors.red.shade400,
-                  );
-                }
+      child: SingleChildScrollView(
+        scrollDirection: widget.horizontal ? Axis.horizontal : Axis.vertical,
+        child: OverflowBox(
+          fit: OverflowBoxFit.deferToChild,
+          alignment: isLTR ? Alignment.centerLeft : Alignment.centerRight,
+          maxWidth: widget.horizontal ? 2000 : null,
+          child: Wrap(
+            spacing: spacing,
+            runSpacing: spacing,
+            clipBehavior: Clip.hardEdge,
+            children:
+                tags.map((tag) {
+                    if (tag == CatTag.medicalAttention) {
+                      return _Tag(
+                        text: getTagTitle(tag),
+                        color: Colors.red.shade400,
+                      );
+                    }
 
-                return _Tag(text: getTagTitle(tag), color: null);
-              }).toList()
-              ..insert(
-                0,
-                _Tag(text: getYearsAndMonths(), color: Colors.yellow.shade900),
-              )
-              ..insert(
-                0,
-                _Tag(
-                  text: widget.cat.male
-                      ? AppLocalizations.of(context).tag_male
-                      : AppLocalizations.of(context).tag_female,
-                  color: widget.cat.male
-                      ? Colors.blue.shade300
-                      : Colors.pink.shade300,
-                ),
-              ),
+                    return _Tag(text: getTagTitle(tag), color: null);
+                  }).toList()
+                  ..insert(
+                    0,
+                    _Tag(
+                      text: getYearsAndMonths(),
+                      color: Colors.yellow.shade900,
+                    ),
+                  )
+                  ..insert(
+                    0,
+                    _Tag(
+                      text: widget.cat.male
+                          ? AppLocalizations.of(context).tag_male
+                          : AppLocalizations.of(context).tag_female,
+                      color: widget.cat.male
+                          ? Colors.blue.shade300
+                          : Colors.pink.shade300,
+                    ),
+                  ),
+          ),
+        ),
       ),
     );
   }

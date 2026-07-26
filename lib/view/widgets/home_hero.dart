@@ -1,7 +1,6 @@
 import 'package:dimos_cats/core/localization/generated/l10n/app_localizations.dart';
 import 'package:dimos_cats/providers/screen_size_provider.dart';
 import 'package:dimos_cats/view/widgets/home_hero_cat.dart';
-import 'package:dimos_cats/view/widgets/shared/blob_decoration.dart';
 import 'package:dimos_cats/view/widgets/shared/blob_text.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -35,7 +34,6 @@ class HomeHero extends StatelessWidget {
         children: [
           // BACKGROUND IMAGE
           Positioned.fill(
-            // constraints: BoxConstraints(maxHeight: height),
             child: Column(
               children: [
                 Expanded(
@@ -55,11 +53,6 @@ class HomeHero extends StatelessWidget {
             ),
           ),
 
-          // LayoutBuilder(
-          //   builder: (context, constraints) {
-          //     return Container();
-          //   },
-          // ),
           Padding(
             padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.05,

@@ -18,7 +18,7 @@ class ShareSection extends ConsumerStatefulWidget {
 }
 
 class _ShareSectionState extends ConsumerState<ShareSection> {
-  double targetEndAnimation = 1;
+  double targetEndAnimation = 0.1;
 
   bool isVisible = false;
 
@@ -51,6 +51,7 @@ class _ShareSectionState extends ConsumerState<ShareSection> {
     }
 
     void playExpandAnimation() {
+      print("playExpandAnimation");
       setState(() {
         targetEndAnimation = 1;
       });

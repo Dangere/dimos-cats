@@ -30,7 +30,7 @@ class DynMouseScroll extends StatelessWidget {
         final scrollState = context.read<ScrollState>();
         final controller = scrollState.controller;
         final physics = context.select((ScrollState s) => s.physics);
-        final updateState = context.select((ScrollState s) => s.updateState);
+        // final updateState = context.select((ScrollState s) => s.updateState);
         scrollState.handlePipelinedScroll?.call();
         return Listener(
           onPointerSignal: (signalEvent) => scrollState.handleDesktopScroll(

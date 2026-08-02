@@ -20,18 +20,6 @@ class HomeBackground extends ConsumerStatefulWidget {
 }
 
 class _HomeBackgroundState extends ConsumerState<HomeBackground> {
-  // int offset = 0;
-  // int maxOffset = 0;
-
-  void _onScroll() {
-    // int newOffset = widget.controller.offset.truncate();
-    // if (offset != newOffset) {
-    //   setState(() {
-    //     offset = newOffset;
-    //   });
-    // }
-  }
-
   @override
   void initState() {
     // WidgetsBinding.instance.addPostFrameCallback((_) {

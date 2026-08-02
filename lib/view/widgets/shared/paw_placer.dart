@@ -80,13 +80,16 @@ class _PawPlacerState extends State<PawPlacer> {
     super.initState();
   }
 
+  bool tryingToPlace = false;
+
   void placeChild(bool place) async {
+    tryingToPlace = place;
     if (place == childPlaced) return;
     if (!mounted) return;
 
-    if (place) await Future.delayed(widget.placementDelay);
+    if (tryingToPlace) await Future.delayed(widget.placementDelay);
     setState(() {
-      childPlaced = place;
+      childPlaced = tryingToPlace;
     });
   }
 

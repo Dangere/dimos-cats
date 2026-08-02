@@ -81,35 +81,35 @@ class _HomePageState extends ConsumerState<HomePage> {
     return LoadingScreen(
       loading: isInitializing,
       child: Scaffold(
-        drawer: Drawer(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
-          width: 200,
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(width: 12),
+        // drawer: Drawer(
+        //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+        //   width: 200,
+        //   child: Column(
+        //     children: [
+        //       Row(
+        //         mainAxisAlignment: MainAxisAlignment.start,
+        //         children: [
+        //           SizedBox(width: 12),
 
-                  Text(AppLocalizations.of(context).language),
-                  Spacer(),
+        //           Text(AppLocalizations.of(context).language),
+        //           Spacer(),
 
-                  LanguageToggle(),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+        //           LanguageToggle(),
+        //         ],
+        //       ),
+        //       Row(
+        //         mainAxisAlignment: MainAxisAlignment.start,
 
-                children: [
-                  SizedBox(width: 12),
-                  Text(AppLocalizations.of(context).theme),
-                  Spacer(),
-                  ThemeToggle(),
-                ],
-              ),
-            ],
-          ),
-        ),
+        //         children: [
+        //           SizedBox(width: 12),
+        //           Text(AppLocalizations.of(context).theme),
+        //           Spacer(),
+        //           ThemeToggle(),
+        //         ],
+        //       ),
+        //     ],
+        //   ),
+        // ),
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.surface,
           surfaceTintColor: Colors.transparent,
@@ -123,19 +123,27 @@ class _HomePageState extends ConsumerState<HomePage> {
               ).colorScheme.outlineVariant, // Outline color
             ),
           ),
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AppLogo(),
-              SizedBox(width: 10),
-              Text(AppLocalizations.of(context).home),
-              // IconButton(
-              //   onPressed: () {
-              //     ref.invalidate(initProvider(context));
-              //   },
-              //   icon: Icon(Icons.replay_outlined),
-              // ),
-            ],
+          title: Directionality(
+            textDirection: TextDirection.ltr,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  child: Row(children: [ThemeToggle(), LanguageToggle()]),
+                ),
+
+                AppLogo(),
+                SizedBox(width: 10),
+                Text(AppLocalizations.of(context).home),
+                Spacer(),
+                // IconButton(
+                //   onPressed: () {
+                //     ref.invalidate(initProvider(context));
+                //   },
+                //   icon: Icon(Icons.replay_outlined),
+                // ),
+              ],
+            ),
           ),
         ),
         body: LayoutBuilder(

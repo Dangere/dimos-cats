@@ -13,7 +13,7 @@ class HomeHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightMode = Theme.of(context).brightness == Brightness.light;
+    // final lightMode = Theme.of(context).brightness == Brightness.light;
 
     final bool verticalLayout = MediaQuery.of(context).size.width < height;
     // return Placeholder();

@@ -80,7 +80,7 @@ class _CatPanelScreenState extends ConsumerState<CatPanelScreen> {
     ref.read(loggerProvider).d("Building CatPanel");
 
     void onAdopt() {
-      ref.read(catsProvider.notifier).adoptCat(widget.cat).onError((
+      ref.read(catsProvider.notifier).adoptCat(widget.cat, ar: !isLTR).onError((
         error,
         stackTrace,
       ) {

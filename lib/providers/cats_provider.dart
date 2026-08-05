@@ -11,11 +11,14 @@ import 'package:url_launcher/url_launcher.dart';
 /// Returns a list of cats from the assets
 class CatsNotifier extends AsyncNotifier<List<Cat>> {
   final String _adoptUrl = "https://tally.so/r/MeyK6X?cat_name=";
+  final String _adoptUrlAr = "https://tally.so/r/5BYL4E?cat_name=";
 
   /// Method used to send the user to the adopt form
-  Future<void> adoptCat(Cat cat) async {
+  Future<void> adoptCat(Cat cat, {bool ar = false}) async {
     ref.read(firebaseAnalyticsProvider.notifier).logCatAdoptPressed(cat);
-    if (!await launchUrl(Uri.parse(_adoptUrl + cat.name))) {
+    if (!await launchUrl(
+      Uri.parse(ar ? _adoptUrlAr + cat.name : _adoptUrl + cat.name),
+    )) {
       return Future.error("Failed to launch url");
     }
   }
